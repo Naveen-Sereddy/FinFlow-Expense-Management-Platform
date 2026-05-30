@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><title>Spacing · Radius · Shadow</title>
+<link rel="stylesheet" href="../foundations/colors_and_type.css"/>
+<link rel="stylesheet" href="../foundations/components.css"/>
+<style>body{padding:24px;}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+.col h4{margin:0 0 12px;font-size:11px;color:var(--ff-fg-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:500;}
+.bar{height:14px;background:var(--ff-plum-700);border-radius:2px;margin-bottom:6px;}
+.label{font-family:var(--ff-font-mono);font-size:11px;color:var(--ff-fg-muted);}
+.r{width:60px;height:60px;background:var(--ff-card);border:1px solid var(--ff-border);display:flex;align-items:center;justify-content:center;font-family:var(--ff-font-mono);font-size:10px;color:var(--ff-fg-muted);}
+.row{display:flex;gap:10px;align-items:center;margin-bottom:8px;}
+.s{width:80px;height:48px;background:var(--ff-card);border:1px solid var(--ff-border);border-radius:8px;}
+</style>
+</head><body>
+<div class="grid">
+  <div class="col">
+    <h4>Spacing scale (4px)</h4>
+    <div class="row"><div class="bar" style="width:4px;"></div><span class="label">4 · s-1</span></div>
+    <div class="row"><div class="bar" style="width:8px;"></div><span class="label">8 · s-2</span></div>
+    <div class="row"><div class="bar" style="width:12px;"></div><span class="label">12 · s-3</span></div>
+    <div class="row"><div class="bar" style="width:16px;"></div><span class="label">16 · s-4</span></div>
+    <div class="row"><div class="bar" style="width:24px;"></div><span class="label">24 · s-6</span></div>
+    <div class="row"><div class="bar" style="width:32px;"></div><span class="label">32 · s-8</span></div>
+    <div class="row"><div class="bar" style="width:48px;"></div><span class="label">48 · s-12</span></div>
+  </div>
+  <div class="col">
+    <h4>Radius</h4>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <div class="r" style="border-radius:3px;">3</div>
+      <div class="r" style="border-radius:5px;">5</div>
+      <div class="r" style="border-radius:8px;">8</div>
+      <div class="r" style="border-radius:12px;">12</div>
+      <div class="r" style="border-radius:16px;">16</div>
+      <div class="r" style="border-radius:999px;">pill</div>
+    </div>
+    <div class="label" style="margin-top:12px;">3 · 5 · 8 · 12 · 16 · pill</div>
+  </div>
+  <div class="col">
+    <h4>Elevation</h4>
+    <div class="s" style="box-shadow:var(--ff-shadow-xs);margin-bottom:14px;"></div>
+    <div class="s" style="box-shadow:var(--ff-shadow-sm);margin-bottom:14px;"></div>
+    <div class="s" style="box-shadow:var(--ff-shadow-md);margin-bottom:14px;"></div>
+    <div class="s" style="box-shadow:var(--ff-shadow-lg);margin-bottom:6px;"></div>
+    <div class="label">xs · sm · md · lg</div>
+  </div>
+</div>
+</body></html>

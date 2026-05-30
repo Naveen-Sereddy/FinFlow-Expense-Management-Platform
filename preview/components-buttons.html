@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><title>Components · Buttons</title>
+<link rel="stylesheet" href="../foundations/colors_and_type.css"/>
+<link rel="stylesheet" href="../foundations/components.css"/>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
+<style>body{padding:24px;display:flex;flex-direction:column;gap:14px;}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.label{font-size:11px;color:var(--ff-fg-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:500;width:90px;}
+</style>
+</head><body>
+<div class="row"><div class="label">Primary</div>
+  <button class="ff-btn ff-btn--primary"><i class="ph ph-check"></i> Approve</button>
+  <button class="ff-btn ff-btn--primary ff-btn--sm">Save</button>
+  <button class="ff-btn ff-btn--primary ff-btn--lg">Submit for approval</button>
+</div>
+<div class="row"><div class="label">Default</div>
+  <button class="ff-btn"><i class="ph ph-download-simple"></i> Export</button>
+  <button class="ff-btn ff-btn--sm">Compact</button>
+  <button class="ff-btn" disabled>Disabled</button>
+</div>
+<div class="row"><div class="label">Ghost</div>
+  <button class="ff-btn ff-btn--ghost"><i class="ph ph-funnel"></i> Filter</button>
+  <button class="ff-btn ff-btn--ghost ff-btn--icon"><i class="ph ph-dots-three"></i></button>
+</div>
+<div class="row"><div class="label">Danger</div>
+  <button class="ff-btn ff-btn--danger"><i class="ph ph-x"></i> Reject</button>
+  <button class="ff-btn ff-btn--danger ff-btn--sm">Cancel card</button>
+</div>
+<div class="row"><div class="label">Accent</div>
+  <button class="ff-btn ff-btn--accent"><i class="ph ph-lightning"></i> Quick approve</button>
+</div>
+<div class="row"><div class="label">Chips</div>
+  <span class="ff-chip" aria-pressed="true">All · 14</span>
+  <span class="ff-chip">Pending · 7</span>
+  <span class="ff-chip">Flagged · 2</span>
+</div>
+</body></html>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><title>Components · Forms</title>
+<link rel="stylesheet" href="../foundations/colors_and_type.css"/>
+<link rel="stylesheet" href="../foundations/components.css"/>
+<style>body{padding:24px;}</style>
+</head><body>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <div class="ff-field"><label class="ff-label">Merchant</label><input class="ff-input" value="United Airlines"/></div>
+  <div class="ff-field"><label class="ff-label">Date</label><input class="ff-input ff-tnum" value="2026-05-22"/></div>
+  <div class="ff-field"><label class="ff-label">Amount</label><input class="ff-input ff-tnum" value="$842.50" style="font-weight:500;"/></div>
+  <div class="ff-field"><label class="ff-label">Category</label><select class="ff-select"><option>Travel</option><option>Software</option></select></div>
+  <div class="ff-field" style="grid-column:span 2;"><label class="ff-label">Memo</label><textarea class="ff-textarea">SF → Austin (sales kickoff)</textarea></div>
+</div>
+<div style="display:flex;gap:14px;margin-top:16px;align-items:center;">
+  <span style="font-size:13px;">Block out-of-policy charges</span>
+  <span class="ff-switch" role="switch" aria-checked="true"></span>
+  <span style="margin-left:24px;font-size:13px;">Notify cardholder</span>
+  <span class="ff-switch" role="switch" aria-checked="false"></span>
+</div>
+<div style="margin-top:16px;display:flex;gap:12px;">
+  <div class="ff-segmented"><button aria-pressed="true">Virtual</button><button>Physical</button></div>
+  <div class="ff-tabs" style="flex:1;border-bottom:1px solid var(--ff-border);"><button aria-selected="true">Overview</button><button>Activity</button><button>Settings</button></div>
+</div>
+</body></html>
