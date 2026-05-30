@@ -1,0 +1,277 @@
+/* ============================================================================
+   FinFlow Design System — Foundations
+   Tokens for color, type, spacing, radius, elevation, motion.
+   Light + dark themes. Warm-neutral, plum-led palette.
+   ============================================================================ */
+
+/* ---------- Font imports ------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ---------- Base / Light theme ------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* Brand — Plum */
+  --ff-plum-50:  oklch(0.97 0.01 340);
+  --ff-plum-100: oklch(0.92 0.03 340);
+  --ff-plum-200: oklch(0.84 0.06 340);
+  --ff-plum-300: oklch(0.72 0.10 340);
+  --ff-plum-400: oklch(0.58 0.14 340);
+  --ff-plum-500: oklch(0.45 0.15 340);
+  --ff-plum-600: oklch(0.36 0.13 340);
+  --ff-plum-700: oklch(0.28 0.10 340);
+  --ff-plum-800: oklch(0.22 0.08 340);
+  --ff-plum-900: oklch(0.16 0.05 340);
+
+  /* Accent — Citron (sharp, used sparingly) */
+  --ff-citron-100: oklch(0.96 0.06 95);
+  --ff-citron-300: oklch(0.88 0.13 95);
+  --ff-citron-500: oklch(0.78 0.16 95);
+  --ff-citron-700: oklch(0.62 0.14 95);
+
+  /* Semantic */
+  --ff-approved:   oklch(0.58 0.13 150);
+  --ff-approved-bg:oklch(0.95 0.04 150);
+  --ff-pending:    oklch(0.70 0.14 75);
+  --ff-pending-bg: oklch(0.96 0.05 80);
+  --ff-rejected:   oklch(0.55 0.20 25);
+  --ff-rejected-bg:oklch(0.96 0.04 25);
+  --ff-flagged:    oklch(0.55 0.14 250);
+  --ff-flagged-bg: oklch(0.95 0.03 250);
+  --ff-info:       oklch(0.50 0.11 250);
+
+  /* Neutrals — warm-tinted to match plum */
+  --ff-ink-950: oklch(0.15 0.012 340);  /* primary text */
+  --ff-ink-800: oklch(0.28 0.012 340);
+  --ff-ink-700: oklch(0.40 0.010 340);  /* body */
+  --ff-ink-500: oklch(0.55 0.008 340);  /* muted */
+  --ff-ink-400: oklch(0.66 0.006 340);  /* placeholder */
+  --ff-ink-300: oklch(0.78 0.005 340);
+  --ff-ink-200: oklch(0.88 0.004 340);  /* borders */
+  --ff-ink-100: oklch(0.94 0.003 340);  /* subtle surface */
+  --ff-ink-50:  oklch(0.97 0.003 340);
+
+  --ff-paper:    oklch(0.985 0.004 80); /* warm off-white background */
+  --ff-surface:  #ffffff;
+  --ff-surface-2: oklch(0.97 0.004 80);
+  --ff-overlay:  oklch(0.15 0.012 340 / 0.55);
+
+  /* Role tokens (used by components) */
+  --ff-bg: var(--ff-paper);
+  --ff-fg: var(--ff-ink-950);
+  --ff-fg-muted: var(--ff-ink-500);
+  --ff-fg-subtle: var(--ff-ink-400);
+  --ff-border: var(--ff-ink-200);
+  --ff-border-strong: var(--ff-ink-300);
+  --ff-card: var(--ff-surface);
+  --ff-card-2: var(--ff-surface-2);
+  --ff-input-bg: var(--ff-surface);
+  --ff-hover: oklch(0.96 0.004 340);
+
+  --ff-primary: var(--ff-plum-700);
+  --ff-primary-hover: var(--ff-plum-800);
+  --ff-primary-fg: oklch(0.985 0.005 80);
+  --ff-accent: var(--ff-citron-500);
+  --ff-accent-fg: var(--ff-ink-950);
+
+  --ff-focus-ring: 0 0 0 2px var(--ff-bg), 0 0 0 4px var(--ff-plum-500);
+
+  /* Chart palette — categorical (designed to read in both themes, no gradients) */
+  --ff-chart-1: oklch(0.45 0.15 340);  /* plum  */
+  --ff-chart-2: oklch(0.62 0.14 150);  /* moss  */
+  --ff-chart-3: oklch(0.72 0.14 75);   /* amber */
+  --ff-chart-4: oklch(0.55 0.14 250);  /* steel */
+  --ff-chart-5: oklch(0.55 0.16 25);   /* clay  */
+  --ff-chart-6: oklch(0.50 0.10 200);  /* teal  */
+  --ff-chart-grid: var(--ff-ink-200);
+  --ff-chart-axis: var(--ff-ink-500);
+
+  /* Type scale */
+  --ff-font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-font-display: "Instrument Serif", "Cambria", Georgia, serif;
+  --ff-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ff-text-2xs: 11px;
+  --ff-text-xs:  12px;
+  --ff-text-sm:  13px;
+  --ff-text-base:14px;
+  --ff-text-md:  15px;
+  --ff-text-lg:  17px;
+  --ff-text-xl:  20px;
+  --ff-text-2xl: 24px;
+  --ff-text-3xl: 30px;
+  --ff-text-4xl: 38px;
+  --ff-text-5xl: 48px;
+  --ff-text-6xl: 64px;
+  --ff-text-display: 88px;
+
+  --ff-leading-tight: 1.15;
+  --ff-leading-snug:  1.3;
+  --ff-leading-base:  1.5;
+  --ff-leading-loose: 1.7;
+
+  --ff-tracking-tight: -0.02em;
+  --ff-tracking-base:  0;
+  --ff-tracking-wide:  0.04em;
+  --ff-tracking-ucase: 0.08em;
+
+  /* Spacing — 4px base */
+  --ff-s-0:  0;
+  --ff-s-1:  4px;
+  --ff-s-2:  8px;
+  --ff-s-3:  12px;
+  --ff-s-4:  16px;
+  --ff-s-5:  20px;
+  --ff-s-6:  24px;
+  --ff-s-8:  32px;
+  --ff-s-10: 40px;
+  --ff-s-12: 48px;
+  --ff-s-16: 64px;
+  --ff-s-20: 80px;
+
+  /* Radius — restrained */
+  --ff-radius-xs: 3px;
+  --ff-radius-sm: 5px;
+  --ff-radius-md: 8px;
+  --ff-radius-lg: 12px;
+  --ff-radius-xl: 16px;
+  --ff-radius-pill: 999px;
+
+  /* Elevation — soft, low-contrast (no glassmorphism) */
+  --ff-shadow-xs: 0 1px 0 0 oklch(0.15 0.01 340 / 0.04);
+  --ff-shadow-sm: 0 1px 2px 0 oklch(0.15 0.01 340 / 0.06), 0 1px 0 0 oklch(0.15 0.01 340 / 0.03);
+  --ff-shadow-md: 0 4px 8px -2px oklch(0.15 0.01 340 / 0.08), 0 2px 4px -2px oklch(0.15 0.01 340 / 0.05);
+  --ff-shadow-lg: 0 12px 24px -6px oklch(0.15 0.01 340 / 0.10), 0 4px 8px -4px oklch(0.15 0.01 340 / 0.05);
+  --ff-shadow-xl: 0 24px 48px -12px oklch(0.15 0.01 340 / 0.18);
+
+  /* Motion */
+  --ff-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ff-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ff-dur-1: 80ms;
+  --ff-dur-2: 140ms;
+  --ff-dur-3: 220ms;
+  --ff-dur-4: 360ms;
+
+  /* Layout */
+  --ff-sidebar-w: 240px;
+  --ff-topbar-h:  56px;
+}
+
+/* ---------- Dark theme --------------------------------------------------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ff-paper:    oklch(0.16 0.012 340);
+  --ff-surface:  oklch(0.20 0.014 340);
+  --ff-surface-2:oklch(0.23 0.014 340);
+
+  --ff-bg: var(--ff-paper);
+  --ff-fg: oklch(0.96 0.005 80);
+  --ff-fg-muted: oklch(0.70 0.012 340);
+  --ff-fg-subtle: oklch(0.55 0.012 340);
+  --ff-border: oklch(0.28 0.014 340);
+  --ff-border-strong: oklch(0.36 0.014 340);
+  --ff-card: var(--ff-surface);
+  --ff-card-2: var(--ff-surface-2);
+  --ff-input-bg: oklch(0.18 0.012 340);
+  --ff-hover: oklch(0.24 0.014 340);
+  --ff-overlay: oklch(0.06 0.005 340 / 0.70);
+
+  --ff-primary: var(--ff-plum-300);
+  --ff-primary-hover: var(--ff-plum-200);
+  --ff-primary-fg: oklch(0.16 0.012 340);
+  --ff-accent: var(--ff-citron-300);
+  --ff-accent-fg: oklch(0.16 0.012 340);
+
+  --ff-approved:    oklch(0.78 0.14 150);
+  --ff-approved-bg: oklch(0.28 0.06 150);
+  --ff-pending:     oklch(0.84 0.14 80);
+  --ff-pending-bg:  oklch(0.30 0.07 80);
+  --ff-rejected:    oklch(0.76 0.16 25);
+  --ff-rejected-bg: oklch(0.30 0.08 25);
+  --ff-flagged:     oklch(0.78 0.13 250);
+  --ff-flagged-bg:  oklch(0.28 0.07 250);
+
+  --ff-chart-1: oklch(0.75 0.14 340);
+  --ff-chart-2: oklch(0.78 0.14 150);
+  --ff-chart-3: oklch(0.85 0.13 75);
+  --ff-chart-4: oklch(0.75 0.13 250);
+  --ff-chart-5: oklch(0.74 0.14 25);
+  --ff-chart-6: oklch(0.72 0.11 200);
+  --ff-chart-grid: oklch(0.28 0.014 340);
+  --ff-chart-axis: oklch(0.55 0.012 340);
+
+  --ff-shadow-xs: 0 1px 0 0 oklch(0 0 0 / 0.30);
+  --ff-shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.40);
+  --ff-shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.50);
+  --ff-shadow-lg: 0 12px 32px -6px oklch(0 0 0 / 0.55);
+  --ff-shadow-xl: 0 24px 48px -12px oklch(0 0 0 / 0.65);
+}
+
+/* ---------- Base elements ----------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--ff-bg);
+  color: var(--ff-fg);
+  font-family: var(--ff-font-sans);
+  font-size: var(--ff-text-base);
+  line-height: var(--ff-leading-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01" on, "cv11" on;
+}
+
+/* Tabular figures for money/quantities */
+.ff-tnum, .ff-money, .ff-number {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" on, "lnum" on;
+}
+
+/* Type roles */
+.ff-display {
+  font-family: var(--ff-font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.ff-display-italic { font-family: var(--ff-font-sans); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
+.ff-mono { font-family: var(--ff-font-mono); }
+.ff-eyebrow {
+  font-size: var(--ff-text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--ff-tracking-ucase);
+  font-weight: 500;
+  color: var(--ff-fg-muted);
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+h1 { font-size: var(--ff-text-3xl); }
+h2 { font-size: var(--ff-text-2xl); }
+h3 { font-size: var(--ff-text-xl); }
+h4 { font-size: var(--ff-text-lg); }
+
+a { color: var(--ff-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Focus visible — accessibility, both themes */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--ff-plum-500);
+  outline-offset: 2px;
+  border-radius: var(--ff-radius-xs);
+}
+
+/* Selection */
+::selection { background: var(--ff-plum-200); color: var(--ff-ink-950); }
+[data-theme="dark"] ::selection { background: var(--ff-plum-700); color: var(--ff-fg); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Scrollbars — calm */
+.ff-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.ff-scroll::-webkit-scrollbar-thumb { background: var(--ff-border-strong); border-radius: 999px; border: 2px solid var(--ff-bg); }
+.ff-scroll::-webkit-scrollbar-track { background: transparent; }
