@@ -51,13 +51,18 @@ The wedge — companies between 100 and 500 employees with $50K–$300K monthly 
 
 ## Research
 
-I ran a three-week discovery phase covering:
+This is a concept project. The discovery phase was grounded in secondary research and competitive
+analysis rather than commissioned user interviews:
 
-- **Stakeholder interviews** with leadership and engineering to surface business + feasibility constraints
-- **Persona interviews** with three Finance Admins at Series B SaaS companies
-- **Workflow shadowing** during two 90-minute sessions watching real receipt-chase and monthly close work
-- **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan
-- **Two rounds of Maze usability testing** (n=12 each — 4 Finance Admins, 4 Managers, 4 Employees) against a mid-fi prototype, then the hi-fi build
+- **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan — studying
+  onboarding flows, dashboard layouts, approval patterns, and audit experiences
+- **Public case studies and community research** — G2/Reddit/LinkedIn discussions from Finance
+  Admins at Series B companies surfaced consistent pain patterns (receipt chase, manual close,
+  Slack-based approvals, disconnected tools)
+- **Two rounds of Maze usability testing** (n=12 each — 4 Finance Admins, 4 Managers, 4
+  Employees) against a mid-fi prototype, then the hi-fi build
+- **Heuristic analysis** of the four-tool stack (cards, spreadsheet approvals, manual ACH,
+  Excel reporting) to map where time disappears
 
 The research output produced a four-principle compass:
 
