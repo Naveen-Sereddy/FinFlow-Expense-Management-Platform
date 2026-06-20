@@ -317,9 +317,15 @@
 
       const onRole = (r) => {
         setRole(r);
-        // If currently on a role-specific dashboard, switch to the new role's dashboard.
-        const cur = SCREEN_REGISTRY.find(s => s.id === screen);
-        if (cur && cur.group === "Dashboards") setScreen(DEFAULT_BY_ROLE[r]);
+        // Don't strand the user on a screen the new role can't reach from its own
+        // navigation (e.g. an Employee left looking at Vendors/Audit). Redirect to
+        // that role's home if the current screen isn't in its reachable set.
+        const REACHABLE = {
+          finance:  ["dashboard","expenses","approvals","reimburse","reports","cards","vendors","audit","settings-policies","settings-team","settings-integrations","settings-profile"],
+          manager:  ["dashboard-mgr","approvals","expenses","reports","saved-report","notif","settings-profile"],
+          employee: ["dashboard-emp","new-expense","expenses","reimburse","cards","notif","help"]
+        };
+        if (!(REACHABLE[r] || []).includes(screen)) setScreen(DEFAULT_BY_ROLE[r]);
       };
 
       const onNavigate = (id) => {
@@ -341,6 +347,11 @@
         setScreen(alias[id] || id);
       };
 
+      // Expose a stable navigation handle so any screen can route via ffGo(id).
+      const navRef = React.useRef(onNavigate);
+      navRef.current = onNavigate;
+      React.useEffect(() => { window.ffNavigate = (id) => navRef.current(id); }, []);
+
       const entry = SCREEN_REGISTRY.find(s => s.id === screen) || SCREEN_REGISTRY[0];
       const Comp = entry.Comp;
       const fullbleed = entry.chrome === "fullbleed";
@@ -358,6 +369,7 @@
                 <TopBar role={role} theme={theme}
                         onTheme={() => setTheme(theme === "light" ? "dark" : "light")}
                         onRole={onRole}
+                        onSearchClick={() => setDirOpen(true)}
                         onNotif={() => setScreen("notif")}/>
                 <div className="ff-page ff-scroll"><Comp/></div>
               </div>

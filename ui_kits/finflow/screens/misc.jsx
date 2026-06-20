@@ -402,7 +402,10 @@ const ErrorState = () => (
   </>
 );
 
-const SuccessApproval = () => (
+const SuccessApproval = () => {
+  // EXP-2841 was just approved, so it leaves the open queue.
+  const remaining = Math.max(0, FF_DATA.expenses.filter(e => e.status === "pending" || e.status === "flagged").length - 1);
+  return (
   <div style={{maxWidth:480, margin:'48px auto', textAlign:'center'}}>
     <div style={{width:72, height:72, borderRadius:999, background:'var(--ff-approved-bg)', color:'var(--ff-approved)', margin:'0 auto', display:'grid', placeItems:'center'}}>
       <Icon name="check-circle" size={36} weight="fill"/>
@@ -411,10 +414,11 @@ const SuccessApproval = () => (
     <p style={{color:'var(--ff-fg-muted)', marginTop:8}}>EXP-2841 · United Airlines · $842.50 approved and routed to Finance for payment.</p>
     <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
       <button className="ff-btn">View expense</button>
-      <button className="ff-btn ff-btn--primary">Next in queue (7) →</button>
+      <button className="ff-btn ff-btn--primary">Next in queue ({remaining}) →</button>
     </div>
   </div>
-);
+  );
+};
 
 const ConfirmReimbursement = () => (
   <div style={{maxWidth:520, margin:'48px auto', textAlign:'center'}}>

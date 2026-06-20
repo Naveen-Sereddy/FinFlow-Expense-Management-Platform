@@ -1,5 +1,12 @@
 /* FinFlow Layout — App shell, sidebar, topbar, page wrappers, primitives */
 
+/* Single source of truth for the open-approvals count, derived from the data
+   so every surface (sidebar badges, KPIs, queue) agrees. */
+const FF_PENDING = (window.FF_DATA ? window.FF_DATA.expenses : []).filter(e => e.status === "pending" || e.status === "flagged").length;
+
+/* Navigate the app from any screen (App wires window.ffNavigate on mount). */
+const ffGo = (id) => { if (window.ffNavigate) window.ffNavigate(id); };
+
 const Icon = ({ name, size = 16, weight = "regular", style = {} }) => (
   <i className={`ph${weight === "fill" ? "-fill" : weight === "bold" ? "-bold" : ""} ph-${name}`}
      style={{ fontSize: size, lineHeight: 1, ...style }} aria-hidden="true"/>
@@ -40,7 +47,7 @@ const Sidebar = ({ role, current, onNavigate }) => {
       { label: "Workspace", items: [
         { id: "dashboard",   icon: "house",          label: "Dashboard" },
         { id: "expenses",    icon: "receipt",        label: "Expenses",      count: 14 },
-        { id: "approvals",   icon: "check-square",   label: "Approvals",     count: 37 },
+        { id: "approvals",   icon: "check-square",   label: "Approvals",     count: FF_PENDING },
         { id: "reimburse",   icon: "arrows-clockwise", label: "Reimbursements" }
       ]},
       { label: "Finance", items: [
@@ -59,7 +66,7 @@ const Sidebar = ({ role, current, onNavigate }) => {
     manager: [
       { label: "Workspace", items: [
         { id: "dashboard-mgr", icon: "house",        label: "Team overview" },
-        { id: "approvals",   icon: "check-square",   label: "Approvals", count: 8 },
+        { id: "approvals",   icon: "check-square",   label: "Approvals", count: FF_PENDING },
         { id: "expenses",    icon: "receipt",        label: "Team expenses" }
       ]},
       { label: "Insights", items: [
@@ -129,12 +136,12 @@ const Sidebar = ({ role, current, onNavigate }) => {
   );
 };
 
-const TopBar = ({ role, theme, onTheme, onRole, onSearch, onNotif }) => {
+const TopBar = ({ role, theme, onTheme, onRole, onSearchClick, onNotif }) => {
   return (
     <div className="ff-topbar">
-      <div className="ff-search" style={{maxWidth:360, flex:1}}>
+      <div className="ff-search" style={{maxWidth:360, flex:1, cursor:'pointer'}} onClick={onSearchClick} role="button" tabIndex={0}>
         <Icon name="magnifying-glass" size={14}/>
-        <input placeholder="Search expenses, vendors, people…"/>
+        <input placeholder="Search or jump to…" readOnly style={{cursor:'pointer'}} onFocus={onSearchClick}/>
         <span className="ff-kbd">⌘K</span>
       </div>
       <div style={{flex:1}}/>
@@ -210,4 +217,4 @@ const ChipBar = ({ items, value, onChange }) => (
   </div>
 );
 
-Object.assign(window, { Icon, Money, StatusBadge, Avatar, Sidebar, TopBar, PageHead, KpiTile, Card, ChipBar });
+Object.assign(window, { Icon, Money, StatusBadge, Avatar, Sidebar, TopBar, PageHead, KpiTile, Card, ChipBar, ffGo, FF_PENDING });
