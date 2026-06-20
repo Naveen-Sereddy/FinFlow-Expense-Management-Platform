@@ -4,9 +4,12 @@ const ExpenseList = () => {
   const d = FF_DATA;
   const [status, setStatus] = React.useState("all");
   const [cat, setCat] = React.useState("all");
+  const [q, setQ] = React.useState("");
+  const query = q.trim().toLowerCase();
   const filtered = d.expenses.filter(e =>
     (status === "all" || e.status === status) &&
-    (cat === "all" || e.cat === cat)
+    (cat === "all" || e.cat === cat) &&
+    (query === "" || [e.merchant, e.memo, e.who, e.id].some(f => f.toLowerCase().includes(query)))
   );
   const total = filtered.reduce((s, e) => s + e.amount, 0);
 
@@ -36,7 +39,7 @@ const ExpenseList = () => {
         <div className="ff-row" style={{gap:8}}>
           <div className="ff-search" style={{width:240}}>
             <Icon name="magnifying-glass" size={14}/>
-            <input placeholder="Search expenses…"/>
+            <input placeholder="Search expenses…" value={q} onChange={e=>setQ(e.target.value)}/>
           </div>
           <select className="ff-select" style={{width:140}} value={cat} onChange={e=>setCat(e.target.value)}>
             <option value="all">All categories</option>
@@ -94,7 +97,7 @@ const ExpenseDetail = () => {
   return (
     <>
       <div className="ff-row" style={{gap:8, marginBottom:12, color:'var(--ff-fg-muted)', fontSize:13, whiteSpace:'nowrap'}}>
-        <a href="#" style={{color:'inherit'}}>Expenses</a>
+        <a href="#" style={{color:'inherit'}} onClick={(ev)=>{ev.preventDefault(); ffGo('expenses');}}>Expenses</a>
         <Icon name="caret-right" size={12}/>
         <span style={{color:'var(--ff-fg)'}} className="ff-mono">{e.id}</span>
       </div>

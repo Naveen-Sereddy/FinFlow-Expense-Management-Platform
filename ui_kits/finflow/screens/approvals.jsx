@@ -3,6 +3,9 @@
 const ApprovalsQueue = () => {
   const d = FF_DATA;
   const items = d.expenses.filter(e => e.status === "pending" || e.status === "flagged");
+  const selCount = Math.min(3, items.length);
+  const selTotal = items.slice(0, selCount).reduce((s, e) => s + e.amount, 0);
+  const fmtUSD = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
   return (
     <>
       <PageHead
@@ -11,13 +14,13 @@ const ApprovalsQueue = () => {
         sub={`${items.length} items awaiting your review`}
         actions={<>
           <button className="ff-btn"><Icon name="funnel" size={14}/> Filter</button>
-          <button className="ff-btn ff-btn--accent"><Icon name="lightning" size={14}/> Bulk approve (5)</button>
+          <button className="ff-btn ff-btn--accent"><Icon name="lightning" size={14}/> Bulk approve ({items.length})</button>
         </>}
       />
 
       <Card padded={false}>
         <div style={{padding:'10px 16px', borderBottom:'1px solid var(--ff-border)', display:'flex', gap:8, alignItems:'center', background:'var(--ff-card-2)'}}>
-          <input type="checkbox"/> <span style={{fontSize:12, color:'var(--ff-fg-muted)'}}>3 selected · total $1,063.40</span>
+          <input type="checkbox"/> <span style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{selCount} selected · total {fmtUSD(selTotal)}</span>
           <div style={{flex:1}}/>
           <button className="ff-btn ff-btn--sm">Reject</button>
           <button className="ff-btn ff-btn--sm ff-btn--primary">Approve</button>
@@ -143,10 +146,10 @@ const PayoutDetail = () => {
             <tbody>
               <tr><td>Office supplies — Staples<div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>EXP-2820</div></td><td className="ff-tnum">May 12</td><td className="ff-num"><Money value={48.20}/></td></tr>
               <tr><td>Mileage 84 mi @ $0.67<div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>EXP-2826</div></td><td className="ff-tnum">May 15</td><td className="ff-num"><Money value={56.28}/></td></tr>
-              <tr><td>Client coffee — Sightglass<div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>EXP-2829</div></td><td className="ff-tnum">May 18</td><td className="ff-num"><Money value={216.00}/></td></tr>
+              <tr><td>Client coffee — Sightglass<div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>EXP-2829</div></td><td className="ff-tnum">May 18</td><td className="ff-num"><Money value={215.92}/></td></tr>
             </tbody>
             <tfoot>
-              <tr style={{background:'var(--ff-card-2)'}}><td colSpan="2" style={{textAlign:'right', fontWeight:600}}>Total</td><td className="ff-num" style={{fontWeight:600}}><Money value={320.48}/></td></tr>
+              <tr style={{background:'var(--ff-card-2)'}}><td colSpan="2" style={{textAlign:'right', fontWeight:600}}>Total</td><td className="ff-num" style={{fontWeight:600}}><Money value={320.40}/></td></tr>
             </tfoot>
           </table>
         </Card>

@@ -42,7 +42,7 @@ const FinanceDashboard = () => {
       </div>
 
       <div className="ff-grid" style={{gridTemplateColumns:'1.4fr 1fr', marginTop:16}}>
-        <Card title="Pending approvals" action={<a href="#" className="ff-row" style={{fontSize:12, gap:4}}>View all <Icon name="arrow-right" size={12}/></a>} padded={false}>
+        <Card title="Pending approvals" action={<a href="#" className="ff-row" style={{fontSize:12, gap:4}} onClick={(e)=>{e.preventDefault(); ffGo('approvals');}}>View all <Icon name="arrow-right" size={12}/></a>} padded={false}>
           <table className="ff-table">
             <thead>
               <tr><th>ID</th><th>Merchant</th><th>Owner</th><th>Submitted</th><th className="ff-num">Amount</th><th>Status</th></tr>
@@ -116,7 +116,7 @@ const ManagerDashboard = () => {
         sub="8 direct reports · $48.2K spent this month · 82% of monthly budget"
         actions={<>
           <button className="ff-btn"><Icon name="chats" size={14}/> Message team</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="check-square" size={14}/> Review 8 approvals</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('approvals')}><Icon name="check-square" size={14}/> Review {pendingMine.length} approvals</button>
         </>}
       />
 
@@ -129,7 +129,7 @@ const ManagerDashboard = () => {
           <BarChart data={d.employees.map(e => ({ cat: e.initials, value: e.spend/1000 }))} height={260} unit="$" colorByIndex={false} color="var(--ff-chart-1)"/>
         </Card>
 
-        <Card title="Approvals queue" action={<a href="#" style={{fontSize:12}}>Open queue</a>} padded={false}>
+        <Card title="Approvals queue" action={<a href="#" style={{fontSize:12}} onClick={(e)=>{e.preventDefault(); ffGo('approvals');}}>Open queue</a>} padded={false}>
           <div className="ff-stack" style={{'--ff-stack-gap':'0', padding:'6px 0'}}>
             {pendingMine.slice(0, 5).map(e => (
               <div key={e.id} style={{padding:'12px 20px', borderBottom:'1px solid var(--ff-border)', display:'flex', gap:12, alignItems:'center'}}>
@@ -151,10 +151,16 @@ const ManagerDashboard = () => {
       <div className="ff-grid ff-grid--3" style={{marginTop:16}}>
         <Card title="Quick approve" action={<Icon name="lightning" size={14}/>}>
           <p style={{color:'var(--ff-fg-muted)', fontSize:13, marginTop:0}}>Approve all pending under $100 with no policy flags.</p>
-          <div className="ff-row" style={{marginTop:12, gap:8}}>
-            <button className="ff-btn ff-btn--primary ff-btn--sm">Approve 3 items · $208.40</button>
-            <button className="ff-btn ff-btn--sm">Review first</button>
-          </div>
+          {(() => {
+            const quick = pendingMine.filter(e => e.amount < 100 && e.policy === "ok");
+            const quickTotal = quick.reduce((s, e) => s + e.amount, 0);
+            return (
+              <div className="ff-row" style={{marginTop:12, gap:8}}>
+                <button className="ff-btn ff-btn--primary ff-btn--sm" onClick={()=>ffGo('approvals')}>Approve {quick.length} item{quick.length === 1 ? '' : 's'} · {new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(quickTotal)}</button>
+                <button className="ff-btn ff-btn--sm" onClick={()=>ffGo('approvals')}>Review first</button>
+              </div>
+            );
+          })()}
         </Card>
         <Card title="Budget snapshot">
           <BudgetBar label="Team — May" budget={60} spent={48.2}/>
@@ -193,7 +199,7 @@ const EmployeeDashboard = () => {
       </div>
 
       <div className="ff-grid" style={{gridTemplateColumns:'1.5fr 1fr', marginTop:16}}>
-        <Card title="My recent expenses" padded={false} action={<a href="#" style={{fontSize:12}}>View all</a>}>
+        <Card title="My recent expenses" padded={false} action={<a href="#" style={{fontSize:12}} onClick={(e)=>{e.preventDefault(); ffGo('expenses');}}>View all</a>}>
           <table className="ff-table">
             <thead><tr><th>Date</th><th>Merchant</th><th className="ff-num">Amount</th><th>Status</th></tr></thead>
             <tbody>

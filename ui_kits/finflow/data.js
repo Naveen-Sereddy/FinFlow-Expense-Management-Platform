@@ -122,13 +122,13 @@ window.FF_DATA = (() => {
   const kpis = {
     finance: [
       { label: "Spend MTD",       value: "$284,120", delta: "+12.4% vs Apr", trend: "up" },
-      { label: "Pending Approvals", value: "37",      delta: "8 over 48h",      trend: "down" },
+      { label: "Pending Approvals", value: "5",       delta: "3 over 48h",      trend: "down" },
       { label: "Policy Flags",    value: "9",        delta: "−2 this week",    trend: "up" },
       { label: "Cash Available",  value: "$1.82M",   delta: "62 days runway",  trend: "neutral" }
     ],
     manager: [
       { label: "Team Spend MTD",  value: "$48,210",  delta: "+6.1%",           trend: "up" },
-      { label: "Awaiting You",    value: "8",        delta: "Oldest: 2d",      trend: "down" },
+      { label: "Awaiting You",    value: "5",        delta: "Oldest: 6d",      trend: "down" },
       { label: "Avg. Approval",   value: "6h 12m",   delta: "−1h vs last wk",  trend: "up" },
       { label: "Team Budget",     value: "82%",      delta: "$8.6K remaining", trend: "neutral" }
     ],
