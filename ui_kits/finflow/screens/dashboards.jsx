@@ -10,7 +10,7 @@ const FinanceDashboard = () => {
         sub="Spend across Arcadia Labs · Fiscal week 22, FY 2026"
         actions={<>
           <button className="ff-btn"><Icon name="download-simple" size={14}/> Export</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="plus" size={14}/> New report</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('report-build')}><Icon name="plus" size={14}/> New report</button>
         </>}
       />
 
@@ -189,8 +189,8 @@ const EmployeeDashboard = () => {
         title={`Hi, ${d.me.employee.name.split(' ')[0]}.`}
         sub="Your expenses and reimbursements this month"
         actions={<>
-          <button className="ff-btn"><Icon name="upload-simple" size={14}/> Upload receipt</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="plus" size={14}/> New expense</button>
+          <button className="ff-btn" onClick={()=>ffGo('ocr')}><Icon name="upload-simple" size={14}/> Upload receipt</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
         </>}
       />
 

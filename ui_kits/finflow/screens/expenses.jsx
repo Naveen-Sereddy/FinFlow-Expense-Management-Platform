@@ -20,9 +20,9 @@ const ExpenseList = () => {
         title="All expenses"
         sub={`${filtered.length} items · total ${new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' }).format(total)}`}
         actions={<>
-          <button className="ff-btn"><Icon name="upload-simple" size={14}/> Import CSV</button>
+          <button className="ff-btn" onClick={()=>ffGo('import')}><Icon name="upload-simple" size={14}/> Import CSV</button>
           <button className="ff-btn"><Icon name="download-simple" size={14}/> Export</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="plus" size={14}/> New expense</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
         </>}
       />
 
@@ -68,8 +68,8 @@ const ExpenseList = () => {
             {filtered.map(e => {
               const cat = d.categories.find(c => c.id === e.cat);
               return (
-                <tr key={e.id}>
-                  <td><input type="checkbox"/></td>
+                <tr key={e.id} onClick={()=>ffGo('expense-detail')} style={{cursor:'pointer'}}>
+                  <td onClick={ev=>ev.stopPropagation()}><input type="checkbox"/></td>
                   <td><span className="ff-mono" style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{e.id}</span></td>
                   <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{e.date}</td>
                   <td>
@@ -107,7 +107,7 @@ const ExpenseDetail = () => {
         actions={<>
           <button className="ff-btn"><Icon name="chat-text" size={14}/> Comment</button>
           <button className="ff-btn"><Icon name="x" size={14}/> Reject</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="check" size={14}/> Approve</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('state-success')}><Icon name="check" size={14}/> Approve</button>
         </>}
       />
 
@@ -212,7 +212,7 @@ const NewExpense = () => {
         sub="Submit a business expense for approval"
         actions={<>
           <button className="ff-btn">Save draft</button>
-          <button className="ff-btn ff-btn--primary">Submit for approval</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('expenses')}>Submit for approval</button>
         </>}
       />
 
@@ -252,7 +252,7 @@ const NewExpense = () => {
               <div className="ff-empty__icon"><Icon name="upload-simple" size={22}/></div>
               <div style={{fontSize:14, fontWeight:500}}>Drop a receipt</div>
               <div style={{fontSize:12, color:'var(--ff-fg-muted)'}}>PDF or image · OCR fills the form automatically</div>
-              <button className="ff-btn ff-btn--sm" style={{marginTop:6}}>Choose file</button>
+              <button className="ff-btn ff-btn--sm" style={{marginTop:6}} onClick={()=>ffGo('ocr')}>Choose file</button>
             </div>
           </Card>
           <Card title="Approval preview">
@@ -277,7 +277,7 @@ const OcrReview = () => {
         sub="We've parsed the receipt — confirm the fields below."
         actions={<>
           <button className="ff-btn">Re-scan</button>
-          <button className="ff-btn ff-btn--primary">Save expense</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('expenses')}>Save expense</button>
         </>}
       />
       <div className="ff-grid" style={{gridTemplateColumns:'1fr 1fr', gap:24}}>
@@ -290,16 +290,18 @@ const OcrReview = () => {
               {/* faux receipt */}
               <div style={{position:'absolute', inset:24, background:'#fff', borderRadius:4, boxShadow:'var(--ff-shadow-md)', padding:'24px 20px', color:'#15131A', fontSize:11, fontFamily:'var(--ff-font-mono)'}}>
                 <div style={{textAlign:'center', fontFamily:'var(--ff-font-display)', fontSize:22, marginBottom:14}}>MARRIOTT</div>
-                <div style={{textAlign:'center', marginBottom:18, color:'#666'}}>Austin, TX · Folio 4471</div>
+                <div style={{textAlign:'center', marginBottom:18, color:'#666'}}>
+                  <span style={{background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3, padding:'2px 6px'}}>Austin, TX · Folio 4471</span>
+                </div>
                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}><span>Room 412 — 3 nights</span><span>$1,140.00</span></div>
                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}><span>Resort fee</span><span>$45.00</span></div>
                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}><span>Tax</span><span>$55.00</span></div>
                 <hr style={{margin:'10px 0', border:'0', borderTop:'1px dashed #ccc'}}/>
-                <div style={{display:'flex', justifyContent:'space-between', fontWeight:600}}><span>TOTAL</span><span>$1,240.00</span></div>
+                <div style={{display:'flex', justifyContent:'space-between', fontWeight:600}}>
+                  <span>TOTAL</span>
+                  <span style={{background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3, padding:'1px 6px'}}>$1,240.00</span>
+                </div>
                 <div style={{marginTop:18, textAlign:'center', color:'#888'}}>VISA •••• 4112 · 05/21/26 14:08</div>
-                {/* Highlights */}
-                <div style={{position:'absolute', top:78, left:14, right:14, height:18, background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3}}/>
-                <div style={{position:'absolute', top:180, left:14, right:14, height:18, background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3}}/>
               </div>
               <div style={{position:'absolute', top:10, right:10, background:'var(--ff-card)', border:'1px solid var(--ff-border)', borderRadius:6, padding:'4px 8px', fontSize:11, color:'var(--ff-fg-muted)', display:'flex', gap:8, alignItems:'center'}}>
                 <Icon name="sparkle" size={12}/> OCR confidence · 94%
@@ -394,7 +396,7 @@ const BulkImport = () => (
           <div className="ff-empty__icon" style={{margin:'0 auto'}}><Icon name="file-csv" size={26}/></div>
           <div style={{fontSize:16, fontWeight:600, marginTop:12}}>Drop your CSV here</div>
           <div style={{fontSize:13, color:'var(--ff-fg-muted)', marginTop:4}}>Up to 5,000 rows · UTF-8 · max 10 MB</div>
-          <button className="ff-btn ff-btn--primary" style={{marginTop:18}}><Icon name="upload-simple" size={14}/> Choose file</button>
+          <button className="ff-btn ff-btn--primary" style={{marginTop:18}} onClick={()=>ffGo('expenses')}><Icon name="upload-simple" size={14}/> Choose file</button>
           <div style={{marginTop:12, fontSize:12}}><a href="#">Download CSV template</a></div>
         </div>
       </Card>
