@@ -23,11 +23,11 @@ const ApprovalsQueue = () => {
           <input type="checkbox"/> <span style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{selCount} selected · total {fmtUSD(selTotal)}</span>
           <div style={{flex:1}}/>
           <button className="ff-btn ff-btn--sm">Reject</button>
-          <button className="ff-btn ff-btn--sm ff-btn--primary">Approve</button>
+          <button className="ff-btn ff-btn--sm ff-btn--primary" onClick={()=>ffGo('state-success')}>Approve</button>
         </div>
         {items.map((e, i) => (
-          <div key={e.id} style={{padding:'16px 20px', borderBottom: i < items.length-1 ? '1px solid var(--ff-border)' : '0', display:'grid', gridTemplateColumns:'auto 60px 1fr auto auto', gap:16, alignItems:'center'}}>
-            <input type="checkbox" defaultChecked={i < 3}/>
+          <div key={e.id} onClick={()=>ffGo('approval-detail')} style={{padding:'16px 20px', borderBottom: i < items.length-1 ? '1px solid var(--ff-border)' : '0', display:'grid', gridTemplateColumns:'auto 60px 1fr auto auto', gap:16, alignItems:'center', cursor:'pointer'}}>
+            <input type="checkbox" defaultChecked={i < 3} onClick={ev=>ev.stopPropagation()}/>
             <div className="ff-receipt"><span style={{fontFamily:'var(--ff-font-mono)'}}>{e.cardLast4}</span></div>
             <div>
               <div style={{display:'flex', gap:10, alignItems:'baseline'}}>
@@ -41,9 +41,9 @@ const ApprovalsQueue = () => {
               <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:600, fontSize:20, letterSpacing:'-0.02em'}} className="ff-tnum"><Money value={e.amount}/></div>
               <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{d.categories.find(c=>c.id===e.cat).name}</div>
             </div>
-            <div className="ff-row">
+            <div className="ff-row" onClick={ev=>ev.stopPropagation()}>
               <button className="ff-btn ff-btn--ghost ff-btn--sm">Reject</button>
-              <button className="ff-btn ff-btn--primary ff-btn--sm">Approve</button>
+              <button className="ff-btn ff-btn--primary ff-btn--sm" onClick={()=>ffGo('state-success')}>Approve</button>
             </div>
           </div>
         ))}
@@ -97,7 +97,7 @@ const ReimbursementsList = () => {
         sub="Out-of-pocket expenses owed to employees"
         actions={<>
           <button className="ff-btn"><Icon name="download-simple" size={14}/> Export ACH file</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="calendar-plus" size={14}/> Schedule payout</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('schedule-payout')}><Icon name="calendar-plus" size={14}/> Schedule payout</button>
         </>}
       />
       <div className="ff-grid ff-grid--kpis" style={{gridTemplateColumns:'repeat(3, 1fr)'}}>
@@ -117,7 +117,7 @@ const ReimbursementsList = () => {
                 <td><StatusBadge status={r.status}/></td>
                 <td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{r.date}</td>
                 <td><span className="ff-badge ff-badge--neutral ff-badge--no-dot">ACH</span></td>
-                <td><button className="ff-btn ff-btn--ghost ff-btn--sm">View</button></td>
+                <td><button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>ffGo('payout-detail')}>View</button></td>
               </tr>
             ))}
           </tbody>
@@ -135,7 +135,7 @@ const PayoutDetail = () => {
         title="RB-104 — Iris Chen"
         sub="Scheduled · arrives May 30, 2026"
         actions={<>
-          <button className="ff-btn ff-btn--danger">Cancel payout</button>
+          <button className="ff-btn ff-btn--danger" onClick={()=>ffGo('reimburse')}>Cancel payout</button>
           <button className="ff-btn ff-btn--primary">Pay now</button>
         </>}
       />
@@ -196,7 +196,7 @@ const SchedulePayout = () => (
             <hr className="ff-divider" style={{margin:'10px 0'}}/>
             <div className="ff-row" style={{justifyContent:'space-between', fontWeight:600}}><span>Total</span><span className="ff-tnum">$620.90</span></div>
           </div>
-          <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}}>Schedule 3 payouts</button>
+          <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('state-confirm')}>Schedule 3 payouts</button>
         </div>
       </Card>
     </div>

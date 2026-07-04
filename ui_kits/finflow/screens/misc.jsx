@@ -53,22 +53,22 @@ const SignIn = () => (
               foot={<span>New here? <a href="#">Create a workspace</a></span>}>
     <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
       <button className="ff-btn ff-btn--lg" style={{width:'100%', justifyContent:'center'}}><Icon name="google-logo" size={16}/> Continue with Google</button>
-      <button className="ff-btn ff-btn--lg" style={{width:'100%', justifyContent:'center'}}><Icon name="key" size={16}/> Continue with Okta SSO</button>
+      <button className="ff-btn ff-btn--lg" style={{width:'100%', justifyContent:'center'}} onClick={()=>ffGo('sso')}><Icon name="key" size={16}/> Continue with Okta SSO</button>
       <div style={{display:'flex', alignItems:'center', gap:12, color:'var(--ff-fg-muted)', fontSize:12, margin:'4px 0'}}><hr style={{flex:1, border:0, borderTop:'1px solid var(--ff-border)'}}/> or <hr style={{flex:1, border:0, borderTop:'1px solid var(--ff-border)'}}/></div>
       <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input ff-input--lg" defaultValue="maren@arcadialabs.co"/></div>
       <div className="ff-field"><label className="ff-label">Password</label><input className="ff-input ff-input--lg" type="password" defaultValue="••••••••••"/></div>
       <div className="ff-row" style={{justifyContent:'space-between', flexWrap:'wrap', gap:8}}>
         <label className="ff-row" style={{gap:6, fontSize:13, whiteSpace:'nowrap'}}><input type="checkbox"/> Remember me</label>
-        <a href="#" style={{fontSize:13, whiteSpace:'nowrap'}}>Forgot password?</a>
+        <a href="#" style={{fontSize:13, whiteSpace:'nowrap'}} onClick={(ev)=>{ev.preventDefault(); ffGo('forgot');}}>Forgot password?</a>
       </div>
-      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}}>Sign in</button>
+      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('dashboard')}>Sign in</button>
     </div>
   </AuthLayout>
 );
 
 const SSOWorkspace = () => (
   <AuthLayout title="Find your workspace" sub="Enter your work email or workspace URL."
-              foot={<a href="#">← Back to sign in</a>}>
+              foot={<a href="#" onClick={(ev)=>{ev.preventDefault(); ffGo('signin');}}>← Back to sign in</a>}>
     <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
       <div className="ff-field"><label className="ff-label">Workspace URL</label>
         <div style={{display:'flex'}}>
@@ -76,7 +76,7 @@ const SSOWorkspace = () => (
           <span style={{display:'flex', alignItems:'center', padding:'0 14px', border:'1px solid var(--ff-border)', borderLeft:0, background:'var(--ff-card-2)', borderRadius:'0 8px 8px 0', fontSize:13, color:'var(--ff-fg-muted)'}}>.finflow.app</span>
         </div>
       </div>
-      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}}>Continue with SSO</button>
+      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('dashboard')}>Continue with SSO</button>
       <div className="ff-alert ff-alert--info">
         <Icon name="info" size={18} weight="fill"/>
         <div className="ff-alert__body">
@@ -90,10 +90,10 @@ const SSOWorkspace = () => (
 
 const ForgotPassword = () => (
   <AuthLayout title="Reset password" sub="We'll email you a secure link."
-              foot={<a href="#">← Back to sign in</a>}>
+              foot={<a href="#" onClick={(ev)=>{ev.preventDefault(); ffGo('signin');}}>← Back to sign in</a>}>
     <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
       <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input ff-input--lg" defaultValue="maren@arcadialabs.co"/></div>
-      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}}>Send reset link</button>
+      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('reset')}>Send reset link</button>
     </div>
   </AuthLayout>
 );
@@ -109,14 +109,14 @@ const ResetPassword = () => (
         <div className="ff-row" style={{gap:6, color:'var(--ff-approved)'}}><Icon name="check" size={12}/> Number or symbol</div>
         <div className="ff-row" style={{gap:6}}><Icon name="circle" size={12}/> Not a previous password</div>
       </div>
-      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}}>Update password</button>
+      <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('signin')}>Update password</button>
     </div>
   </AuthLayout>
 );
 
 /* ---------- Onboarding ---------- */
 
-const OnboardingShell = ({ step, children, title, sub, next }) => (
+const OnboardingShell = ({ step, children, title, sub, next, nextId }) => (
   <div style={{maxWidth:840, margin:'0 auto', padding:'40px 24px'}}>
     <div className="ff-row" style={{justifyContent:'space-between', marginBottom:36}}>
       <BrandMark variant="horizontal" size={28}/>
@@ -138,7 +138,7 @@ const OnboardingShell = ({ step, children, title, sub, next }) => (
     <div style={{marginTop:28}}>{children}</div>
     <div className="ff-row" style={{justifyContent:'space-between', marginTop:28}}>
       <button className="ff-btn ff-btn--ghost">Skip for now</button>
-      <button className="ff-btn ff-btn--primary ff-btn--lg">{next}</button>
+      <button className="ff-btn ff-btn--primary ff-btn--lg" onClick={()=>ffGo(nextId)}>{next}</button>
     </div>
   </div>
 );
@@ -147,7 +147,7 @@ const ConnectBank = () => (
   <OnboardingShell step={0}
     title="Connect a bank or card program"
     sub="Pull statements automatically and start issuing FinFlow cards. We use read-only access by default."
-    next="Continue →">
+    next="Continue →" nextId="onb-team">
     <div className="ff-grid ff-grid--3">
       {[
         { name:"Mercury", icon:"bank", desc:"Business checking, ACH out" },
@@ -176,7 +176,7 @@ const InviteTeam = () => (
   <OnboardingShell step={1}
     title="Invite your team"
     sub="Send invites by email. Roles can be changed later."
-    next="Continue →">
+    next="Continue →" nextId="onb-policy">
     <Card>
       <div className="ff-stack" style={{'--ff-stack-gap':'10px'}}>
         {[
@@ -208,7 +208,7 @@ const SetPolicy = () => (
   <OnboardingShell step={2}
     title="Set your starter policy"
     sub="You can refine these later — these are sensible defaults for a Series B SaaS company."
-    next="Finish setup →">
+    next="Finish setup →" nextId="dashboard">
     <Card>
       <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
         <div className="ff-grid ff-grid--2">
@@ -376,8 +376,8 @@ const EmptyExpenses = () => (
         <div className="ff-empty__title">No expenses yet</div>
         <div className="ff-empty__body">When teammates submit expenses or your cards are swiped, you'll see them here.</div>
         <div className="ff-row" style={{marginTop:12, gap:8}}>
-          <button className="ff-btn"><Icon name="upload-simple" size={14}/> Import CSV</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="plus" size={14}/> New expense</button>
+          <button className="ff-btn" onClick={()=>ffGo('import')}><Icon name="upload-simple" size={14}/> Import CSV</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
         </div>
       </div>
     </Card>
@@ -394,8 +394,8 @@ const ErrorState = () => (
         <div className="ff-empty__body">We've been notified. Try again, or check <a href="#">status.finflow.app</a>.</div>
         <div className="ff-mono" style={{fontSize:11, color:'var(--ff-fg-subtle)', marginTop:6}}>err_id: fff_4b22 · 503</div>
         <div className="ff-row" style={{marginTop:12, gap:8}}>
-          <button className="ff-btn"><Icon name="arrow-clockwise" size={14}/> Retry</button>
-          <button className="ff-btn ff-btn--primary">Contact support</button>
+          <button className="ff-btn" onClick={()=>ffGo('dashboard')}><Icon name="arrow-clockwise" size={14}/> Retry</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('help')}>Contact support</button>
         </div>
       </div>
     </Card>
@@ -413,8 +413,8 @@ const SuccessApproval = () => {
     <h1 style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:42, lineHeight:1.1, letterSpacing:'-0.03em', marginTop:24}}>Approved.</h1>
     <p style={{color:'var(--ff-fg-muted)', marginTop:8}}>EXP-2841 · United Airlines · $842.50 approved and routed to Finance for payment.</p>
     <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
-      <button className="ff-btn">View expense</button>
-      <button className="ff-btn ff-btn--primary">Next in queue ({remaining}) →</button>
+      <button className="ff-btn" onClick={()=>ffGo('expense-detail')}>View expense</button>
+      <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('approvals')}>Next in queue ({remaining}) →</button>
     </div>
   </div>
   );
@@ -438,7 +438,7 @@ const ConfirmReimbursement = () => (
     </Card>
     <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
       <button className="ff-btn">Download ACH receipt</button>
-      <button className="ff-btn ff-btn--primary">Back to dashboard</button>
+      <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('dashboard')}>Back to dashboard</button>
     </div>
   </div>
 );
