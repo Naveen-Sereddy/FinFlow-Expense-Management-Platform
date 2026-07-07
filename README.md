@@ -1,58 +1,29 @@
-# FinFlow B2B Expense Management Platform
+# FinFlow — B2B Expense Management Platform
 
-Enterprise expense management platform designed to streamline expense submission, approvals, reimbursements, reporting, and finance operations workflows.
+A UX case study built around a real problem finance teams deal with constantly: expense reports that get stuck in approval limbo, spreadsheets nobody trusts, and finance leads who can't answer "what did we spend this quarter" without a week of digging.
 
-## Overview
+FinFlow is my answer to that — a B2B expense management platform designed for three different people who all touch the same expense: the employee submitting it, the manager approving it, and the finance admin who has to reconcile, audit, and report on all of it.
 
-FinFlow is a UX and product design case study focused on improving financial operations for growing B2B organizations. The project explores how finance teams manage expenses, approvals, reporting, compliance, and visibility across the organization.
+## Why I built it this way
 
-## My Role
+Most expense tools I looked at design for one persona and bolt the others on. I started from the opposite direction — I mapped all three roles' journeys first, found where they collided (a manager approving 40 line items with no context, an admin unable to trace an approval back to who actually reviewed it), and designed the information architecture around those collision points instead of around a generic "expense object."
 
-- UX Research
-- User Journey Mapping
-- Information Architecture
-- Interaction Design
-- Design Systems
-- Accessibility Review
-- Product Strategy
-- Product Documentation
+That's also why the case study leans heavily on usability testing rather than just visual polish. I ran two rounds — the first surfaced a task-completion rate of 73%, mostly people getting lost in the approval flow. Second round, after restructuring the approval queue and adding inline context, that jumped to 89%.
 
-## Key Deliverables
+## What's in this repo
 
-- User Research
-- Personas
-- User Journeys
-- Information Architecture
-- Design System
-- Accessibility Review
-- Product Strategy
-- High-Fidelity Screens
-- Product Case Study
+- **`docs/`** — the actual research: business context, discovery notes, personas, user journeys, IA decisions, before/after analysis, and the outcomes writeup
+- **`ui_kits/`** — the design system used across all three role-based views (admin dashboard, manager approvals, employee submission flow)
+- **A working interactive prototype** — built in React so the flows are actually clickable, not just static Figma frames
 
-## Documentation
+## Role I played
 
-- Business Context
-- Research & Discovery
-- Personas
-- User Journeys
-- Information Architecture
-- Design Decisions
-- Design System
-- Accessibility Review
-- Before vs After Analysis
-- Product Strategy
-- Outcomes & Impact
-- Case Study
+Full UX process end to end: competitive research, user interviews, persona development, information architecture, interaction design, the design system, an accessibility pass, and two rounds of moderated usability testing to validate (and then fix) the approval flow.
 
 ## Tools
 
-- Figma
-- UX Research Methods
-- Design Systems
-- Product Strategy
-- Documentation
-- Git & GitHub
+Figma for design, Maze for the usability testing, React for the interactive prototype.
 
-## Project Type
+---
 
-Portfolio Product Design Case Study
+Naveen Sereddy — [github.com/Naveen-Sereddy](https://github.com/Naveen-Sereddy)
