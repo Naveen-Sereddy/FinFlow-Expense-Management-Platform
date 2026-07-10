@@ -12,7 +12,7 @@ const SettingsShell = ({ active, setActive, children }) => {
   ];
   return (
     <>
-      <PageHead eyebrow="Settings" title="Workspace settings" sub="Manage your Arcadia Labs workspace"/>
+      <PageHead eyebrow="Settings" title="Workspace settings" sub="Manage your Reyonal workspace"/>
       <div className="ff-grid" style={{gridTemplateColumns:'220px 1fr', gap:24, alignItems:'flex-start'}}>
         <div className="ff-stack" style={{'--ff-stack-gap':'2px'}}>
           {tabs.map(t => (
@@ -31,9 +31,9 @@ const SettingsShell = ({ active, setActive, children }) => {
 const SettingsProfile = () => (
   <Card title="Profile">
     <div className="ff-row" style={{gap:18, marginBottom:20}}>
-      <Avatar initials="MO" size="xl"/>
+      <Avatar initials="MS" size="xl"/>
       <div>
-        <div style={{fontSize:18, fontWeight:600}}>Maren Okafor</div>
+        <div style={{fontSize:18, fontWeight:600}}>Marcus Stoinis</div>
         <div style={{fontSize:13, color:'var(--ff-fg-muted)'}}>Director of Finance · Joined Mar 2023</div>
         <div className="ff-row" style={{marginTop:10, gap:8}}>
           <button className="ff-btn ff-btn--sm">Upload photo</button>
@@ -42,11 +42,11 @@ const SettingsProfile = () => (
       </div>
     </div>
     <div className="ff-grid ff-grid--2" style={{gap:'14px 18px'}}>
-      <div className="ff-field"><label className="ff-label">Full name</label><input className="ff-input" defaultValue="Maren Okafor"/></div>
-      <div className="ff-field"><label className="ff-label">Preferred name</label><input className="ff-input" defaultValue="Maren"/></div>
+      <div className="ff-field"><label className="ff-label">Full name</label><input className="ff-input" defaultValue="Marcus Stoinis"/></div>
+      <div className="ff-field"><label className="ff-label">Preferred name</label><input className="ff-input" defaultValue="Marcus"/></div>
       <div className="ff-field"><label className="ff-label">Title</label><input className="ff-input" defaultValue="Director of Finance"/></div>
       <div className="ff-field"><label className="ff-label">Department</label><input className="ff-input" defaultValue="Finance"/></div>
-      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input" defaultValue="maren@arcadialabs.co"/></div>
+      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input" defaultValue="marcus.stoinis@reyonal.com"/></div>
       <div className="ff-field"><label className="ff-label">Time zone</label><select className="ff-select"><option>America/Los_Angeles</option><option>America/New_York</option><option>UTC</option></select></div>
     </div>
     <div className="ff-row" style={{marginTop:20, justifyContent:'flex-end', gap:8}}>
@@ -100,18 +100,18 @@ const SettingsTeam = () => (
       <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last active</th><th></th></tr></thead>
       <tbody>
         {[
-          ["Maren Okafor","Finance Admin","maren@arcadialabs.co","Now"],
-          ["Theo Vasquez","Manager","theo@arcadialabs.co","12m"],
-          ["Iris Chen","Employee","iris@arcadialabs.co","2h"],
-          ["Luna Park","Employee","luna@arcadialabs.co","4h"],
-          ["Dev Patel","Employee","dev@arcadialabs.co","Yesterday"],
-          ["Mira Solberg","Employee","mira@arcadialabs.co","2d"],
-          ["Asa Brown","Auditor","asa@arcadialabs.co","1w"]
+          ["Marcus Stoinis","Finance Admin","marcus.stoinis@reyonal.com","Now"],
+          ["Xavier Bartlett","Manager","xavier.bartlett@reyonal.com","12m"],
+          ["Corey Anderson","Employee","corey.anderson@reyonal.com","2h"],
+          ["Jordan Lee","Employee","jordan.lee@reyonal.com","4h"],
+          ["Sam Richardson","Employee","sam.richardson@reyonal.com","Yesterday"],
+          ["James Taylor","Employee","james.taylor@reyonal.com","2d"],
+          ["Jamie Smith","Auditor","jamie.smith@reyonal.com","1w"]
         ].map(([n, role, em, la], i) => (
           <tr key={i}>
             <td><span className="ff-row" style={{gap:8}}><Avatar initials={n.split(' ').map(x=>x[0]).join('').slice(0,2)}/>{n}</span></td>
             <td style={{color:'var(--ff-fg-muted)'}}>{em}</td>
-            <td><span className="ff-badge ff-badge--plum ff-badge--no-dot">{role}</span></td>
+            <td><span className="ff-badge ff-badge--primary ff-badge--no-dot">{role}</span></td>
             <td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{la}</td>
             <td><button className="ff-btn ff-btn--ghost ff-btn--sm">Edit</button></td>
           </tr>
@@ -201,7 +201,7 @@ const SettingsBilling = () => (
     <Card title="Payment method">
       <div className="ff-row" style={{justifyContent:'space-between'}}>
         <div className="ff-row" style={{gap:10}}>
-          <div style={{width:40, height:28, borderRadius:4, background:'var(--ff-plum-700)'}}/>
+          <div style={{width:40, height:28, borderRadius:4, background:'var(--ff-teal-700)'}}/>
           <div>
             <div style={{fontWeight:500}} className="ff-mono">•••• •••• •••• 4242</div>
             <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>Visa · expires 11/27</div>

@@ -2,13 +2,16 @@
 
 const FinanceDashboard = () => {
   const d = FF_DATA;
+  const [compact, setCompact] = React.useState(false);
   return (
     <>
       <PageHead
         eyebrow="Workspace · Finance Admin"
-        title="Good morning, Maren."
-        sub="Spend across Arcadia Labs · Fiscal week 22, FY 2026"
+        title="Good morning, Marcus."
+        sub="Spend across Reyonal · Fiscal week 22, FY 2026"
         actions={<>
+          <DensityToggle compact={compact} onToggle={()=>setCompact(c=>!c)}/>
+          <RefreshButton/>
           <button className="ff-btn"><Icon name="download-simple" size={14}/> Export</button>
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('report-build')}><Icon name="plus" size={14}/> New report</button>
         </>}
@@ -53,7 +56,7 @@ const FinanceDashboard = () => {
                   <td><span className="ff-mono" style={{fontSize:12}}>{e.id}</span></td>
                   <td>{e.merchant}</td>
                   <td><span className="ff-row" style={{gap:6}}><Avatar initials={e.who.split(' ').map(x=>x[0]).join('').slice(0,2)} /> {e.who}</span></td>
-                  <td style={{color:'var(--ff-fg-muted)', fontSize:12}}>{e.date}</td>
+                  <td style={{color:'var(--ff-fg-muted)', fontSize:12}}>{fmtDate(e.date)}</td>
                   <td className="ff-num"><Money value={e.amount}/></td>
                   <td><StatusBadge status={e.status}/></td>
                 </tr>
@@ -85,7 +88,7 @@ const FinanceDashboard = () => {
       </div>
 
       <Card title="Recent activity" style={{marginTop:16}} padded={false} action={<button className="ff-btn ff-btn--sm ff-btn--ghost"><Icon name="funnel" size={12}/> Filter</button>}>
-        <table className="ff-table ff-table--compact">
+        <table className={`ff-table ${compact ? 'ff-table--compact' : ''}`}>
           <thead>
             <tr><th>Time</th><th>Actor</th><th>Action</th><th>Target</th></tr>
           </thead>
@@ -115,6 +118,7 @@ const ManagerDashboard = () => {
         title={`${d.me.manager.name.split(' ')[0]}'s team — Sales`}
         sub="8 direct reports · $48.2K spent this month · 82% of monthly budget"
         actions={<>
+          <RefreshButton/>
           <button className="ff-btn"><Icon name="chats" size={14}/> Message team</button>
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('approvals')}><Icon name="check-square" size={14}/> Review {pendingMine.length} approvals</button>
         </>}
@@ -181,7 +185,8 @@ const ManagerDashboard = () => {
 
 const EmployeeDashboard = () => {
   const d = FF_DATA;
-  const mine = d.expenses.filter(e => e.who === "Iris Chen");
+  const mine = d.expenses.filter(e => e.who === "Corey Anderson");
+  const [compact, setCompact] = React.useState(false);
   return (
     <>
       <PageHead
@@ -189,6 +194,8 @@ const EmployeeDashboard = () => {
         title={`Hi, ${d.me.employee.name.split(' ')[0]}.`}
         sub="Your expenses and reimbursements this month"
         actions={<>
+          <DensityToggle compact={compact} onToggle={()=>setCompact(c=>!c)}/>
+          <RefreshButton/>
           <button className="ff-btn" onClick={()=>ffGo('ocr')}><Icon name="upload-simple" size={14}/> Upload receipt</button>
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
         </>}
@@ -200,7 +207,7 @@ const EmployeeDashboard = () => {
 
       <div className="ff-grid" style={{gridTemplateColumns:'1.5fr 1fr', marginTop:16}}>
         <Card title="My recent expenses" padded={false} action={<a href="#" style={{fontSize:12}} onClick={(e)=>{e.preventDefault(); ffGo('expenses');}}>View all</a>}>
-          <table className="ff-table">
+          <table className={`ff-table ${compact ? 'ff-table--compact' : ''}`}>
             <thead><tr><th>Date</th><th>Merchant</th><th className="ff-num">Amount</th><th>Status</th></tr></thead>
             <tbody>
               {mine.map(e => (
@@ -219,15 +226,15 @@ const EmployeeDashboard = () => {
           <Card title="My virtual card">
             <div style={{
               padding:'20px', borderRadius:12,
-              background:'linear-gradient(135deg, var(--ff-plum-700), var(--ff-plum-900))',
-              color:'#FBF5E8', display:'flex', flexDirection:'column', gap:14, position:'relative'
+              background:'linear-gradient(135deg, var(--ff-teal-700), var(--ff-teal-900))',
+              color:'#fff', display:'flex', flexDirection:'column', gap:14, position:'relative'
             }}>
               <div style={{fontSize:11, letterSpacing:'0.1em', textTransform:'uppercase', opacity:0.75}}>FinFlow · Virtual</div>
               <div className="ff-mono" style={{fontSize:18, letterSpacing:'0.12em'}}>•••• •••• •••• 9032</div>
               <div className="ff-row" style={{justifyContent:'space-between'}}>
                 <div>
                   <div style={{fontSize:10, opacity:0.7, textTransform:'uppercase'}}>Holder</div>
-                  <div style={{fontSize:13}}>Iris Chen</div>
+                  <div style={{fontSize:13}}>Corey Anderson</div>
                 </div>
                 <div>
                   <div style={{fontSize:10, opacity:0.7, textTransform:'uppercase'}}>Exp</div>

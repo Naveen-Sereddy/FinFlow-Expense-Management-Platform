@@ -30,9 +30,9 @@
     }
     .ff-launch:hover { background: var(--ff-hover); }
 
-    /* Mobile section */
+    /* Mobile section — frames pre-scaled via MobileThumb so all 6 fit one viewport without horizontal scroll */
     .ff-mobile-shelf {
-      display: flex; gap: 28px; padding: 48px 32px;
+      display: flex; gap: 20px; padding: 32px;
       background: var(--ff-card-2); border-top: 1px solid var(--ff-border);
       overflow-x: auto;
     }
@@ -43,15 +43,13 @@
 
   <template id="__bundler_thumbnail">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
-      <rect width="400" height="300" fill="#3B1A33"/>
+      <rect width="400" height="300" fill="#15181c"/>
       <g transform="translate(140,80)">
-        <rect width="120" height="120" rx="26" fill="#FBF5E8"/>
-        <rect x="30" y="26" width="14" height="68" fill="#3B1A33"/>
-        <rect x="30" y="26" width="56" height="14" fill="#3B1A33"/>
-        <rect x="30" y="50" width="38" height="14" fill="#3B1A33"/>
-        <circle cx="82" cy="86" r="8" fill="#D9BE57"/>
+        <polygon points="60,0 112,28 60,56 8,28" fill="#fff" stroke="#15181c" stroke-width="4"/>
+        <polygon points="8,28 60,56 60,112 8,84" fill="#15181c"/>
+        <polygon points="112,28 112,84 60,112 60,56" fill="#3d9b8f"/>
       </g>
-      <text x="200" y="246" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="26" fill="#FBF5E8">FinFlow</text>
+      <text x="200" y="246" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="26" fill="#fff">FinFlow</text>
     </svg>
   </template>
 
@@ -59,18 +57,18 @@
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-  <script src="data.js"></script>
-  <script type="text/babel" src="../../brand/BrandMark.jsx"></script>
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="charts.jsx"></script>
-  <script type="text/babel" src="layout.jsx"></script>
-  <script type="text/babel" src="screens/dashboards.jsx"></script>
-  <script type="text/babel" src="screens/expenses.jsx"></script>
-  <script type="text/babel" src="screens/approvals.jsx"></script>
-  <script type="text/babel" src="screens/reports_cards_vendors.jsx"></script>
-  <script type="text/babel" src="screens/settings.jsx"></script>
-  <script type="text/babel" src="screens/misc.jsx"></script>
-  <script type="text/babel" src="screens/mobile.jsx"></script>
+  <script src="data.js?v=15"></script>
+  <script type="text/babel" src="../../brand/BrandMark.jsx?v=15"></script>
+  <script type="text/babel" src="tweaks-panel.jsx?v=15"></script>
+  <script type="text/babel" src="charts.jsx?v=15"></script>
+  <script type="text/babel" src="layout.jsx?v=15"></script>
+  <script type="text/babel" src="screens/dashboards.jsx?v=15"></script>
+  <script type="text/babel" src="screens/expenses.jsx?v=15"></script>
+  <script type="text/babel" src="screens/approvals.jsx?v=15"></script>
+  <script type="text/babel" src="screens/reports_cards_vendors.jsx?v=15"></script>
+  <script type="text/babel" src="screens/settings.jsx?v=15"></script>
+  <script type="text/babel" src="screens/misc.jsx?v=15"></script>
+  <script type="text/babel" src="screens/mobile.jsx?v=15"></script>
 
   <script type="text/babel">
     /* ----- Wordmark style presets ----- */
@@ -90,7 +88,7 @@
         "--ff-brand-size-scale": "1.05"
       },
       "Modern grotesk": {
-        "--ff-brand-font": '"Geist", system-ui, sans-serif',
+        "--ff-brand-font": '"Inter", system-ui, sans-serif',
         "--ff-brand-style": "normal",
         "--ff-brand-weight": "700",
         "--ff-brand-letter-spacing": "-0.035em",
@@ -213,20 +211,75 @@
       return <SettingsShell active={active} setActive={setActive}>{map[active]}</SettingsShell>;
     };
 
-    const MobileShelf = () => (
-      <>
-        <PageHead eyebrow="Mobile · Employee POV" title="iOS — expense submission flow"
-          sub="Iris submits a $42.80 coffee expense in 6 taps."/>
-        <div className="ff-mobile-shelf ff-scroll" style={{borderRadius:'var(--ff-radius-lg)', border:'1px solid var(--ff-border)'}}>
-          <MobileSignIn/>
-          <MobileHome/>
-          <MobileSnapReceipt/>
-          <MobileNewExpense/>
-          <MobileSubmitSuccess/>
-          <MobileStatusTimeline/>
+    /* Wraps a fixed 360x760 MobileFrame in a scaled-down box. transform (not zoom) so
+       percentage-based absolute-positioned children inside the frame still resolve
+       against the real 360x760 box before the visual scale is applied. */
+    const MobileThumb = ({ children, scale }) => (
+      <div style={{width:360*scale, height:760*scale, overflow:'hidden', flexShrink:0}}>
+        <div style={{width:360, height:760, transform:`scale(${scale})`, transformOrigin:'top left'}}>
+          {children}
         </div>
-      </>
+      </div>
     );
+
+    const MOBILE_SCREENS = [
+      { label: "Sign in",       Comp: () => <MobileSignIn/> },
+      { label: "Home",          Comp: () => <MobileHome/> },
+      { label: "Snap receipt",  Comp: () => <MobileSnapReceipt/> },
+      { label: "New expense",   Comp: () => <MobileNewExpense/> },
+      { label: "Submitted",     Comp: () => <MobileSubmitSuccess/> },
+      { label: "Status",        Comp: () => <MobileStatusTimeline/> }
+    ];
+    const MOBILE_PAGES = [[0,1,2],[3,4,5]];
+
+    const MobileShelf = () => {
+      const [page, setPage] = React.useState(0);
+      const scale = 0.72;
+      const indices = MOBILE_PAGES[page];
+      return (
+        <>
+          <PageHead eyebrow="Mobile · Employee POV" title="iOS — expense submission flow"
+            sub="Corey submits a $42.80 coffee expense in 6 taps."/>
+          <div className="ff-row" style={{justifyContent:'center', alignItems:'center', gap:20, marginTop:8}}>
+            <button
+              className="ff-btn ff-btn--ghost ff-btn--icon"
+              aria-label="Previous screens"
+              disabled={page === 0}
+              onClick={() => setPage(p => Math.max(0, p - 1))}
+              style={{width:44, height:44, borderRadius:999, border:'1px solid var(--ff-border-strong)', flexShrink:0}}>
+              <Icon name="caret-left" size={18}/>
+            </button>
+
+            <div className="ff-mobile-shelf" style={{borderRadius:'var(--ff-radius-lg)', border:'1px solid var(--ff-border)', justifyContent:'center', overflow:'visible'}}>
+              {indices.map(i => (
+                <div key={i} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:10}}>
+                  <MobileThumb scale={scale}>{MOBILE_SCREENS[i].Comp()}</MobileThumb>
+                  <div style={{fontSize:12, color:'var(--ff-fg-muted)', fontWeight:500}}>{i + 1}. {MOBILE_SCREENS[i].label}</div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              className="ff-btn ff-btn--ghost ff-btn--icon"
+              aria-label="Next screens"
+              disabled={page === MOBILE_PAGES.length - 1}
+              onClick={() => setPage(p => Math.min(MOBILE_PAGES.length - 1, p + 1))}
+              style={{width:44, height:44, borderRadius:999, border:'1px solid var(--ff-border-strong)', flexShrink:0}}>
+              <Icon name="caret-right" size={18}/>
+            </button>
+          </div>
+
+          <div className="ff-row" style={{justifyContent:'center', gap:8, marginTop:16}}>
+            {MOBILE_PAGES.map((_, i) => (
+              <button key={i} aria-label={`Go to screens ${i * 3 + 1}–${i * 3 + 3}`} onClick={() => setPage(i)}
+                style={{width:20, height:8, borderRadius:999, border:0, padding:0, cursor:'pointer',
+                  transform: i === page ? 'scaleX(1)' : 'scaleX(0.4)', transformOrigin:'center',
+                  background: i === page ? 'var(--ff-primary)' : 'var(--ff-border-strong)', transition:'transform 200ms var(--ff-ease)'}}/>
+            ))}
+          </div>
+        </>
+      );
+    };
 
     const DEFAULT_BY_ROLE = { finance: "dashboard", manager: "dashboard-mgr", employee: "dashboard-emp" };
 
@@ -321,8 +374,8 @@
         // navigation (e.g. an Employee left looking at Vendors/Audit). Redirect to
         // that role's home if the current screen isn't in its reachable set.
         const REACHABLE = {
-          finance:  ["dashboard","expenses","approvals","reimburse","reports","cards","vendors","audit","settings-policies","settings-team","settings-integrations","settings-profile"],
-          manager:  ["dashboard-mgr","approvals","expenses","reports","saved-report","notif","settings-profile"],
+          finance:  ["dashboard","expenses","approvals","reimburse","reports","cards","vendors","audit","settings-policies","settings-team","settings-integrations","settings-profile","help"],
+          manager:  ["dashboard-mgr","approvals","expenses","reports","saved-report","notif","settings-profile","help"],
           employee: ["dashboard-emp","new-expense","expenses","reimburse","cards","notif","help"]
         };
         if (!(REACHABLE[r] || []).includes(screen)) setScreen(DEFAULT_BY_ROLE[r]);

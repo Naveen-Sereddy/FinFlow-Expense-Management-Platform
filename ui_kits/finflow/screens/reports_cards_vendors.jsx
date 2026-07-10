@@ -7,8 +7,9 @@ const ReportsHome = () => {
       <PageHead
         eyebrow="Reports"
         title="Reports"
-        sub="Saved reports and finance close packets"
+        sub="Saved reports and finance close packets · Updated 12m ago"
         actions={<>
+          <RefreshButton/>
           <button className="ff-btn"><Icon name="folder-open" size={14}/> Saved</button>
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('report-build')}><Icon name="plus" size={14}/> Build report</button>
         </>}
@@ -20,12 +21,12 @@ const ReportsHome = () => {
         <KpiTile label="Open Reports" value="6" delta="2 due this week" trend="neutral"/>
       </div>
       <div className="ff-grid" style={{gridTemplateColumns:'1fr 1fr', marginTop:16}}>
-        <Card title="Cumulative spend — FY26" action={<span className="ff-row" style={{gap:8, fontSize:12, color:'var(--ff-fg-muted)'}}><span style={{width:8, height:8, background:'var(--ff-chart-1)', borderRadius:2}}/>Plan · <span style={{width:8, height:8, background:'var(--ff-chart-2)', borderRadius:2}}/>Actual</span>}>
+        <Card title="Cumulative spend — FY26" action={<span className="ff-row" style={{gap:8, fontSize:12, color:'var(--ff-fg-muted)'}}><span style={{width:8, height:8, background:'var(--ff-chart-1)', borderRadius:2}}/>Actual spend</span>}>
           <AreaChart data={d.cumulative} height={220} unit="$"/>
         </Card>
         <Card title="Top vendors — YTD" padded={false}>
           <table className="ff-table">
-            <thead><tr><th>Vendor</th><th>Category</th><th className="ff-num">Spend</th><th className="ff-num">Δ</th></tr></thead>
+            <thead><tr><th>Vendor</th><th>Category</th><th className="ff-num">Spend</th><th className="ff-num" title="vs. prior month · red = spend increased">Δ spend</th></tr></thead>
             <tbody>
               {d.vendors.slice(0,6).map(v => (
                 <tr key={v.id}>
@@ -44,10 +45,10 @@ const ReportsHome = () => {
           <thead><tr><th>Name</th><th>Owner</th><th>Schedule</th><th>Last run</th><th></th></tr></thead>
           <tbody>
             {[
-              ["Monthly close packet", "Maren O.", "Monthly · 1st", "May 1, 6:00 AM"],
-              ["Travel by team",        "Maren O.", "Weekly · Mon",  "May 19, 8:00 AM"],
-              ["Software vendors over $1K", "Dev P.", "Quarterly",    "Apr 1, 6:00 AM"],
-              ["Marketing spend by campaign", "Iris C.", "Manual",     "May 20, 2:14 PM"]
+              ["Monthly close packet", "Marcus S.", "Monthly · 1st", "May 1, 6:00 AM"],
+              ["Travel by team",        "Marcus S.", "Weekly · Mon",  "May 19, 8:00 AM"],
+              ["Software vendors over $1K", "Sam R.", "Quarterly",    "Apr 1, 6:00 AM"],
+              ["Marketing spend by campaign", "Corey A.", "Manual",     "May 20, 2:14 PM"]
             ].map(([n,o,s,l], i) => (
               <tr key={i}><td><strong>{n}</strong></td><td>{o}</td><td>{s}</td><td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{l}</td><td><button className="ff-btn ff-btn--sm ff-btn--ghost" onClick={()=>ffGo('saved-report')}>Run</button></td></tr>
             ))}
@@ -94,7 +95,7 @@ const SavedReport = () => {
   const d = FF_DATA;
   return (
     <>
-      <PageHead eyebrow="Report" title="Monthly close packet — April FY26" sub="Generated May 1 · Owned by Maren Okafor"
+      <PageHead eyebrow="Report" title="Monthly close packet — April FY26" sub="Generated May 1 · Owned by Marcus Stoinis"
         actions={<><button className="ff-btn"><Icon name="arrow-clockwise" size={14}/> Re-run</button><button className="ff-btn"><Icon name="share-network" size={14}/> Share</button><button className="ff-btn ff-btn--primary" onClick={()=>ffGo('export-report')}><Icon name="download-simple" size={14}/> Export PDF</button></>}/>
       <div className="ff-grid ff-grid--kpis">
         <KpiTile label="Total spend" value="$348.0K" delta="+9% vs Mar" trend="up"/>
@@ -133,17 +134,17 @@ const ExportReport = () => (
               <label className="ff-row" style={{gap:6, fontSize:13}}><input type="checkbox"/> Receipt images</label>
             </div>
           </div>
-          <div className="ff-field"><label className="ff-label">Email to</label><input className="ff-input" defaultValue="maren@arcadialabs.co, board@arcadialabs.co"/></div>
+          <div className="ff-field"><label className="ff-label">Email to</label><input className="ff-input" defaultValue="marcus.stoinis@reyonal.com, board@reyonal.com"/></div>
         </div>
       </Card>
       <Card title="Preview">
-        <div style={{aspectRatio:'8.5/11', background:'#fff', border:'1px solid var(--ff-border)', borderRadius:6, boxShadow:'var(--ff-shadow-md)', padding:'20px 18px', color:'#15131A', display:'flex', flexDirection:'column', gap:8, fontSize:11}}>
+        <div style={{aspectRatio:'8.5/11', background:'#fff', border:'1px solid var(--ff-border)', borderRadius:6, boxShadow:'var(--ff-shadow-md)', padding:'20px 18px', color:'#15181c', display:'flex', flexDirection:'column', gap:8, fontSize:11}}>
           <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:600, fontSize:18, letterSpacing:'-0.02em'}}>FinFlow · Monthly Close — April FY26</div>
-          <div style={{color:'#888'}}>Arcadia Labs · Generated May 1, 2026</div>
+          <div style={{color:'#888'}}>Reyonal · Generated May 1, 2026</div>
           <div style={{height:60, background:'var(--ff-chart-1)', opacity:0.2, borderRadius:4, marginTop:8}}/>
           <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:6}}>
             {["$348K","$42K","−2.4%","6/6"].map((x,i)=>(
-              <div key={i} style={{padding:'6px 8px', background:'#F7F4EE', borderRadius:3}}>{x}</div>
+              <div key={i} style={{padding:'6px 8px', background:'#F0F2F4', borderRadius:3}}>{x}</div>
             ))}
           </div>
           <div style={{flex:1}}/>
@@ -158,16 +159,16 @@ const CardsList = () => {
   const d = FF_DATA;
   return (
     <>
-      <PageHead eyebrow="Cards" title="Corporate cards" sub={`${d.cards.length} cards · ${d.cards.filter(c=>c.status==='active').length} active`}
-        actions={<><button className="ff-btn"><Icon name="download-simple" size={14}/> Statement</button><button className="ff-btn ff-btn--primary" onClick={()=>ffGo('issue-card')}><Icon name="plus" size={14}/> Issue card</button></>}/>
+      <PageHead eyebrow="Cards" title="Corporate cards" sub={`${d.cards.length} cards · ${d.cards.filter(c=>c.status==='active').length} active · Updated 12m ago`}
+        actions={<><RefreshButton/><button className="ff-btn"><Icon name="download-simple" size={14}/> Statement</button><button className="ff-btn ff-btn--primary" onClick={()=>ffGo('issue-card')}><Icon name="plus" size={14}/> Issue card</button></>}/>
       <div className="ff-grid" style={{gridTemplateColumns:'repeat(3, 1fr)', gap:16}}>
         {d.cards.map(c => (
           <div key={c.id} className="ff-card" style={{overflow:'hidden'}}>
             <div style={{
-              padding:'20px', color:'#FBF5E8',
+              padding:'20px', color:'#fff',
               background: c.status === 'frozen'
-                ? 'linear-gradient(135deg, oklch(0.40 0.02 340), oklch(0.30 0.02 340))'
-                : 'linear-gradient(135deg, var(--ff-plum-700), var(--ff-plum-900))',
+                ? 'linear-gradient(135deg, oklch(0.40 0.008 240), oklch(0.28 0.008 240))'
+                : 'linear-gradient(135deg, var(--ff-teal-700), var(--ff-teal-900))',
               display:'flex', flexDirection:'column', gap:12, position:'relative'
             }}>
               <div className="ff-row" style={{justifyContent:'space-between'}}>
@@ -180,7 +181,7 @@ const CardsList = () => {
                   <div style={{fontSize:9, opacity:0.7, textTransform:'uppercase'}}>Holder</div>
                   <div style={{fontSize:12}}>{c.holder}</div>
                 </div>
-                {c.status === 'frozen' && <span className="ff-badge ff-badge--no-dot" style={{background:'rgba(255,255,255,0.15)', color:'#FBF5E8'}}><Icon name="snowflake" size={11}/> Frozen</span>}
+                {c.status === 'frozen' && <span className="ff-badge ff-badge--no-dot" style={{background:'rgba(255,255,255,0.15)', color:'#fff'}}><Icon name="snowflake" size={11}/> Frozen</span>}
               </div>
             </div>
             <div style={{padding:16}}>
@@ -199,14 +200,14 @@ const CardsList = () => {
 
 const CardDetail = () => {
   const d = FF_DATA;
-  const c = d.cards[2]; // Luna Park's card
+  const c = d.cards[2]; // Jordan Lee's card
   return (
     <>
       <PageHead eyebrow={`Card · ${c.type}`} title={`•••• ${c.last4}`} sub={`${c.holder} · issued Jan 2024`}
         actions={<><button className="ff-btn"><Icon name="snowflake" size={14}/> Freeze</button><button className="ff-btn"><Icon name="pencil" size={14}/> Edit limits</button><button className="ff-btn ff-btn--danger"><Icon name="trash" size={14}/> Cancel card</button></>}/>
       <div className="ff-grid" style={{gridTemplateColumns:'1fr 1fr', gap:16}}>
         <Card title="This card">
-          <div style={{padding:'24px', borderRadius:12, background:'linear-gradient(135deg, var(--ff-plum-700), var(--ff-plum-900))', color:'#FBF5E8'}}>
+          <div style={{padding:'24px', borderRadius:12, background:'linear-gradient(135deg, var(--ff-teal-700), var(--ff-teal-900))', color:'#fff'}}>
             <div className="ff-row" style={{justifyContent:'space-between'}}><div style={{fontSize:11, letterSpacing:'0.12em', textTransform:'uppercase', opacity:0.7}}>Physical</div><BrandMark variant="mark" size={28} theme="dark"/></div>
             <div className="ff-mono" style={{fontSize:20, letterSpacing:'0.12em', margin:'16px 0'}}>•••• •••• •••• {c.last4}</div>
             <div className="ff-row" style={{justifyContent:'space-between'}}>
@@ -234,7 +235,7 @@ const CardDetail = () => {
           <tbody>
             {d.expenses.filter(e => e.cardLast4 === c.last4).map(e => (
               <tr key={e.id}>
-                <td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{e.date}</td>
+                <td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{fmtDate(e.date)}</td>
                 <td><strong>{e.merchant}</strong></td>
                 <td style={{color:'var(--ff-fg-muted)'}}>{e.memo}</td>
                 <td className="ff-num"><Money value={e.amount}/></td>
@@ -265,7 +266,7 @@ const IssueCard = () => (
             <div className="ff-segmented"><button aria-pressed="true">Virtual</button><button>Physical</button></div>
           </div>
           <div className="ff-field"><label className="ff-label">Cardholder</label>
-            <select className="ff-select"><option>Iris Chen — Marketing</option><option>Dev Patel — Eng</option><option>Vendor card (no holder)</option></select>
+            <select className="ff-select"><option>Corey Anderson — Marketing</option><option>Sam Richardson — Eng</option><option>Vendor card (no holder)</option></select>
           </div>
           <div className="ff-grid ff-grid--2">
             <div className="ff-field"><label className="ff-label">Monthly limit</label><input className="ff-input ff-tnum" defaultValue="5,000"/></div>
@@ -283,11 +284,11 @@ const IssueCard = () => (
         </div>
       </Card>
       <Card title="Preview">
-        <div style={{padding:'24px', borderRadius:12, background:'linear-gradient(135deg, var(--ff-plum-700), var(--ff-plum-900))', color:'#FBF5E8'}}>
+        <div style={{padding:'24px', borderRadius:12, background:'linear-gradient(135deg, var(--ff-teal-700), var(--ff-teal-900))', color:'#fff'}}>
           <div className="ff-row" style={{justifyContent:'space-between'}}><div style={{fontSize:10, letterSpacing:'0.12em', textTransform:'uppercase', opacity:0.7}}>Virtual · New</div><BrandMark variant="mark" size={26} theme="dark"/></div>
           <div className="ff-mono" style={{fontSize:18, letterSpacing:'0.12em', margin:'18px 0'}}>•••• •••• •••• ••••</div>
           <div className="ff-row" style={{justifyContent:'space-between'}}>
-            <div><div style={{fontSize:10, opacity:0.7, textTransform:'uppercase'}}>Holder</div><div style={{fontSize:13}}>Iris Chen</div></div>
+            <div><div style={{fontSize:10, opacity:0.7, textTransform:'uppercase'}}>Holder</div><div style={{fontSize:13}}>Corey Anderson</div></div>
             <div><div style={{fontSize:10, opacity:0.7, textTransform:'uppercase'}}>Limit</div><div className="ff-tnum" style={{fontSize:13}}>$5,000</div></div>
           </div>
         </div>
@@ -302,7 +303,7 @@ const FreezeCardModal = ({ onClose }) => (
     <div className="ff-modal" onClick={e => e.stopPropagation()}>
       <div className="ff-modal__head">
         <div className="ff-modal__title">Freeze card · •••• 4112</div>
-        <div className="ff-modal__sub">Luna Park will not be able to charge this card until unfrozen.</div>
+        <div className="ff-modal__sub">Jordan Lee will not be able to charge this card until unfrozen.</div>
       </div>
       <div className="ff-modal__body">
         <div className="ff-field"><label className="ff-label">Reason (optional)</label><textarea className="ff-textarea" placeholder="e.g. Suspicious activity, off-policy charge…"/></div>
@@ -323,19 +324,19 @@ const VendorsList = () => {
   const d = FF_DATA;
   return (
     <>
-      <PageHead eyebrow="Vendors" title="Vendor directory" sub={`${d.vendors.length} vendors active YTD`}
-        actions={<><button className="ff-btn"><Icon name="upload-simple" size={14}/> Import W-9s</button><button className="ff-btn ff-btn--primary"><Icon name="plus" size={14}/> Add vendor</button></>}/>
+      <PageHead eyebrow="Vendors" title="Vendor directory" sub={`${d.vendors.length} vendors active YTD · Updated 12m ago`}
+        actions={<><RefreshButton/><button className="ff-btn"><Icon name="upload-simple" size={14}/> Import W-9s</button><button className="ff-btn ff-btn--primary"><Icon name="plus" size={14}/> Add vendor</button></>}/>
       <Card padded={false}>
         <table className="ff-table">
-          <thead><tr><th>Vendor</th><th>Category</th><th className="ff-num">YTD spend</th><th className="ff-num">Δ vs Q1</th><th>Top owner</th><th>Status</th></tr></thead>
+          <thead><tr><th>Vendor</th><th>Category</th><th className="ff-num">YTD spend</th><th className="ff-num" title="red = spend increased">Δ vs Q1</th><th>Top owner</th><th>Status</th></tr></thead>
           <tbody>
             {d.vendors.map(v => (
               <tr key={v.id} onClick={()=>ffGo('vendor-detail')} style={{cursor:'pointer'}}>
-                <td><div style={{fontWeight:500}}>{v.name}</div><div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>vendor-{v.id.slice(1).padStart(4, '0')}@arcadialabs.co</div></td>
+                <td><div style={{fontWeight:500}}>{v.name}</div><div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>vendor-{v.id.slice(1).padStart(4, '0')}@reyonal.com</div></td>
                 <td><span className="ff-badge ff-badge--neutral ff-badge--no-dot">{d.categories.find(c=>c.id===v.cat).name}</span></td>
                 <td className="ff-num"><Money value={v.spend}/></td>
                 <td className="ff-num" style={{color: v.change > 0 ? 'var(--ff-rejected)' : v.change < 0 ? 'var(--ff-approved)' : 'var(--ff-fg-muted)'}}>{v.change > 0 ? '+' : ''}{v.change.toFixed(1)}%</td>
-                <td>Maren O.</td>
+                <td>Marcus S.</td>
                 <td><span className="ff-badge ff-badge--approved ff-badge--no-dot"><Icon name="check" size={12}/> W-9 on file</span></td>
               </tr>
             ))}
@@ -369,9 +370,9 @@ const VendorDetail = () => {
           <thead><tr><th>Date</th><th>Memo</th><th>Owner</th><th className="ff-num">Amount</th><th>Status</th></tr></thead>
           <tbody>
             {[
-              ["2026-05-20","Monthly infra","Dev Patel",3204.18,"approved"],
-              ["2026-04-22","Monthly infra","Dev Patel",3018.40,"approved"],
-              ["2026-03-21","Monthly infra","Dev Patel",2964.22,"approved"]
+              ["2026-05-20","Monthly infra","Sam Richardson",3204.18,"approved"],
+              ["2026-04-22","Monthly infra","Sam Richardson",3018.40,"approved"],
+              ["2026-03-21","Monthly infra","Sam Richardson",2964.22,"approved"]
             ].map(([dt,m,w,a,s], i) => (
               <tr key={i}><td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{dt}</td><td>{m}</td><td>{w}</td><td className="ff-num"><Money value={a}/></td><td><StatusBadge status={s}/></td></tr>
             ))}
