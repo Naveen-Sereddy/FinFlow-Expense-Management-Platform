@@ -1,5 +1,7 @@
 # FinFlow — B2B Expense Management Platform
 
+**Live case study:** [naveensereddy.com/case-finflow](https://naveensereddy.com/case-finflow)
+
 A UX case study built around a real problem finance teams deal with constantly: expense reports that get stuck in approval limbo, spreadsheets nobody trusts, and finance leads who can't answer "what did we spend this quarter" without a week of digging.
 
 FinFlow is my answer to that — a B2B expense management platform designed for three different people who all touch the same expense: the employee submitting it, the manager approving it, and the finance admin who has to reconcile, audit, and report on all of it.
@@ -26,4 +28,4 @@ Figma for design, Maze for the usability testing, React for the interactive prot
 
 ---
 
-Naveen Sereddy — [github.com/Naveen-Sereddy](https://github.com/Naveen-Sereddy)
+Naveen Sereddy — [naveensereddy.com](https://naveensereddy.com) · [github.com/Naveen-Sereddy](https://github.com/Naveen-Sereddy)
