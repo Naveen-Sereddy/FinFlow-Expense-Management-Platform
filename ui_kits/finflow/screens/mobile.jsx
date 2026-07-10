@@ -5,7 +5,7 @@ const MobileStatusBar = ({ theme = "light" }) => (
   <div style={{
     height:44, display:'flex', alignItems:'center', justifyContent:'space-between',
     padding:'0 22px', fontSize:14, fontWeight:600,
-    color: theme === "dark" ? '#FBF5E8' : '#15131A'
+    color: theme === "dark" ? '#fff' : '#15181c'
   }}>
     <span className="ff-tnum">9:41</span>
     <span style={{display:'flex', gap:4, alignItems:'center'}}>
@@ -19,7 +19,7 @@ const MobileStatusBar = ({ theme = "light" }) => (
 const MobileFrame = ({ children, theme = "light", scrollable = true }) => (
   <div style={{
     width:360, height:760, borderRadius:42, padding:8,
-    background: theme === 'dark' ? '#000' : '#15131A',
+    background: theme === 'dark' ? '#000' : '#15181c',
     boxShadow:'0 24px 60px -20px rgba(0,0,0,0.35)',
     flexShrink: 0
   }}>
@@ -39,21 +39,21 @@ const MobileSignIn = () => (
     <div style={{
       flex:1, display:'flex', flexDirection:'column',
       padding:'48px 24px 32px',
-      background:'var(--ff-plum-900)', color:'#FBF5E8', height:'100%'
+      background:'var(--ff-teal-900)', color:'#fff', height:'100%'
     }}>
-      <BrandMark variant="horizontal" theme="dark" size={28}/>
+      <BrandMark variant="horizontal" theme="dark" size={28} style={{alignSelf:'center'}}/>
       <div style={{flex:1}}/>
       <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:36, lineHeight:1.1, letterSpacing:'-0.03em'}}>
-        Welcome<br/>back, Iris.
+        Welcome<br/>back, Corey.
       </div>
       <p style={{opacity:0.7, fontSize:13, marginTop:12}}>Sign in to submit and track your expenses.</p>
       <div className="ff-stack" style={{'--ff-stack-gap':'10px', marginTop:24}}>
-        <input className="ff-input ff-input--lg" placeholder="Work email" defaultValue="iris@arcadialabs.co" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#FBF5E8'}}/>
-        <input className="ff-input ff-input--lg" type="password" placeholder="Password" defaultValue="••••••••••" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#FBF5E8'}}/>
+        <input className="ff-input ff-input--lg" placeholder="Work email" defaultValue="corey.anderson@reyonal.com" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#fff'}}/>
+        <input className="ff-input ff-input--lg" type="password" placeholder="Password" defaultValue="••••••••••" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#fff'}}/>
         <button className="ff-btn ff-btn--accent ff-btn--lg" style={{width:'100%', marginTop:8}}>Sign in</button>
-        <button className="ff-btn ff-btn--ghost" style={{color:'#FBF5E8', width:'100%'}}><Icon name="fingerprint" size={16}/> Use Face ID</button>
+        <button className="ff-btn ff-btn--ghost" style={{color:'#fff', width:'100%'}}><Icon name="fingerprint" size={16}/> Use Face ID</button>
       </div>
-      <div style={{textAlign:'center', fontSize:12, opacity:0.6, marginTop:24}}>Arcadia Labs · SSO available</div>
+      <div style={{textAlign:'center', fontSize:12, opacity:0.6, marginTop:24}}>Reyonal · SSO available</div>
     </div>
   </MobileFrame>
 );
@@ -66,12 +66,12 @@ const MobileHome = () => {
         <div className="ff-row" style={{justifyContent:'space-between', marginTop:8}}>
           <div>
             <div style={{fontSize:12, color:'var(--ff-fg-muted)'}}>Tuesday</div>
-            <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:26, lineHeight:1.1, letterSpacing:'-0.025em', marginTop:2, whiteSpace:'nowrap'}}>Hi, Iris.</div>
+            <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:26, lineHeight:1.1, letterSpacing:'-0.025em', marginTop:2, whiteSpace:'nowrap'}}>Hi, Corey.</div>
           </div>
-          <Avatar initials="IC" size="lg"/>
+          <Avatar initials="CA" size="lg"/>
         </div>
 
-        <div style={{marginTop:20, padding:18, borderRadius:14, background:'linear-gradient(135deg, var(--ff-plum-700), var(--ff-plum-900))', color:'#FBF5E8', position:'relative'}}>
+        <div style={{marginTop:20, padding:18, borderRadius:14, background:'linear-gradient(135deg, var(--ff-teal-700), var(--ff-teal-900))', color:'#fff', position:'relative'}}>
           <div style={{fontSize:11, opacity:0.7, textTransform:'uppercase', letterSpacing:'0.1em'}}>My spend · May</div>
           <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:34, lineHeight:1.0, letterSpacing:'-0.03em', marginTop:6}} className="ff-tnum">$2,184</div>
           <div style={{fontSize:12, opacity:0.7, marginTop:6}}>$316 under your avg · 6 expenses</div>
@@ -95,7 +95,7 @@ const MobileHome = () => {
             <a href="#" style={{fontSize:12}}>See all</a>
           </div>
           <div className="ff-stack" style={{'--ff-stack-gap':'8px'}}>
-            {d.expenses.filter(e => e.who === "Iris Chen").map(e => (
+            {d.expenses.filter(e => e.who === "Corey Anderson").map(e => (
               <div key={e.id} style={{padding:'12px 14px', background:'var(--ff-card)', border:'1px solid var(--ff-border)', borderRadius:10, display:'flex', gap:12, alignItems:'center'}}>
                 <div style={{width:36, height:36, borderRadius:8, background:'var(--ff-card-2)', display:'grid', placeItems:'center'}}>
                   <Icon name={e.cat === 'me' ? 'coffee' : e.cat === 'sw' ? 'app-window' : e.cat === 'ad' ? 'megaphone' : 'tag'} size={16}/>
@@ -148,11 +148,18 @@ const MobileTabBar = ({ current }) => (
 
 const MobileSnapReceipt = () => (
   <MobileFrame theme="dark" scrollable={false}>
-    <div style={{flex:1, background:'#0a0808', position:'relative', overflow:'hidden', color:'#FBF5E8'}}>
+    <div style={{height:'100%', background:'#0c0e10', position:'relative', overflow:'hidden', color:'#fff'}}>
       {/* Faux camera view */}
-      <div style={{position:'absolute', inset:0, background:'radial-gradient(circle at 50% 60%, oklch(0.30 0.02 30), #0a0808 70%)'}}/>
+      <div style={{position:'absolute', inset:0, background:'radial-gradient(circle at 50% 60%, oklch(0.30 0.02 30), #0c0e10 70%)'}}/>
+      {/* Rule-of-thirds guide */}
+      <div style={{position:'absolute', inset:0, opacity:0.12}}>
+        <div style={{position:'absolute', left:'33.3%', top:0, bottom:0, width:1, background:'#fff'}}/>
+        <div style={{position:'absolute', left:'66.6%', top:0, bottom:0, width:1, background:'#fff'}}/>
+        <div style={{position:'absolute', top:'33.3%', left:0, right:0, height:1, background:'#fff'}}/>
+        <div style={{position:'absolute', top:'66.6%', left:0, right:0, height:1, background:'#fff'}}/>
+      </div>
       {/* Receipt placeholder centered */}
-      <div style={{position:'absolute', top:'18%', left:'14%', right:'14%', bottom:'22%', background:'#FBF5E8', color:'#15131A', borderRadius:8, padding:24, fontFamily:'var(--ff-font-mono)', fontSize:10, transform:'rotate(-2deg)', boxShadow:'0 18px 40px rgba(0,0,0,0.5)'}}>
+      <div style={{position:'absolute', top:'18%', left:'14%', right:'14%', bottom:'22%', background:'#fff', color:'#15181c', borderRadius:8, padding:24, fontFamily:'var(--ff-font-mono)', fontSize:10, transform:'rotate(-2deg)', boxShadow:'0 18px 40px rgba(0,0,0,0.5)'}}>
         <div style={{textAlign:'center', fontFamily:'var(--ff-font-display)', fontSize:22}}>BLUE BOTTLE</div>
         <div style={{textAlign:'center', color:'#666', marginBottom:18}}>SF · Hayes Valley</div>
         <div style={{display:'flex', justifyContent:'space-between'}}><span>Latte ×2</span><span>14.00</span></div>
@@ -167,14 +174,22 @@ const MobileSnapReceipt = () => (
       <div style={{position:'absolute', top:14, left:0, right:0, textAlign:'center', fontSize:13, opacity:0.85}}>
         Hold steady — align receipt in frame
       </div>
+      {/* Live detection status */}
+      <div style={{position:'absolute', top:46, left:0, right:0, display:'flex', justifyContent:'center'}}>
+        <span style={{display:'flex', alignItems:'center', gap:6, background:'rgba(61,155,143,0.22)', border:'1px solid rgba(61,155,143,0.5)', color:'var(--ff-teal-300)', borderRadius:999, padding:'4px 10px', fontSize:11, fontWeight:500}}>
+          <Icon name="check-circle" size={12} weight="fill"/> Document detected
+        </span>
+      </div>
+      {/* Flash mode label */}
+      <div style={{position:'absolute', bottom:88, right:32, fontSize:10, opacity:0.6, textAlign:'center'}}>Auto</div>
       {/* Bottom controls */}
       <div style={{position:'absolute', bottom:30, left:0, right:0, display:'flex', alignItems:'center', justifyContent:'space-around', padding:'0 32px'}}>
-        <button style={{background:'rgba(255,255,255,0.1)', color:'#FBF5E8', width:48, height:48, borderRadius:999, border:'1px solid rgba(255,255,255,0.18)'}}><Icon name="image-square" size={20}/></button>
-        <button style={{background:'#FBF5E8', width:72, height:72, borderRadius:999, border:'4px solid rgba(255,255,255,0.3)'}}/>
-        <button style={{background:'rgba(255,255,255,0.1)', color:'#FBF5E8', width:48, height:48, borderRadius:999, border:'1px solid rgba(255,255,255,0.18)'}}><Icon name="lightning" size={20}/></button>
+        <button style={{background:'rgba(255,255,255,0.1)', color:'#fff', width:48, height:48, borderRadius:999, border:'1px solid rgba(255,255,255,0.18)'}}><Icon name="image-square" size={20}/></button>
+        <button style={{background:'#fff', width:72, height:72, borderRadius:999, border:'4px solid rgba(255,255,255,0.3)'}}/>
+        <button style={{background:'rgba(255,255,255,0.1)', color:'#fff', width:48, height:48, borderRadius:999, border:'1px solid rgba(255,255,255,0.18)'}}><Icon name="lightning" size={20}/></button>
       </div>
       <div style={{position:'absolute', top:14, left:14}}>
-        <button style={{background:'rgba(255,255,255,0.1)', color:'#FBF5E8', width:36, height:36, borderRadius:999, border:'1px solid rgba(255,255,255,0.18)'}}><Icon name="x" size={16}/></button>
+        <button style={{background:'rgba(255,255,255,0.1)', color:'#fff', width:36, height:36, borderRadius:999, border:'1px solid rgba(255,255,255,0.18)'}}><Icon name="x" size={16}/></button>
       </div>
     </div>
   </MobileFrame>
@@ -183,7 +198,7 @@ const MobileSnapReceipt = () => (
 const CaptureCorners = () => {
   const corner = {
     position:'absolute', width:32, height:32,
-    borderColor:'#D9BE57', borderStyle:'solid', borderWidth:0
+    borderColor:'var(--ff-teal-500)', borderStyle:'solid', borderWidth:0
   };
   return (
     <>
@@ -221,7 +236,7 @@ const MobileNewExpense = () => (
         <div className="ff-field"><label className="ff-label">Memo</label><textarea className="ff-textarea" defaultValue="Q2 review with marketing team"/></div>
         <div className="ff-field"><label className="ff-label">Payment</label>
           <div style={{padding:14, border:'1px solid var(--ff-border)', borderRadius:10, display:'flex', gap:12, alignItems:'center'}}>
-            <div style={{width:34, height:22, borderRadius:3, background:'var(--ff-plum-700)'}}/>
+            <div style={{width:34, height:22, borderRadius:3, background:'var(--ff-teal-700)'}}/>
             <div style={{flex:1, fontSize:13}}><div style={{fontWeight:500}}>FinFlow card</div><div className="ff-mono" style={{fontSize:11, color:'var(--ff-fg-muted)'}}>•••• 9032</div></div>
             <Icon name="check-circle" size={18} weight="fill" style={{color:'var(--ff-approved)'}}/>
           </div>
@@ -241,11 +256,11 @@ const MobileSubmitSuccess = () => (
         <Icon name="check-circle" size={40} weight="fill"/>
       </div>
       <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:30, lineHeight:1.1, letterSpacing:'-0.025em', marginTop:8}}>Submitted.</div>
-      <p style={{color:'var(--ff-fg-muted)', fontSize:14, maxWidth:280}}>EXP-2842 · Blue Bottle Coffee · <strong className="ff-tnum">$42.80</strong> · Sent to Theo for approval.</p>
+      <p style={{color:'var(--ff-fg-muted)', fontSize:14, maxWidth:280}}>EXP-2842 · Blue Bottle Coffee · <strong className="ff-tnum">$42.80</strong> · Sent to Xavier for approval.</p>
       <div style={{padding:'14px 16px', background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:10, width:'100%', marginTop:16, textAlign:'left'}}>
         <div className="ff-eyebrow" style={{marginBottom:8}}>What's next</div>
         <ul style={{margin:0, paddingLeft:18, fontSize:13, color:'var(--ff-fg-muted)', lineHeight:1.7}}>
-          <li>Theo Vasquez (Manager) reviews</li>
+          <li>Xavier Bartlett (Manager) reviews</li>
           <li>You'll be notified within ~6h</li>
           <li>Charge already on your card</li>
         </ul>
@@ -284,13 +299,13 @@ const MobileStatusTimeline = () => (
         {[
           { icon:"paper-plane-tilt", title:"Submitted", who:"You", ts:"May 22 · 9:12 AM", done:true },
           { icon:"shield-check", title:"Policy check passed", who:"System", ts:"May 22 · 9:12 AM", done:true },
-          { icon:"user", title:"Awaiting Theo Vasquez", who:"Manager", ts:"Now", active:true },
-          { icon:"user", title:"Finance review", who:"Maren Okafor", ts:"Next", done:false },
-          { icon:"check", title:"Approved & posted", who:"—", ts:"—", done:false }
+          { icon:"user", title:"Awaiting Xavier Bartlett", who:"Manager", ts:"Now", active:true },
+          { icon:"user", title:"Finance review", who:"Marcus Stoinis", ts:"Next", done:false },
+          { icon:"check", title:"Approved & posted", who:"", ts:"Pending finance review", done:false }
         ].map((s, i) => (
-          <div key={i} style={{display:'flex', gap:12, marginBottom:18, opacity: s.done || s.active ? 1 : 0.5}}>
+          <div key={i} style={{position:'relative', display:'flex', marginBottom:18, opacity: s.done || s.active ? 1 : 0.5}}>
             <div style={{
-              position:'absolute', left:0, width:30, height:30, borderRadius:999,
+              position:'absolute', left:-30, top:0, width:30, height:30, borderRadius:999,
               background: s.done ? 'var(--ff-approved-bg)' : s.active ? 'var(--ff-pending-bg)' : 'var(--ff-card-2)',
               color: s.done ? 'var(--ff-approved)' : s.active ? 'var(--ff-pending)' : 'var(--ff-fg-subtle)',
               display:'grid', placeItems:'center',
@@ -300,7 +315,7 @@ const MobileStatusTimeline = () => (
             </div>
             <div style={{flex:1}}>
               <div style={{fontWeight:500, fontSize:14}}>{s.title}</div>
-              <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{s.who} · {s.ts}</div>
+              <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{s.who ? `${s.who} · ${s.ts}` : s.ts}</div>
             </div>
           </div>
         ))}

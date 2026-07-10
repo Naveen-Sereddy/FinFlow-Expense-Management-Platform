@@ -9,8 +9,8 @@ const AuthLayout = ({ children, title, sub, foot }) => (
   }}>
     <aside style={{
       padding:'56px 56px',
-      background:'var(--ff-plum-900)',
-      color:'#FBF5E8',
+      background:'var(--ff-teal-900)',
+      color:'#fff',
       display:'flex', flexDirection:'column', justifyContent:'space-between',
       position:'relative', overflow:'hidden'
     }}>
@@ -19,7 +19,7 @@ const AuthLayout = ({ children, title, sub, foot }) => (
         <div style={{
           fontFamily:'var(--ff-font-sans)', fontWeight:700,
           fontSize:56, lineHeight:1.05, letterSpacing:'-0.04em',
-          color:'#FBF5E8'
+          color:'#fff'
         }}>
           The whole company's<br/>spend, in flow.
         </div>
@@ -28,11 +28,11 @@ const AuthLayout = ({ children, title, sub, foot }) => (
         </p>
         <div style={{marginTop:32, fontSize:11, opacity:0.5, letterSpacing:'0.08em', textTransform:'uppercase'}}>SOC 2 Type II · PCI DSS · GDPR</div>
       </div>
-      {/* Editorial accent: stacked plum bars */}
+      {/* Editorial accent: stacked teal bars */}
       <div style={{position:'absolute', right:-100, bottom:-60, opacity:0.18}}>
-        <div style={{width:280, height:32, background:'var(--ff-citron-500)', borderRadius:8, marginBottom:14}}/>
-        <div style={{width:240, height:32, background:'var(--ff-plum-300)', borderRadius:8, marginBottom:14, marginLeft:40}}/>
-        <div style={{width:200, height:32, background:'var(--ff-plum-500)', borderRadius:8, marginLeft:80}}/>
+        <div style={{width:280, height:32, background:'var(--ff-teal-500)', borderRadius:8, marginBottom:14}}/>
+        <div style={{width:240, height:32, background:'var(--ff-teal-300)', borderRadius:8, marginBottom:14, marginLeft:40}}/>
+        <div style={{width:200, height:32, background:'var(--ff-teal-500)', borderRadius:8, marginLeft:80}}/>
       </div>
       <div style={{fontSize:12, opacity:0.6}}>© FinFlow · {FF_DATA.company.fiscalYear}</div>
     </aside>
@@ -55,7 +55,7 @@ const SignIn = () => (
       <button className="ff-btn ff-btn--lg" style={{width:'100%', justifyContent:'center'}}><Icon name="google-logo" size={16}/> Continue with Google</button>
       <button className="ff-btn ff-btn--lg" style={{width:'100%', justifyContent:'center'}} onClick={()=>ffGo('sso')}><Icon name="key" size={16}/> Continue with Okta SSO</button>
       <div style={{display:'flex', alignItems:'center', gap:12, color:'var(--ff-fg-muted)', fontSize:12, margin:'4px 0'}}><hr style={{flex:1, border:0, borderTop:'1px solid var(--ff-border)'}}/> or <hr style={{flex:1, border:0, borderTop:'1px solid var(--ff-border)'}}/></div>
-      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input ff-input--lg" defaultValue="maren@arcadialabs.co"/></div>
+      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input ff-input--lg" defaultValue="marcus.stoinis@reyonal.com"/></div>
       <div className="ff-field"><label className="ff-label">Password</label><input className="ff-input ff-input--lg" type="password" defaultValue="••••••••••"/></div>
       <div className="ff-row" style={{justifyContent:'space-between', flexWrap:'wrap', gap:8}}>
         <label className="ff-row" style={{gap:6, fontSize:13, whiteSpace:'nowrap'}}><input type="checkbox"/> Remember me</label>
@@ -72,7 +72,7 @@ const SSOWorkspace = () => (
     <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
       <div className="ff-field"><label className="ff-label">Workspace URL</label>
         <div style={{display:'flex'}}>
-          <input className="ff-input ff-input--lg" defaultValue="arcadialabs" style={{borderTopRightRadius:0, borderBottomRightRadius:0}}/>
+          <input className="ff-input ff-input--lg" defaultValue="reyonal" style={{borderTopRightRadius:0, borderBottomRightRadius:0}}/>
           <span style={{display:'flex', alignItems:'center', padding:'0 14px', border:'1px solid var(--ff-border)', borderLeft:0, background:'var(--ff-card-2)', borderRadius:'0 8px 8px 0', fontSize:13, color:'var(--ff-fg-muted)'}}>.finflow.app</span>
         </div>
       </div>
@@ -80,7 +80,7 @@ const SSOWorkspace = () => (
       <div className="ff-alert ff-alert--info">
         <Icon name="info" size={18} weight="fill"/>
         <div className="ff-alert__body">
-          <div className="ff-alert__title">Arcadia Labs uses Okta</div>
+          <div className="ff-alert__title">Reyonal uses Okta</div>
           <div>You'll be redirected to your identity provider.</div>
         </div>
       </div>
@@ -92,7 +92,7 @@ const ForgotPassword = () => (
   <AuthLayout title="Reset password" sub="We'll email you a secure link."
               foot={<a href="#" onClick={(ev)=>{ev.preventDefault(); ffGo('signin');}}>← Back to sign in</a>}>
     <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
-      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input ff-input--lg" defaultValue="maren@arcadialabs.co"/></div>
+      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input ff-input--lg" defaultValue="marcus.stoinis@reyonal.com"/></div>
       <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('reset')}>Send reset link</button>
     </div>
   </AuthLayout>
@@ -180,9 +180,9 @@ const InviteTeam = () => (
     <Card>
       <div className="ff-stack" style={{'--ff-stack-gap':'10px'}}>
         {[
-          { e: "theo@arcadialabs.co", r: "Manager" },
-          { e: "iris@arcadialabs.co", r: "Employee" },
-          { e: "dev@arcadialabs.co",  r: "Employee" },
+          { e: "xavier.bartlett@reyonal.com", r: "Manager" },
+          { e: "corey.anderson@reyonal.com", r: "Employee" },
+          { e: "sam.richardson@reyonal.com",  r: "Employee" },
           { e: "", r: "Employee" }
         ].map((row, i) => (
           <div key={i} className="ff-row" style={{gap:10}}>
@@ -207,7 +207,7 @@ const InviteTeam = () => (
 const SetPolicy = () => (
   <OnboardingShell step={2}
     title="Set your starter policy"
-    sub="You can refine these later — these are sensible defaults for a Series B SaaS company."
+    sub="You can refine these later — these are sensible defaults for a growing SaaS company."
     next="Finish setup →" nextId="dashboard">
     <Card>
       <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
@@ -253,7 +253,7 @@ const AuditLog = () => {
               <tr key={i}>
                 <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{a.ts}</td>
                 <td><span className="ff-row" style={{gap:6}}>{a.actor !== "System" && a.actor !== "Okta SSO" && <Avatar initials={a.actor.split(' ').map(x=>x[0]).join('').slice(0,2)}/>}{a.actor}</span></td>
-                <td><span className="ff-badge ff-badge--plum ff-badge--no-dot">{a.action}</span></td>
+                <td><span className="ff-badge ff-badge--primary ff-badge--no-dot">{a.action}</span></td>
                 <td>{a.target}</td>
                 <td className="ff-mono" style={{fontSize:11, color:'var(--ff-fg-muted)'}}>10.0.4.221 · Chrome 128</td>
               </tr>
@@ -326,7 +326,7 @@ const Help = () => (
         ["Admin & security","SSO, SCIM, audit, retention","shield-check"]
       ].map(([t, s, i]) => (
         <Card key={t}>
-          <div style={{width:36, height:36, borderRadius:8, background:'var(--ff-plum-100)', color:'var(--ff-plum-700)', display:'grid', placeItems:'center', marginBottom:12}}><Icon name={i} size={18}/></div>
+          <div style={{width:36, height:36, borderRadius:8, background:'var(--ff-teal-100)', color:'var(--ff-teal-700)', display:'grid', placeItems:'center', marginBottom:12}}><Icon name={i} size={18}/></div>
           <div style={{fontWeight:600, fontSize:15}}>{t}</div>
           <div style={{color:'var(--ff-fg-muted)', fontSize:13, marginTop:4}}>{s}</div>
         </Card>
@@ -370,24 +370,27 @@ const LoadingDashboard = () => (
 const EmptyExpenses = () => (
   <>
     <PageHead eyebrow="Expenses" title="All expenses" sub="0 items"/>
-    <Card>
-      <div className="ff-empty">
-        <div className="ff-empty__icon"><Icon name="receipt" size={24}/></div>
-        <div className="ff-empty__title">No expenses yet</div>
-        <div className="ff-empty__body">When teammates submit expenses or your cards are swiped, you'll see them here.</div>
-        <div className="ff-row" style={{marginTop:12, gap:8}}>
-          <button className="ff-btn" onClick={()=>ffGo('import')}><Icon name="upload-simple" size={14}/> Import CSV</button>
-          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
+    <div style={{display:'flex', alignItems:'center', justifyContent:'center', minHeight:'55vh'}}>
+      <Card style={{width:'100%', maxWidth:520}}>
+        <div className="ff-empty">
+          <div className="ff-empty__icon"><Icon name="receipt" size={24}/></div>
+          <div className="ff-empty__title">No expenses yet</div>
+          <div className="ff-empty__body">When teammates submit expenses or your cards are swiped, you'll see them here.</div>
+          <div className="ff-row" style={{marginTop:12, gap:8}}>
+            <button className="ff-btn" onClick={()=>ffGo('import')}><Icon name="upload-simple" size={14}/> Import CSV</button>
+            <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   </>
 );
 
 const ErrorState = () => (
   <>
     <PageHead eyebrow="Workspace" title="Something went wrong" sub="We couldn't load your dashboard"/>
-    <Card>
+    <div style={{display:'flex', alignItems:'center', justifyContent:'center', minHeight:'55vh'}}>
+      <Card style={{width:'100%', maxWidth:520}}>
       <div className="ff-empty">
         <div className="ff-empty__icon" style={{background:'var(--ff-rejected-bg)', color:'var(--ff-rejected)', borderColor:'transparent'}}><Icon name="warning-octagon" size={24}/></div>
         <div className="ff-empty__title">FinFlow is having trouble</div>
@@ -398,7 +401,8 @@ const ErrorState = () => (
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('help')}>Contact support</button>
         </div>
       </div>
-    </Card>
+      </Card>
+    </div>
   </>
 );
 
@@ -430,9 +434,9 @@ const ConfirmReimbursement = () => (
     <Card style={{marginTop:24, textAlign:'left'}}>
       <table className="ff-table ff-table--compact">
         <tbody>
-          <tr><td>Iris Chen</td><td className="ff-num"><Money value={320.40}/></td></tr>
-          <tr><td>Luna Park</td><td className="ff-num"><Money value={82.00}/></td></tr>
-          <tr><td>Dev Patel</td><td className="ff-num"><Money value={218.50}/></td></tr>
+          <tr><td>Corey Anderson</td><td className="ff-num"><Money value={320.40}/></td></tr>
+          <tr><td>Jordan Lee</td><td className="ff-num"><Money value={82.00}/></td></tr>
+          <tr><td>Sam Richardson</td><td className="ff-num"><Money value={218.50}/></td></tr>
         </tbody>
       </table>
     </Card>

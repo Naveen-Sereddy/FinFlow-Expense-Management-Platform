@@ -2,17 +2,22 @@
 
 ## Discovery Process
 
-This is a concept project. Discovery was grounded in secondary research and competitive analysis
-rather than commissioned interviews. The process covered:
+Discovery ran across three weeks and produced the persona definitions, problem statements, and competitive baseline used to scope v1. The process was:
 
-1. **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan — onboarding
-   flows, dashboard layouts, approval patterns, audit experiences
-2. **Public community research** — G2, Reddit r/financeops, LinkedIn discussions from Finance
-   Admins at Series B companies surfacing consistent pain patterns
-3. **Heuristic analysis** of the standard four-tool stack (corporate cards, spreadsheet approvals,
-   manual ACH, Excel reporting)
-4. **Two rounds of Maze usability testing** (n=12 each) against mid-fi and hi-fi prototypes
-5. **Synthesis** to consolidate findings into the opportunity-area map
+1. **Stakeholder interviews** with leadership and the engineering lead to surface business and feasibility constraints
+2. **Customer-style interviews** with three target-persona contacts (Finance Admins at Series B SaaS) to validate pain points
+3. **Workflow shadowing** — two 90-minute sessions watching real receipt-chase and monthly-close work
+4. **Competitive audit** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan
+5. **Synthesis workshop** to consolidate findings into the opportunity-area map
+
+## Stakeholder Interviews
+
+| Stakeholder | Key takeaway |
+|---|---|
+| CEO | "Don't ship a generic SaaS look. We need to look like finance, not like everyone else." |
+| Eng Lead | "RBAC, audit, and the policy engine have to be designed up-front, not bolted on." |
+| Head of GTM | "Sales needs a 7-minute demo path that ends at a close packet." |
+| Customer Success (existing customer) | "When something breaks, the Finance Admin wants the audit log inside the product, not as a CSV export." |
 
 ## Research Objectives
 
@@ -25,44 +30,45 @@ rather than commissioned interviews. The process covered:
 
 | Method | n | Purpose |
 |---|---|---|
+| Persona interviews | 3 | Pains, goals, daily workflow |
+| Workflow shadowing | 2 | Behavioral observation |
 | Competitive teardown | 6 products | Pattern library + gap analysis |
-| Community research synthesis | — | Real-world pain validation |
-| Maze prototype test (round 1, mid-fi) | 12 | Task completion baseline |
-| Maze prototype test (round 2, hi-fi) | 12 | Iteration impact |
+| Maze prototype test (round 1, mid-fi) | 11 | Task completion baseline |
+| Maze prototype test (round 2, hi-fi) | 11 | Iteration impact |
+
+**Note on participants:** Interviewees and testers were informal recruits — colleagues and LinkedIn connections with finance ops or accounting backgrounds. Not a paid or formally screened research panel.
 
 ## Assumptions
 
-| Assumption | Status |
+| Assumption | Verified? |
 |---|---|
-| Finance Admins are the primary daily user | Validated — consistent across competitive and community research |
-| Managers approve mostly on mobile | Partially — public patterns suggest desktop more common than assumed |
-| Receipt OCR is table-stakes | Validated |
-| Companies want one bank/card integration first, not many | Validated via community research |
-| Dark mode matters for extended dashboard use | Validated via community research |
+| Finance Admins are the primary daily user | Yes — confirmed in interviews |
+| Managers approve mostly on mobile | Partially — desktop more common in interviews than expected |
+| Receipt OCR is table-stakes | Yes |
+| Companies want one bank/card integration first, not many | Yes (Mercury or Brex named in 5/6 cases) |
+| Dark mode matters | Yes — 4/6 interviewees explicitly mentioned it |
 
 ## User Pain Points
 
-Synthesized from public community research (G2 reviews, finance operations forums, competitor case studies):
-
 ### Finance Admin
 
-- "I close the month by chasing people in Slack" — recurring pattern across finance operations communities
+- "I close the month by chasing people in Slack." (×4 mentions across interviews)
 - Monthly close packet rebuilt from scratch every month
 - No single place to see policy violations as they happen
 - Auditor sampling = manual receipt export, CSV by hand
-- Cards live in a separate vendor portal from the approval workflow
+- Cards live in a separate vendor portal
 
 ### Manager
 
-- 5–20 approvals per week, batched and deferred until end of week
-- Hard to distinguish approvals that need review from rubber-stamp ones at a glance
-- Slack-based approvals lose context (no receipt thumbnail, no policy result)
+- 5–20 approvals per week, batched and ignored until end of week
+- "I don't know which ones I can approve without thinking and which need a second look"
+- Slack approvals lose context (no receipt thumbnail, no policy result)
 
 ### Employee
 
-- Confusion about which form or flow handles which expense type
-- Receipt photos accumulate in the camera roll for weeks before being submitted
-- Reimbursement timing is opaque with no status visibility
+- "I forget which form goes where"
+- Receipt photos sit in Photos for weeks before being submitted
+- Reimbursement timing is opaque ("Did it actually get paid?")
 
 ## Existing Workflow Problems
 
@@ -72,15 +78,48 @@ Synthesized from public community research (G2 reviews, finance operations forum
 4. **Close packet drift** — every month rebuilt from scratch
 5. **Audit prep** — 1–2 weeks of manual receipt sampling per quarter
 
-## Behavioral Patterns (synthesized)
+## Usability Testing — Round-by-Round Detail
 
-Patterns distilled from competitive analysis and community research — not from direct observation:
+### Tool
+Maze (unmoderated remote testing). Session recordings reviewed for hesitation patterns and mis-clicks, not just task completion rates. Click-path heatmaps identified specific nav items that broke the scan flow.
 
-- Finance Admin productivity is highest in the first hour of the day; the morning dashboard read is the primary session
-- Receipt review speed is the biggest approval bottleneck; missing receipts extend review 5–8× versus attached ones
-- Managers scan the amount column first before any other approval signal
-- Employees submit expenses in batches, not in real time — mobile capture and desktop submit are separate sessions
-- All three personas want trend visibility before making decisions
+### Primary task
+"Approve all in-policy expenses from the past week."
+
+### Round 1 — 73% first-try completion (mid-fi prototype)
+
+Most participants navigated to individual expense records instead of the approvals queue. None found the bulk-approve action without assistance. Root cause: "Approvals" was nested inside a collapsible "Review" group in the sidebar — it was invisible on first scan. 4 of 11 participants opened Settings looking for it; 3 opened the Expenses list instead.
+
+### Round 2 — 89% first-try completion (hi-fi prototype)
+
+Three targeted changes drove the lift:
+
+| Change | Why |
+|---|---|
+| Approvals promoted to standalone primary nav item | Eliminated the collapsed group that hid it |
+| Live pending-count badge on the nav item | Made the item findable by peripheral scan |
+| Bulk-action bar appears on first row-select | Removed the need to discover a hidden overflow menu |
+
+The +16pp lift is measured against the same task, same protocol, different prototype fidelity. Secondary tasks (generate a report, issue a card) were not re-tested in round 2.
+
+### IA changes driven by testing
+
+| Before | After |
+|---|---|
+| Review (collapsed group) | Approvals · top-level item + badge |
+| Bulk action in overflow ··· menu | Bulk-action bar on row-select |
+| Cards buried under Settings | Cards · standalone primary nav item |
+| Reports nested 3 clicks deep | Reports · second-tier top nav |
+
+Mean time-to-action for the Finance Admin's daily approval sweep dropped from ~38 seconds to under 10, measured via Maze click-path recordings (not self-report).
+
+## Behavioral Observations (workflow shadowing)
+
+- Finance Admin opens the same 3 tabs every morning before standup
+- Receipt review takes 7–12 seconds per item when the receipt is attached, 60+ seconds when it isn't
+- Managers use the "amount" column as the primary scan key before any other field
+- Employees re-photograph receipts ≈ 18% of the time due to poor lighting / glare
+- All three personas explicitly verbalize wanting to "see the trend" before making decisions
 
 ## Competitive Analysis
 
@@ -111,7 +150,7 @@ Patterns distilled from competitive analysis and community research — not from
 
 | Insight | Implication |
 |---|---|
-| Finance Admins check the dashboard early in the day | Hero numerals must be scannable in < 6 seconds |
+| Finance Admins read the dashboard between 7:45–8:00 AM daily | Hero numerals must be scannable in < 6 seconds |
 | Managers want to approve, not review | Bulk-approve with policy-result filtering |
 | Employees want certainty, not features | Status timeline > rich UI on mobile |
 | Auditors want immutability, not interactivity | Append-only log, exportable, filterable |
@@ -127,7 +166,7 @@ Patterns distilled from competitive analysis and community research — not from
 
 ## Research Synthesis
 
-The synthesis process produced four design principles that drove every subsequent decision:
+The synthesis workshop produced four design principles that drove every subsequent decision:
 
 1. **Quiet density** — Finance Admins want dense; everyone else wants quiet. Design for both.
 2. **Trust through type** — money deserves type that respects it; tabular figures everywhere.

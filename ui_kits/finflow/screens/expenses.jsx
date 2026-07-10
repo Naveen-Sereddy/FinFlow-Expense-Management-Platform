@@ -1,10 +1,15 @@
 /* FinFlow Screens — Expenses (list, detail, new, OCR review, flagged, import) */
 
+const EXPENSE_COLUMNS = ["ID", "Date", "Merchant / memo", "Owner", "Category", "Amount", "Status"];
+
 const ExpenseList = () => {
   const d = FF_DATA;
   const [status, setStatus] = React.useState("all");
   const [cat, setCat] = React.useState("all");
   const [q, setQ] = React.useState("");
+  const [compact, setCompact] = React.useState(false);
+  const [selected, setSelected] = React.useState([]);
+  const [columnsOpen, setColumnsOpen] = React.useState(false);
   const query = q.trim().toLowerCase();
   const filtered = d.expenses.filter(e =>
     (status === "all" || e.status === status) &&
@@ -12,6 +17,11 @@ const ExpenseList = () => {
     (query === "" || [e.merchant, e.memo, e.who, e.id].some(f => f.toLowerCase().includes(query)))
   );
   const total = filtered.reduce((s, e) => s + e.amount, 0);
+  const selectedTotal = filtered.filter(e => selected.includes(e.id)).reduce((s, e) => s + e.amount, 0);
+  const allSelected = filtered.length > 0 && filtered.every(e => selected.includes(e.id));
+
+  const toggleRow = (id) => setSelected(sel => sel.includes(id) ? sel.filter(x => x !== id) : [...sel, id]);
+  const toggleAll = () => setSelected(allSelected ? [] : filtered.map(e => e.id));
 
   return (
     <>
@@ -20,6 +30,8 @@ const ExpenseList = () => {
         title="All expenses"
         sub={`${filtered.length} items · total ${new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' }).format(total)}`}
         actions={<>
+          <DensityToggle compact={compact} onToggle={()=>setCompact(c=>!c)}/>
+          <RefreshButton/>
           <button className="ff-btn" onClick={()=>ffGo('import')}><Icon name="upload-simple" size={14}/> Import CSV</button>
           <button className="ff-btn"><Icon name="download-simple" size={14}/> Export</button>
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
@@ -45,15 +57,45 @@ const ExpenseList = () => {
             <option value="all">All categories</option>
             {d.categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
-          <button className="ff-btn"><Icon name="calendar-blank" size={14}/> May 2026</button>
+          <button className="ff-btn"><Icon name="calendar-blank" size={14}/> May 2026 <Icon name="caret-down" size={12}/></button>
+          <div style={{position:'relative'}}>
+            <button className="ff-btn" onClick={()=>setColumnsOpen(o=>!o)}><Icon name="columns" size={14}/> Columns</button>
+            {columnsOpen && (
+              <div className="ff-card" style={{position:'absolute', top:'calc(100% + 6px)', right:0, zIndex:10, padding:10, width:180, boxShadow:'var(--ff-shadow-lg)'}}>
+                {EXPENSE_COLUMNS.map(col => (
+                  <label key={col} className="ff-row" style={{gap:8, padding:'5px 4px', fontSize:13}}>
+                    <input type="checkbox" defaultChecked/> {col}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
+      {selected.length > 0 && (
+        <div className="ff-row" style={{
+          justifyContent:'space-between', padding:'10px 16px', marginBottom:10,
+          background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:'var(--ff-radius-md)'
+        }}>
+          <div className="ff-row" style={{gap:10, fontSize:13}}>
+            <input type="checkbox" checked readOnly/>
+            <span>{selected.length} selected · total {new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' }).format(selectedTotal)}</span>
+          </div>
+          <div className="ff-row" style={{gap:8}}>
+            <button className="ff-btn ff-btn--primary ff-btn--sm" onClick={()=>{alert('Selected approved'); setSelected([]);}}>Approve selected</button>
+            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>alert('Flagged')}>Flag</button>
+            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>alert('Exported')}>Export</button>
+            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>{alert('Deleted'); setSelected([]);}}>Delete</button>
+          </div>
+        </div>
+      )}
+
       <Card padded={false}>
-        <table className="ff-table">
+        <table className={`ff-table ${compact ? 'ff-table--compact' : ''}`}>
           <thead>
             <tr>
-              <th style={{width:32}}><input type="checkbox" aria-label="Select all"/></th>
+              <th style={{width:32}}><input type="checkbox" aria-label="Select all" checked={allSelected} onChange={toggleAll}/></th>
               <th>ID</th>
               <th>Date</th>
               <th>Merchant / memo</th>
@@ -69,9 +111,9 @@ const ExpenseList = () => {
               const cat = d.categories.find(c => c.id === e.cat);
               return (
                 <tr key={e.id} onClick={()=>ffGo('expense-detail')} style={{cursor:'pointer'}}>
-                  <td onClick={ev=>ev.stopPropagation()}><input type="checkbox"/></td>
+                  <td onClick={ev=>ev.stopPropagation()}><input type="checkbox" checked={selected.includes(e.id)} onChange={()=>toggleRow(e.id)}/></td>
                   <td><span className="ff-mono" style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{e.id}</span></td>
-                  <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{e.date}</td>
+                  <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{fmtDate(e.date)}</td>
                   <td>
                     <div style={{fontWeight:500}}>{e.merchant}</div>
                     <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{e.memo}</div>
@@ -103,7 +145,7 @@ const ExpenseDetail = () => {
       </div>
       <PageHead
         title={e.merchant}
-        sub={`${e.id} · Submitted by ${e.who} on ${e.date}`}
+        sub={`${e.id} · Submitted by ${e.who} on ${fmtDate(e.date)}`}
         actions={<>
           <button className="ff-btn"><Icon name="chat-text" size={14}/> Comment</button>
           <button className="ff-btn"><Icon name="x" size={14}/> Reject</button>
@@ -118,7 +160,7 @@ const ExpenseDetail = () => {
               <DetailRow label="Amount"><span style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:28, letterSpacing:'-0.025em'}} className="ff-tnum"><Money value={e.amount}/></span></DetailRow>
               <DetailRow label="Status"><StatusBadge status={e.status}/></DetailRow>
               <DetailRow label="Category">{d.categories.find(c=>c.id===e.cat).name}</DetailRow>
-              <DetailRow label="Date"><span className="ff-tnum">{e.date}</span></DetailRow>
+              <DetailRow label="Date"><span className="ff-tnum">{fmtDate(e.date)}</span></DetailRow>
               <DetailRow label="Payment"><span className="ff-mono">•••• {e.cardLast4}</span></DetailRow>
               <DetailRow label="Memo">{e.memo}</DetailRow>
             </div>
@@ -144,10 +186,10 @@ const ExpenseDetail = () => {
           <Card title="Activity" padded={false}>
             <div className="ff-stack" style={{'--ff-stack-gap':'0'}}>
               {[
-                { who: "Luna Park",       act: "Submitted expense",  ts: "May 22, 9:12 AM" },
+                { who: "Jordan Lee",       act: "Submitted expense",  ts: "May 22, 9:12 AM" },
                 { who: "System",          act: "Policy check passed", ts: "May 22, 9:12 AM" },
-                { who: "Theo Vasquez",    act: "Routed for approval", ts: "May 22, 9:15 AM" },
-                { who: "Maren Okafor",    act: "Viewing now",         ts: "Just now" }
+                { who: "Xavier Bartlett",    act: "Routed for approval", ts: "May 22, 9:15 AM" },
+                { who: "Marcus Stoinis",    act: "Viewing now",         ts: "Just now" }
               ].map((a, i, arr) => (
                 <div key={i} style={{padding:'14px 20px', borderBottom: i < arr.length - 1 ? '1px solid var(--ff-border)' : '0', display:'flex', gap:12, alignItems:'center'}}>
                   <Avatar initials={a.who.split(' ').map(x=>x[0]).join('').slice(0,2)}/>
@@ -165,8 +207,8 @@ const ExpenseDetail = () => {
           <Card title="Approval chain">
             <div className="ff-stack" style={{'--ff-stack-gap':'12px'}}>
               {[
-                { name:"Theo Vasquez", title:"Head of Sales", status:"approved" },
-                { name:"Maren Okafor", title:"Finance",       status:"pending" }
+                { name:"Xavier Bartlett", title:"Head of Sales", status:"approved" },
+                { name:"Marcus Stoinis", title:"Finance",       status:"pending" }
               ].map((s, i) => (
                 <div key={i} className="ff-row" style={{justifyContent:'space-between', gap:8}}>
                   <div className="ff-row" style={{gap:10, minWidth:0, flex:1}}>
@@ -258,8 +300,8 @@ const NewExpense = () => {
           <Card title="Approval preview">
             <div style={{fontSize:13, color:'var(--ff-fg-muted)', marginBottom:10}}>This expense will be routed to:</div>
             <div className="ff-stack" style={{'--ff-stack-gap':'8px'}}>
-              <div className="ff-row" style={{gap:8}}><Avatar initials="TV"/><span>Theo Vasquez · Head of Sales</span></div>
-              <div className="ff-row" style={{gap:8}}><Avatar initials="MO"/><span>Maren Okafor · Finance</span></div>
+              <div className="ff-row" style={{gap:8}}><Avatar initials="XB"/><span>Xavier Bartlett · Head of Sales</span></div>
+              <div className="ff-row" style={{gap:8}}><Avatar initials="MS"/><span>Marcus Stoinis · Finance</span></div>
             </div>
           </Card>
         </div>
@@ -288,7 +330,7 @@ const OcrReview = () => {
               height:540, position:'relative', overflow:'hidden'
             }}>
               {/* faux receipt */}
-              <div style={{position:'absolute', inset:24, background:'#fff', borderRadius:4, boxShadow:'var(--ff-shadow-md)', padding:'24px 20px', color:'#15131A', fontSize:11, fontFamily:'var(--ff-font-mono)'}}>
+              <div style={{position:'absolute', inset:24, background:'#fff', borderRadius:4, boxShadow:'var(--ff-shadow-md)', padding:'24px 20px', color:'#15181c', fontSize:11, fontFamily:'var(--ff-font-mono)'}}>
                 <div style={{textAlign:'center', fontFamily:'var(--ff-font-display)', fontSize:22, marginBottom:14}}>MARRIOTT</div>
                 <div style={{textAlign:'center', marginBottom:18, color:'#666'}}>
                   <span style={{background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3, padding:'2px 6px'}}>Austin, TX · Folio 4471</span>
@@ -348,7 +390,7 @@ const FlaggedExpense = () => {
       <PageHead
         eyebrow="Expense · Policy violation"
         title="Marriott Austin — flagged"
-        sub="EXP-2839 · Luna Park · May 21, 2026"
+        sub="EXP-2839 · Jordan Lee · May 21, 2026"
         actions={<>
           <button className="ff-btn"><Icon name="chat-text" size={14}/> Ask for info</button>
           <button className="ff-btn ff-btn--danger"><Icon name="x" size={14}/> Reject</button>
@@ -380,7 +422,7 @@ const FlaggedExpense = () => {
         </Card>
         <Card title="Override note">
           <textarea className="ff-textarea" defaultValue="Customer offsite — only room block available. Approving as one-time exception."/>
-          <div style={{fontSize:12, color:'var(--ff-fg-muted)', marginTop:10}}>Override will be recorded in audit log under Maren Okafor (Finance Admin).</div>
+          <div style={{fontSize:12, color:'var(--ff-fg-muted)', marginTop:10}}>Override will be recorded in audit log under Marcus Stoinis (Finance Admin).</div>
         </Card>
       </div>
     </>

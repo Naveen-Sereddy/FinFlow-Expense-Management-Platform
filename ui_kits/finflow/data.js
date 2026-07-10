@@ -1,22 +1,22 @@
 /* FinFlow Demo Data
-   Fictional company: Arcadia Labs (Series B SaaS, 250 people, San Francisco).
-   Primary persona: Maren Okafor — Director of Finance.
+   Company: Reyonal (Series B SaaS, 243 people).
+   Primary persona: Marcus Stoinis — Head of Finance.
    All data consistent across screens.
 */
 
 window.FF_DATA = (() => {
   const company = {
-    name: "Arcadia Labs",
-    employees: 248,
+    name: "Reyonal",
+    employees: 243,
     stage: "Series B",
     fiscalYear: "FY 2026",
-    accent: "Plum"
+    accent: "Teal"
   };
 
   const me = {
-    finance: { name: "Maren Okafor", title: "Director of Finance", initials: "MO", email: "maren@arcadialabs.co", role: "Finance Admin" },
-    manager: { name: "Theo Vasquez",  title: "Head of Sales",        initials: "TV", email: "theo@arcadialabs.co",  role: "Manager" },
-    employee:{ name: "Iris Chen",     title: "Senior PMM",            initials: "IC", email: "iris@arcadialabs.co",  role: "Employee" }
+    finance: { name: "Marcus Stoinis", title: "Head of Finance", initials: "MS", email: "marcus.stoinis@reyonal.com", role: "Finance Admin" },
+    manager: { name: "Xavier Bartlett", title: "VP Sales",         initials: "XB", email: "xavier.bartlett@reyonal.com", role: "Manager" },
+    employee:{ name: "Corey Anderson",  title: "Product Marketing", initials: "CA", email: "corey.anderson@reyonal.com", role: "Employee" }
   };
 
   const categories = [
@@ -42,32 +42,32 @@ window.FF_DATA = (() => {
   ];
 
   const employees = [
-    { name: "Iris Chen",       initials: "IC", team: "Marketing", spend:  4280 },
-    { name: "Dev Patel",       initials: "DP", team: "Eng",       spend:  9120 },
-    { name: "Luna Park",       initials: "LP", team: "Sales",     spend: 11840 },
-    { name: "Jonas Hale",      initials: "JH", team: "Sales",     spend:  8760 },
-    { name: "Mira Solberg",    initials: "MS", team: "Design",    spend:  2940 },
-    { name: "Asa Brown",       initials: "AB", team: "Eng",       spend:  6210 },
-    { name: "Ren Tanaka",      initials: "RT", team: "Ops",       spend:  3180 },
-    { name: "Kai Mendes",      initials: "KM", team: "Sales",     spend:  9890 }
+    { name: "Corey Anderson",  initials: "CA", team: "Marketing", spend:  4280 },
+    { name: "Sam Richardson",  initials: "SR", team: "Eng",       spend:  9120 },
+    { name: "Jordan Lee",      initials: "JL", team: "Sales",     spend: 11840 },
+    { name: "Alex Morgan",     initials: "AM", team: "Sales",     spend:  8760 },
+    { name: "James Taylor",    initials: "JT", team: "Design",    spend:  2940 },
+    { name: "Jamie Smith",     initials: "JS", team: "Eng",       spend:  6210 },
+    { name: "Riley Meredith",  initials: "RM", team: "Ops",       spend:  3180 },
+    { name: "Sam Curran",      initials: "SC", team: "Sales",     spend:  9890 }
   ];
 
   // Expenses — consistent IDs used across detail / approvals
   const expenses = [
-    { id: "EXP-2841", date: "2026-05-22", merchant: "United Airlines",  amount:  842.50, cat: "tr", who: "Luna Park",      status: "pending",  policy: "ok",      cardLast4: "4112", memo: "SF → Austin (sales kickoff)" },
-    { id: "EXP-2840", date: "2026-05-22", merchant: "Figma",             amount:  180.00, cat: "sw", who: "Mira Solberg",   status: "approved", policy: "ok",      cardLast4: "9032", memo: "Pro seats × 2" },
-    { id: "EXP-2839", date: "2026-05-21", merchant: "Marriott Austin",   amount: 1240.00, cat: "tr", who: "Luna Park",      status: "flagged",  policy: "over",    cardLast4: "4112", memo: "3 nights — exceeds $300/night cap" },
-    { id: "EXP-2838", date: "2026-05-21", merchant: "Blue Bottle",       amount:   42.80, cat: "me", who: "Iris Chen",      status: "approved", policy: "ok",      cardLast4: "9032", memo: "Team coffee, Q2 review" },
-    { id: "EXP-2837", date: "2026-05-20", merchant: "AWS",               amount: 3204.18, cat: "sw", who: "Dev Patel",      status: "approved", policy: "ok",      cardLast4: "4112", memo: "Monthly infra" },
-    { id: "EXP-2836", date: "2026-05-20", merchant: "Lyft",              amount:   38.60, cat: "tr", who: "Asa Brown",      status: "pending",  policy: "ok",      cardLast4: "4112", memo: "Client visit" },
-    { id: "EXP-2835", date: "2026-05-19", merchant: "Webflow",           amount:  290.00, cat: "sw", who: "Mira Solberg",   status: "pending",  policy: "needs",   cardLast4: "9032", memo: "Missing receipt" },
-    { id: "EXP-2834", date: "2026-05-19", merchant: "Reforge",           amount:  995.00, cat: "sw", who: "Iris Chen",      status: "approved", policy: "ok",      cardLast4: "9032", memo: "PMM intensive course" },
-    { id: "EXP-2833", date: "2026-05-18", merchant: "Notion",            amount:   88.00, cat: "sw", who: "Ren Tanaka",     status: "approved", policy: "ok",      cardLast4: "4112", memo: "Plus seat" },
-    { id: "EXP-2832", date: "2026-05-18", merchant: "Eventbrite",        amount:  640.00, cat: "ad", who: "Iris Chen",      status: "rejected", policy: "violate", cardLast4: "9032", memo: "Sponsorship — needs CMO sign-off" },
-    { id: "EXP-2831", date: "2026-05-17", merchant: "United Airlines",   amount:  516.00, cat: "tr", who: "Kai Mendes",     status: "approved", policy: "ok",      cardLast4: "4112", memo: "Client onsite — Seattle" },
-    { id: "EXP-2830", date: "2026-05-17", merchant: "WeWork",            amount:  220.00, cat: "of", who: "Jonas Hale",     status: "approved", policy: "ok",      cardLast4: "4112", memo: "Day pass, NY office" },
-    { id: "EXP-2829", date: "2026-05-16", merchant: "Marriott SF",       amount:  389.00, cat: "tr", who: "Theo Vasquez",   status: "pending",  policy: "ok",      cardLast4: "4112", memo: "Customer summit overflow" },
-    { id: "EXP-2828", date: "2026-05-16", merchant: "Slack",             amount:  149.00, cat: "sw", who: "Dev Patel",      status: "approved", policy: "ok",      cardLast4: "4112", memo: "Pro plan add-on" }
+    { id: "EXP-2841", date: "2026-05-22", merchant: "United Airlines",  amount:  842.50, cat: "tr", who: "Jordan Lee",      status: "pending",  policy: "ok",      cardLast4: "4112", memo: "SF → Austin (sales kickoff)" },
+    { id: "EXP-2840", date: "2026-05-22", merchant: "Figma",             amount:  180.00, cat: "sw", who: "James Taylor",   status: "approved", policy: "ok",      cardLast4: "9032", memo: "Pro seats × 2" },
+    { id: "EXP-2839", date: "2026-05-21", merchant: "Marriott Austin",   amount: 1240.00, cat: "tr", who: "Jordan Lee",      status: "flagged",  policy: "over",    cardLast4: "4112", memo: "3 nights — exceeds $300/night cap" },
+    { id: "EXP-2838", date: "2026-05-21", merchant: "Blue Bottle",       amount:   42.80, cat: "me", who: "Corey Anderson",  status: "approved", policy: "ok",      cardLast4: "9032", memo: "Team coffee, Q2 review" },
+    { id: "EXP-2837", date: "2026-05-20", merchant: "AWS",               amount: 3204.18, cat: "sw", who: "Sam Richardson",  status: "approved", policy: "ok",      cardLast4: "4112", memo: "Monthly infra" },
+    { id: "EXP-2836", date: "2026-05-20", merchant: "Lyft",              amount:   38.60, cat: "tr", who: "Jamie Smith",     status: "pending",  policy: "ok",      cardLast4: "4112", memo: "Client visit" },
+    { id: "EXP-2835", date: "2026-05-19", merchant: "Webflow",           amount:  290.00, cat: "sw", who: "James Taylor",   status: "pending",  policy: "needs",   cardLast4: "9032", memo: "Missing receipt" },
+    { id: "EXP-2834", date: "2026-05-19", merchant: "Reforge",           amount:  995.00, cat: "sw", who: "Corey Anderson",  status: "approved", policy: "ok",      cardLast4: "9032", memo: "PMM intensive course" },
+    { id: "EXP-2833", date: "2026-05-18", merchant: "Notion",            amount:   88.00, cat: "sw", who: "Riley Meredith",  status: "approved", policy: "ok",      cardLast4: "4112", memo: "Plus seat" },
+    { id: "EXP-2832", date: "2026-05-18", merchant: "Eventbrite",        amount:  640.00, cat: "ad", who: "Corey Anderson",  status: "rejected", policy: "violate", cardLast4: "9032", memo: "Sponsorship — needs CMO sign-off" },
+    { id: "EXP-2831", date: "2026-05-17", merchant: "United Airlines",   amount:  516.00, cat: "tr", who: "Sam Curran",      status: "approved", policy: "ok",      cardLast4: "4112", memo: "Client onsite — Seattle" },
+    { id: "EXP-2830", date: "2026-05-17", merchant: "WeWork",            amount:  220.00, cat: "of", who: "Alex Morgan",     status: "approved", policy: "ok",      cardLast4: "4112", memo: "Day pass, NY office" },
+    { id: "EXP-2829", date: "2026-05-16", merchant: "Marriott SF",       amount:  389.00, cat: "tr", who: "Xavier Bartlett", status: "pending",  policy: "ok",      cardLast4: "4112", memo: "Customer summit overflow" },
+    { id: "EXP-2828", date: "2026-05-16", merchant: "Slack",             amount:  149.00, cat: "sw", who: "Sam Richardson",  status: "approved", policy: "ok",      cardLast4: "4112", memo: "Pro plan add-on" }
   ];
 
   // Spend over time — last 12 weeks (in thousands)
@@ -103,19 +103,19 @@ window.FF_DATA = (() => {
   ];
 
   const cards = [
-    { id: "c1", holder: "Maren Okafor",  last4: "0021", limit: 25000, spent:  8420, status: "active",  type: "physical" },
-    { id: "c2", holder: "Iris Chen",     last4: "9032", limit:  5000, spent:  2310, status: "active",  type: "virtual"  },
-    { id: "c3", holder: "Luna Park",     last4: "4112", limit: 10000, spent:  7780, status: "active",  type: "physical" },
-    { id: "c4", holder: "Vendor: AWS",   last4: "7710", limit:  8000, spent:  3204, status: "active",  type: "virtual"  },
-    { id: "c5", holder: "Dev Patel",     last4: "1145", limit:  4000, spent:    62, status: "frozen",  type: "virtual"  },
-    { id: "c6", holder: "Mira Solberg",  last4: "6628", limit:  3000, spent:  1820, status: "active",  type: "virtual"  }
+    { id: "c1", holder: "Marcus Stoinis", last4: "0021", limit: 25000, spent:  8420, status: "active",  type: "physical" },
+    { id: "c2", holder: "Corey Anderson", last4: "9032", limit:  5000, spent:  2310, status: "active",  type: "virtual"  },
+    { id: "c3", holder: "Jordan Lee",     last4: "4112", limit: 10000, spent:  7780, status: "active",  type: "physical" },
+    { id: "c4", holder: "Vendor: AWS",    last4: "7710", limit:  8000, spent:  3204, status: "active",  type: "virtual"  },
+    { id: "c5", holder: "Sam Richardson", last4: "1145", limit:  4000, spent:    62, status: "frozen",  type: "virtual"  },
+    { id: "c6", holder: "James Taylor",   last4: "6628", limit:  3000, spent:  1820, status: "active",  type: "virtual"  }
   ];
 
   const reimbursements = [
-    { id: "RB-104", who: "Iris Chen",   amount: 320.40, status: "scheduled", date: "2026-05-30" },
-    { id: "RB-103", who: "Luna Park",   amount:  82.00, status: "paid",      date: "2026-05-23" },
-    { id: "RB-102", who: "Dev Patel",   amount: 218.50, status: "paid",      date: "2026-05-21" },
-    { id: "RB-101", who: "Asa Brown",   amount:  64.20, status: "pending",   date: "2026-05-27" }
+    { id: "RB-104", who: "Corey Anderson", amount: 320.40, status: "scheduled", date: "2026-05-30" },
+    { id: "RB-103", who: "Jordan Lee",     amount:  82.00, status: "paid",      date: "2026-05-23" },
+    { id: "RB-102", who: "Sam Richardson", amount: 218.50, status: "paid",      date: "2026-05-21" },
+    { id: "RB-101", who: "Jamie Smith",    amount:  64.20, status: "pending",   date: "2026-05-27" }
   ];
 
   // KPIs
@@ -158,17 +158,17 @@ window.FF_DATA = (() => {
   ];
 
   const auditEntries = [
-    { ts: "2026-05-22 14:22", actor: "Maren Okafor",  action: "Approved",        target: "EXP-2840 · Figma · $180.00" },
-    { ts: "2026-05-22 14:18", actor: "Theo Vasquez",  action: "Flagged",         target: "EXP-2839 · Marriott Austin · $1,240.00" },
+    { ts: "2026-05-22 14:22", actor: "Marcus Stoinis",  action: "Approved",        target: "EXP-2840 · Figma · $180.00" },
+    { ts: "2026-05-22 14:18", actor: "Xavier Bartlett",  action: "Flagged",         target: "EXP-2839 · Marriott Austin · $1,240.00" },
     { ts: "2026-05-22 11:02", actor: "System",        action: "Policy Check",    target: "EXP-2835 · Webflow — receipt missing" },
-    { ts: "2026-05-22 09:47", actor: "Iris Chen",     action: "Submitted",       target: "EXP-2838 · Blue Bottle · $42.80" },
-    { ts: "2026-05-21 17:33", actor: "Maren Okafor",  action: "Edited Policy",   target: "Advertising sponsorships → $500 → CMO sign-off" },
-    { ts: "2026-05-21 16:09", actor: "Maren Okafor",  action: "Issued Card",     target: "Virtual card · Mira Solberg · $3,000 limit" },
-    { ts: "2026-05-21 10:14", actor: "Okta SSO",      action: "Sign-in",         target: "Maren Okafor (SSO)" }
+    { ts: "2026-05-22 09:47", actor: "Corey Anderson",     action: "Submitted",       target: "EXP-2838 · Blue Bottle · $42.80" },
+    { ts: "2026-05-21 17:33", actor: "Marcus Stoinis",  action: "Edited Policy",   target: "Advertising sponsorships → $500 → CMO sign-off" },
+    { ts: "2026-05-21 16:09", actor: "Marcus Stoinis",  action: "Issued Card",     target: "Virtual card · James Taylor · $3,000 limit" },
+    { ts: "2026-05-21 10:14", actor: "Okta SSO",      action: "Sign-in",         target: "Marcus Stoinis (SSO)" }
   ];
 
   const notifications = [
-    { ts: "12m", kind: "approval",   text: "Luna Park submitted EXP-2841 — $842.50 (Travel)" },
+    { ts: "12m", kind: "approval",   text: "Jordan Lee submitted EXP-2841 — $842.50 (Travel)" },
     { ts: "1h",  kind: "policy",     text: "EXP-2839 over hotel cap — Marriott Austin, $1,240" },
     { ts: "3h",  kind: "payout",     text: "Reimbursement RB-104 scheduled for May 30" },
     { ts: "1d",  kind: "card",       text: "AWS virtual card auto-renewed for May" },

@@ -3,9 +3,13 @@
 const ApprovalsQueue = () => {
   const d = FF_DATA;
   const items = d.expenses.filter(e => e.status === "pending" || e.status === "flagged");
-  const selCount = Math.min(3, items.length);
-  const selTotal = items.slice(0, selCount).reduce((s, e) => s + e.amount, 0);
+  const [selected, setSelected] = React.useState(items.slice(0, 3).map(e => e.id));
+  const [compact, setCompact] = React.useState(false);
+  const selTotal = items.filter(e => selected.includes(e.id)).reduce((s, e) => s + e.amount, 0);
   const fmtUSD = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+  const allSelected = items.length > 0 && items.every(e => selected.includes(e.id));
+  const toggleRow = (id) => setSelected(sel => sel.includes(id) ? sel.filter(x => x !== id) : [...sel, id]);
+  const toggleAll = () => setSelected(allSelected ? [] : items.map(e => e.id));
   return (
     <>
       <PageHead
@@ -13,6 +17,8 @@ const ApprovalsQueue = () => {
         title="Approvals queue"
         sub={`${items.length} items awaiting your review`}
         actions={<>
+          <DensityToggle compact={compact} onToggle={()=>setCompact(c=>!c)}/>
+          <RefreshButton/>
           <button className="ff-btn"><Icon name="funnel" size={14}/> Filter</button>
           <button className="ff-btn ff-btn--accent"><Icon name="lightning" size={14}/> Bulk approve ({items.length})</button>
         </>}
@@ -20,14 +26,14 @@ const ApprovalsQueue = () => {
 
       <Card padded={false}>
         <div style={{padding:'10px 16px', borderBottom:'1px solid var(--ff-border)', display:'flex', gap:8, alignItems:'center', background:'var(--ff-card-2)'}}>
-          <input type="checkbox"/> <span style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{selCount} selected · total {fmtUSD(selTotal)}</span>
+          <input type="checkbox" checked={allSelected} onChange={toggleAll}/> <span style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{selected.length} selected · total {fmtUSD(selTotal)}</span>
           <div style={{flex:1}}/>
-          <button className="ff-btn ff-btn--sm">Reject</button>
-          <button className="ff-btn ff-btn--sm ff-btn--primary" onClick={()=>ffGo('state-success')}>Approve</button>
+          <button className="ff-btn ff-btn--sm" onClick={()=>{alert(`Rejected ${selected.length} items`); setSelected([]);}}>Reject</button>
+          <button className="ff-btn ff-btn--sm ff-btn--primary" onClick={()=>{alert(`Approved ${selected.length} items`); ffGo('state-success');}}>Approve</button>
         </div>
         {items.map((e, i) => (
-          <div key={e.id} onClick={()=>ffGo('approval-detail')} style={{padding:'16px 20px', borderBottom: i < items.length-1 ? '1px solid var(--ff-border)' : '0', display:'grid', gridTemplateColumns:'auto 60px 1fr auto auto', gap:16, alignItems:'center', cursor:'pointer'}}>
-            <input type="checkbox" defaultChecked={i < 3} onClick={ev=>ev.stopPropagation()}/>
+          <div key={e.id} onClick={()=>ffGo('approval-detail')} style={{padding: compact ? '10px 20px' : '16px 20px', borderBottom: i < items.length-1 ? '1px solid var(--ff-border)' : '0', display:'grid', gridTemplateColumns:'auto 60px 1fr auto auto', gap:16, alignItems:'center', cursor:'pointer'}}>
+            <input type="checkbox" checked={selected.includes(e.id)} onChange={()=>toggleRow(e.id)} onClick={ev=>ev.stopPropagation()}/>
             <div className="ff-receipt"><span style={{fontFamily:'var(--ff-font-mono)'}}>{e.cardLast4}</span></div>
             <div>
               <div style={{display:'flex', gap:10, alignItems:'baseline'}}>
@@ -35,7 +41,7 @@ const ApprovalsQueue = () => {
                 <span style={{fontSize:12, color:'var(--ff-fg-muted)'}} className="ff-mono">{e.id}</span>
                 <StatusBadge status={e.status}/>
               </div>
-              <div style={{fontSize:12, color:'var(--ff-fg-muted)', marginTop:2}}>{e.memo} · {e.who} · {e.date}</div>
+              <div style={{fontSize:12, color:'var(--ff-fg-muted)', marginTop:2}}>{e.memo} · {e.who} · {fmtDate(e.date)}</div>
             </div>
             <div style={{textAlign:'right'}}>
               <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:600, fontSize:20, letterSpacing:'-0.02em'}} className="ff-tnum"><Money value={e.amount}/></div>
@@ -56,11 +62,11 @@ const ApprovalDetail = () => <ExpenseDetail/>;  // Reuses expense detail for app
 
 const ApprovalHistory = () => {
   const items = [
-    { id:"EXP-2840", merchant:"Figma", who:"Mira Solberg", amount:180.00, status:"approved", decided:"May 22 14:22", by:"Maren Okafor" },
-    { id:"EXP-2837", merchant:"AWS", who:"Dev Patel", amount:3204.18, status:"approved", decided:"May 20 11:08", by:"Maren Okafor" },
-    { id:"EXP-2834", merchant:"Reforge", who:"Iris Chen", amount:995.00, status:"approved", decided:"May 19 16:42", by:"Maren Okafor" },
-    { id:"EXP-2832", merchant:"Eventbrite", who:"Iris Chen", amount:640.00, status:"rejected", decided:"May 18 17:30", by:"Maren Okafor" },
-    { id:"EXP-2828", merchant:"Slack", who:"Dev Patel", amount:149.00, status:"approved", decided:"May 16 09:14", by:"Maren Okafor" }
+    { id:"EXP-2840", merchant:"Figma", who:"James Taylor", amount:180.00, status:"approved", decided:"May 22 14:22", by:"Marcus Stoinis" },
+    { id:"EXP-2837", merchant:"AWS", who:"Sam Richardson", amount:3204.18, status:"approved", decided:"May 20 11:08", by:"Marcus Stoinis" },
+    { id:"EXP-2834", merchant:"Reforge", who:"Corey Anderson", amount:995.00, status:"approved", decided:"May 19 16:42", by:"Marcus Stoinis" },
+    { id:"EXP-2832", merchant:"Eventbrite", who:"Corey Anderson", amount:640.00, status:"rejected", decided:"May 18 17:30", by:"Marcus Stoinis" },
+    { id:"EXP-2828", merchant:"Slack", who:"Sam Richardson", amount:149.00, status:"approved", decided:"May 16 09:14", by:"Marcus Stoinis" }
   ];
   return (
     <>
@@ -115,7 +121,7 @@ const ReimbursementsList = () => {
                 <td><span className="ff-row" style={{gap:6}}><Avatar initials={r.who.split(' ').map(x=>x[0]).join('').slice(0,2)}/>{r.who}</span></td>
                 <td className="ff-num"><Money value={r.amount}/></td>
                 <td><StatusBadge status={r.status}/></td>
-                <td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{r.date}</td>
+                <td className="ff-tnum" style={{color:'var(--ff-fg-muted)'}}>{fmtDate(r.date)}</td>
                 <td><span className="ff-badge ff-badge--neutral ff-badge--no-dot">ACH</span></td>
                 <td><button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>ffGo('payout-detail')}>View</button></td>
               </tr>
@@ -132,7 +138,7 @@ const PayoutDetail = () => {
     <>
       <PageHead
         eyebrow="Reimbursement"
-        title="RB-104 — Iris Chen"
+        title="RB-104 — Corey Anderson"
         sub="Scheduled · arrives May 30, 2026"
         actions={<>
           <button className="ff-btn ff-btn--danger" onClick={()=>ffGo('reimburse')}>Cancel payout</button>
@@ -178,10 +184,10 @@ const SchedulePayout = () => (
         <table className="ff-table">
           <thead><tr><th><input type="checkbox" defaultChecked/></th><th>Employee</th><th className="ff-num">Owed</th><th>Items</th></tr></thead>
           <tbody>
-            <tr><td><input type="checkbox" defaultChecked/></td><td>Iris Chen</td><td className="ff-num"><Money value={320.40}/></td><td>3</td></tr>
-            <tr><td><input type="checkbox" defaultChecked/></td><td>Luna Park</td><td className="ff-num"><Money value={82.00}/></td><td>1</td></tr>
-            <tr><td><input type="checkbox" defaultChecked/></td><td>Dev Patel</td><td className="ff-num"><Money value={218.50}/></td><td>2</td></tr>
-            <tr><td><input type="checkbox"/></td><td>Asa Brown</td><td className="ff-num"><Money value={64.20}/></td><td>1</td></tr>
+            <tr><td><input type="checkbox" defaultChecked/></td><td>Corey Anderson</td><td className="ff-num"><Money value={320.40}/></td><td>3</td></tr>
+            <tr><td><input type="checkbox" defaultChecked/></td><td>Jordan Lee</td><td className="ff-num"><Money value={82.00}/></td><td>1</td></tr>
+            <tr><td><input type="checkbox" defaultChecked/></td><td>Sam Richardson</td><td className="ff-num"><Money value={218.50}/></td><td>2</td></tr>
+            <tr><td><input type="checkbox"/></td><td>Jamie Smith</td><td className="ff-num"><Money value={64.20}/></td><td>1</td></tr>
           </tbody>
         </table>
       </Card>

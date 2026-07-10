@@ -18,6 +18,9 @@ const Money = ({ value, signed = false, className = "" }) => {
   return <span className={`ff-tnum ${className}`}>{sign}{fmt.format(value)}</span>;
 };
 
+/* One date format everywhere: ISO in, "May 22, 2026" out. */
+const fmtDate = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
 const StatusBadge = ({ status }) => {
   const map = {
     approved: { label: "Approved",  icon: "check-circle" },
@@ -30,7 +33,7 @@ const StatusBadge = ({ status }) => {
   const m = map[status] || { label: status, icon: "circle" };
   const cls = m.cls || status;
   return (
-    <span className={`ff-badge ff-badge--${cls} ff-badge--no-dot`}>
+    <span className={`ff-badge ff-badge--${cls} ff-badge--no-dot ff-badge--status`}>
       <Icon name={m.icon} size={12}/> {m.label}
     </span>
   );
@@ -60,7 +63,8 @@ const Sidebar = ({ role, current, onNavigate }) => {
         { id: "policies",    icon: "scales",         label: "Policies" },
         { id: "team",        icon: "users-three",    label: "Team & roles" },
         { id: "integrations",icon: "plugs",          label: "Integrations" },
-        { id: "settings",    icon: "gear-six",       label: "Settings" }
+        { id: "settings",    icon: "gear-six",       label: "Settings" },
+        { id: "help",        icon: "lifebuoy",       label: "Help" }
       ]}
     ],
     manager: [
@@ -75,7 +79,8 @@ const Sidebar = ({ role, current, onNavigate }) => {
       ]},
       { label: "Account", items: [
         { id: "notif",       icon: "bell",           label: "Notifications" },
-        { id: "settings",    icon: "gear-six",       label: "Settings" }
+        { id: "settings",    icon: "gear-six",       label: "Settings" },
+        { id: "help",        icon: "lifebuoy",       label: "Help" }
       ]}
     ],
     employee: [
@@ -165,6 +170,29 @@ const TopBar = ({ role, theme, onTheme, onRole, onSearchClick, onNotif }) => {
   );
 };
 
+/* Refresh button — shared across dashboards/expenses/approvals. Tracks "last synced" locally. */
+const RefreshButton = () => {
+  const [spinning, setSpinning] = React.useState(false);
+  const [synced, setSynced] = React.useState("2m ago");
+  const onClick = () => {
+    setSpinning(true);
+    setTimeout(() => { setSpinning(false); setSynced("just now"); }, 500);
+  };
+  return (
+    <button className="ff-btn ff-btn--ghost" onClick={onClick}>
+      <Icon name="arrows-clockwise" size={14} style={{transform: spinning ? 'rotate(360deg)' : 'rotate(0deg)', transition: 'transform 0.5s var(--ff-ease)'}}/>
+      Last synced {synced}
+    </button>
+  );
+};
+
+/* Density toggle — shared. Parent owns the boolean, this is just the button. */
+const DensityToggle = ({ compact, onToggle }) => (
+  <button className="ff-btn ff-btn--ghost" onClick={onToggle} aria-pressed={compact}>
+    <Icon name={compact ? "rows" : "list"} size={14}/> {compact ? "Compact" : "Comfortable"}
+  </button>
+);
+
 /* PageHead — title + actions */
 const PageHead = ({ eyebrow, title, sub, actions, children }) => (
   <div className="ff-page__head">
@@ -217,4 +245,4 @@ const ChipBar = ({ items, value, onChange }) => (
   </div>
 );
 
-Object.assign(window, { Icon, Money, StatusBadge, Avatar, Sidebar, TopBar, PageHead, KpiTile, Card, ChipBar, ffGo, FF_PENDING });
+Object.assign(window, { Icon, Money, fmtDate, StatusBadge, Avatar, Sidebar, TopBar, PageHead, KpiTile, Card, ChipBar, RefreshButton, DensityToggle, ffGo, FF_PENDING });
