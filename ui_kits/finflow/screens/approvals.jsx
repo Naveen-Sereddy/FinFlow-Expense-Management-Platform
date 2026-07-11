@@ -142,7 +142,7 @@ const PayoutDetail = () => {
         sub="Scheduled · arrives May 30, 2026"
         actions={<>
           <button className="ff-btn ff-btn--danger" onClick={()=>ffGo('reimburse')}>Cancel payout</button>
-          <button className="ff-btn ff-btn--primary">Pay now</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('state-confirm')}>Pay now</button>
         </>}
       />
       <div className="ff-grid" style={{gridTemplateColumns:'1.4fr 1fr', gap:16}}>
