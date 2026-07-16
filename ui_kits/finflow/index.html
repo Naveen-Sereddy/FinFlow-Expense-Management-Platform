@@ -30,7 +30,7 @@
     }
     .ff-launch:hover { background: var(--ff-hover); }
 
-    /* Mobile section — frames pre-scaled via MobileThumb so all 6 fit one viewport without horizontal scroll */
+    /* Mobile section — frames pre-scaled via MobileThumb so 3 fit one viewport without horizontal scroll */
     .ff-mobile-shelf {
       display: flex; gap: 20px; padding: 32px;
       background: var(--ff-card-2); border-top: 1px solid var(--ff-border);
@@ -194,7 +194,7 @@
       { id:"state-confirm", group:"States", label:"Confirmation — payout scheduled", Comp: () => <ConfirmReimbursement/> },
 
       // Mobile
-      { id:"mobile-flow", group:"Mobile", label:"Employee mobile flow (6 screens)", chrome:"mobile", Comp: () => <MobileShelf/> }
+      { id:"mobile-flow", group:"Mobile", label:"Employee mobile flow (8 screens)", chrome:"mobile", Comp: () => <MobileShelf/> }
     ];
 
     const SettingsWrapper = ({ tab }) => {
@@ -228,9 +228,11 @@
       { label: "Snap receipt",  Comp: () => <MobileSnapReceipt/> },
       { label: "New expense",   Comp: () => <MobileNewExpense/> },
       { label: "Submitted",     Comp: () => <MobileSubmitSuccess/> },
-      { label: "Status",        Comp: () => <MobileStatusTimeline/> }
+      { label: "Status",        Comp: () => <MobileStatusTimeline/> },
+      { label: "My expenses",   Comp: () => <MobileExpenses/> },
+      { label: "My card",       Comp: () => <MobileCards/> }
     ];
-    const MOBILE_PAGES = [[0,1,2],[3,4,5]];
+    const MOBILE_PAGES = [[0,1,2],[3,4,5],[6,7]];
 
     const MobileShelf = () => {
       const [page, setPage] = React.useState(0);
@@ -239,7 +241,7 @@
       return (
         <>
           <PageHead eyebrow="Mobile · Employee POV" title="iOS — expense submission flow"
-            sub="Corey submits a $42.80 coffee expense in 6 taps."/>
+            sub="Corey submits a $42.80 coffee expense in 6 taps, then checks past expenses and manages their card."/>
           <div className="ff-row" style={{justifyContent:'center', alignItems:'center', gap:20, marginTop:8}}>
             <button
               className="ff-btn ff-btn--ghost ff-btn--icon"
