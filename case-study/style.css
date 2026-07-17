@@ -1,0 +1,99 @@
+/* FinFlow case-study artboard tokens — matches naveensereddy.com
+   identity: charcoal ink, off-white "bone", single gold accent, Fraunces/Inter. */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --c-paper: #0D0D0D;
+  --c-surface: #141414;
+  --c-surface-2: #1B1B1B;
+
+  --c-ink: #EDE7DD;
+  --c-ink-2: #1B1B1B;
+  --c-ink-3: #B7B0A6;
+  --c-ink-4: #8A847B;
+
+  --c-line: rgba(237, 231, 221, 0.12);
+
+  --c-accent: #D4A85A;
+  --c-accent-2: #E7C384;
+  --c-accent-tint: rgba(212, 168, 90, 0.08);
+  --c-accent-line: rgba(212, 168, 90, 0.25);
+
+  --c-success: #6FCF8E;
+  --c-success-bg: rgba(111, 207, 142, 0.12);
+  --c-error: #E2766B;
+  --c-error-bg: rgba(226, 118, 107, 0.12);
+
+  --f-serif: 'Fraunces', Georgia, serif;
+  --f-sans: 'Inter', system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ── Artboard frame ── */
+.ab {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-family: var(--f-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.ab-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 36px 40px 24px;
+  border-bottom: 1px solid var(--c-line);
+  flex: 0 0 auto;
+}
+.ab-head__left { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.ab-head__right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex: 0 0 auto; }
+
+.ab-eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--f-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-ink-4);
+}
+.ab-eyebrow .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 5px;
+  font-family: var(--f-mono); font-size: 11px; font-weight: 600;
+  color: var(--c-accent-2);
+}
+
+.ab-title {
+  font-family: var(--f-serif); font-style: italic; font-weight: 500;
+  font-size: 36px; line-height: 1.08; letter-spacing: -0.01em;
+  color: var(--c-ink); margin: 0;
+}
+
+.ab-sub {
+  max-width: 56ch; font-size: 14px; line-height: 1.55; color: var(--c-ink-3); margin: 0;
+}
+
+.ab-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.ab-meta__k {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--c-ink-4);
+}
+.ab-meta__v { font-size: 14px; font-weight: 600; color: var(--c-ink); }
+
+.ab-body {
+  flex: 1; min-height: 0; padding: 28px 40px;
+}
+
+.ab-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 40px; border-top: 1px solid var(--c-line); flex: 0 0 auto;
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--c-ink-4);
+}
+.ab-foot .brand { display: flex; align-items: center; gap: 7px; }
+.ab-foot .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent); display: inline-block;
+}
