@@ -185,7 +185,7 @@
      full capsule. Role, status, and other label pills (Manager, Approved,
      etc.) use this so every pill-shaped label in the product reads the
      same way. Deliberately tighter than the button/card radius above. */
-  --ff-radius-badge: var(--ff-radius-xs);
+  --ff-radius-badge: 5px;
 
   /* Elevation — Ramp uses almost no shadow, hairline borders instead */
   --ff-shadow-xs: 0 1px 0 0 oklch(0.14 0.006 70 / 0.04);
