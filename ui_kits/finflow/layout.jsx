@@ -167,7 +167,7 @@ const STATUS_MAP = {
 const StatusBadge = ({ status }) => {
   const m = STATUS_MAP[status] || { group: "neutral", label: status, icon: "circle" };
   return (
-    <span className={`ff-badge ff-badge--${m.group} ff-badge--status`}>
+    <span className={`ff-badge ff-badge--${m.group}`}>
       <span className="ff-badge__icon"><Icon name={m.icon} size={12}/></span>
       {m.label}
     </span>

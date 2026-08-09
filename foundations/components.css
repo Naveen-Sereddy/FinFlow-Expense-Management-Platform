@@ -61,29 +61,27 @@
    One badge system, seven semantic groups (StatusBadge in layout.jsx maps
    every status string in the app to one of these). Colors come entirely
    from --ff-status-* tokens (colors_and_type.css) — light/dark handled by
-   the tokens themselves, no per-modifier dark overrides needed here. */
+   the tokens themselves, no per-modifier dark overrides needed here.
+
+   Every badge — status, role, category-scope, action, payment method, or
+   any other label pill — shares one fixed geometry app-wide: same width,
+   same height, same radius, same border, text centered. Width is sized to
+   comfortably fit the longest real label in use ("Policy violation" /
+   "Missing receipt" / "Requires action"), so a pill's box never grows or
+   shrinks with its own text. This lives on the base class, not a modifier,
+   so every call site gets it automatically — no per-screen fixed-width
+   opt-in to forget. */
 .ff-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  height: 24px; padding: 0 10px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  width: 136px; height: 24px; padding: 0 10px;
   font-size: 12px; font-weight: 500; line-height: 1;
   border-radius: var(--ff-radius-badge);
   background: var(--ff-status-neutral-bg);
   color: var(--ff-status-neutral-fg);
   border: 1px solid var(--ff-status-neutral-border);
-  white-space: nowrap;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .ff-badge__icon { display: flex; flex-shrink: 0; font-size: 12px; }
-/* Every StatusBadge (Approved/Pending/Flagged/Rejected/etc.) shares one
-   fixed width app-wide — sized to comfortably fit the longest real status
-   label in use ("Policy violation"). Status pills read as a column in
-   every table/list they appear in, so they must line up regardless of
-   label length, same as Audit Log's Action chips below. */
-.ff-badge--status { width: 136px; justify-content: center; }
-/* Fixed-width variant — for chip groups that read as a single aligned
-   column (e.g. Audit Log's Action cell) where every chip must share one
-   width regardless of label length, unlike the default badge which sizes
-   to its own text. */
-.ff-badge--fixed { width: 120px; justify-content: center; }
 
 .ff-badge--success { background: var(--ff-status-success-bg); color: var(--ff-status-success-fg); border-color: var(--ff-status-success-border); }
 .ff-badge--warning  { background: var(--ff-status-warning-bg);  color: var(--ff-status-warning-fg);  border-color: var(--ff-status-warning-border); }

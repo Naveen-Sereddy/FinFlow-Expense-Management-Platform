@@ -188,8 +188,8 @@ const MobileSnapReceipt = ({ onNav = noop, fullbleed = false }) => (
       </div>
       {/* Live detection status */}
       <div style={{position:'absolute', top:46, left:0, right:0, display:'flex', justifyContent:'center'}}>
-        <span style={{display:'flex', alignItems:'center', gap:6, background:'rgba(61,155,143,0.22)', border:'1px solid rgba(61,155,143,0.5)', color:'var(--ff-blue-300)', borderRadius:999, padding:'4px 10px', fontSize:11, fontWeight:500}}>
-          <Icon name="check-circle" size={12} weight="fill"/> Document detected
+        <span className="ff-badge ff-badge--on-dark">
+          <span className="ff-badge__icon"><Icon name="check-circle" size={12} weight="fill"/></span>Document detected
         </span>
       </div>
       {/* Flash mode label */}

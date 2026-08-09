@@ -402,7 +402,7 @@ const AuditLog = () => {
               <tr key={i}>
                 <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{a.ts}</td>
                 <td><span className="ff-row" style={{gap:6}}>{a.actor !== "System" && a.actor !== "Okta SSO" && <Avatar initials={a.actor.split(' ').map(x=>x[0]).join('').slice(0,2)} name={a.actor}/>}{a.actor}</span></td>
-                <td><span className={`ff-badge ff-badge--${AUDIT_ACTION_GROUP[a.action] || "neutral"} ff-badge--no-dot ff-badge--fixed`}>{a.action}</span></td>
+                <td><span className={`ff-badge ff-badge--${AUDIT_ACTION_GROUP[a.action] || "neutral"} ff-badge--no-dot`}>{a.action}</span></td>
                 <td>{a.target}</td>
                 <td className="ff-mono" style={{fontSize:11, color:'var(--ff-fg-muted)'}}>10.0.4.221 · Chrome 128</td>
               </tr>
