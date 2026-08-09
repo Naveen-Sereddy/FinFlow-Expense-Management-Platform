@@ -181,11 +181,11 @@
   --ff-radius-lg: 10px;
   --ff-radius-xl: 14px;
   --ff-radius-pill: 999px;
-  /* Shared radius for badge/chip pills — a subtle rounded rectangle, not a
-     full capsule. Role, status, and other label pills (Manager, Approved,
-     etc.) use this so every pill-shaped label in the product reads the
-     same way. Deliberately tighter than the button/card radius above. */
-  --ff-radius-badge: 5px;
+  /* Shared radius for badge/chip pills — near-full capsule (24px pill
+     height, so 12px would be the true capsule cap). Role, status, and
+     other label pills (Manager, Approved, etc.) use this so every
+     pill-shaped label in the product reads the same way. */
+  --ff-radius-badge: 11px;
 
   /* Elevation — Ramp uses almost no shadow, hairline borders instead */
   --ff-shadow-xs: 0 1px 0 0 oklch(0.14 0.006 70 / 0.04);
