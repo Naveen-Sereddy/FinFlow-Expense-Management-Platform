@@ -1,0 +1,352 @@
+/* ============================================================================
+   FinFlow Design System — Foundations
+   Tokens for color, type, spacing, radius, elevation, motion.
+
+   REDESIGN NOTE (round 4 — Ramp visual-language match). Built from computed
+   CSS extracted directly off ramp.com plus close analysis of real in-app
+   Ramp screenshots (Reporting/Insights, My Ramp, Vendors, Ramp Card sync).
+   Ramp's real typeface is "lausanne" (Milieu Grotesque, commercial license,
+   not freely obtainable) — General Sans (Fontshare, free) is the closest
+   same-DNA substitute, used honestly as a stand-in, not mislabeled.
+   Ramp uses ONE grotesk at different sizes/weights, not a display/body
+   pairing — round 3's Newsreader+Public Sans split is dropped for that
+   reason. Variable NAMES stay stable across all four rounds; only values
+   change, so every one of the 47 screens re-skins with zero broken refs.
+   ============================================================================ */
+
+/* ---------- Font imports ------------------------------------------------- */
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ---------- Base / Light theme ------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* Brand — Slate Blue (legacy var names, see REDESIGN NOTE above). Color-
+     only swap: bright sky-blue #2baff2 replaced with a calmer, more
+     enterprise-trust slate blue. 50/400/500/600/700 are pinned to the exact
+     given hexes (light-bg/focus-ring/primary/hover/pressed); 100/200/300/
+     800/900 are interpolated at the same hue to fill the scale. */
+  --ff-blue-50:  #EDF3FC;                 /* light background */
+  --ff-blue-100: oklch(0.92 0.035 261);
+  --ff-blue-200: oklch(0.84 0.06 261);
+  --ff-blue-300: oklch(0.74 0.085 261);
+  --ff-blue-400: #5E7FBD;                 /* focus ring */
+  --ff-blue-500: #385A9C;                 /* brand accent (primary) */
+  --ff-blue-600: #2F4E8A;                 /* hover */
+  --ff-blue-700: #223C6E;                 /* pressed */
+  --ff-blue-800: oklch(0.28 0.075 262);
+  --ff-blue-900: oklch(0.20 0.055 262);
+
+  /* Status tokens — seven semantic groups, each exposing bg/fg/border.
+     Soft pastel bg + dark readable fg (not saturated Material colors), fg
+     verified ≥7:1 against its own bg (WCAG AAA, comfortable margin over the
+     4.5:1 AA floor). StatusBadge (layout.jsx) maps every status string in
+     the app to one of these seven — never a raw hex. */
+  --ff-status-success-bg:     #DEFBE2;
+  --ff-status-success-fg:     #005603;
+  --ff-status-success-border: #A8E2B1;
+  --ff-status-warning-bg:     #FFEDCE;
+  --ff-status-warning-fg:     #773000;
+  --ff-status-warning-border: #FCC687;
+  --ff-status-info-bg:        #E6F3FF;
+  --ff-status-info-fg:        #004296;
+  --ff-status-info-border:    #B1D3FF;
+  --ff-status-review-bg:      #EFEBFF;
+  --ff-status-review-fg:      #552F9F;
+  --ff-status-review-border:  #CFC3FF;
+  --ff-status-action-bg:      #FFE3CE;
+  --ff-status-action-fg:      #8E1E00;
+  --ff-status-action-border:  #FFB48E;
+  --ff-status-danger-bg:      #FFE4DF;
+  --ff-status-danger-fg:      #97000F;
+  --ff-status-danger-border:  #FFB4AD;
+  --ff-status-neutral-bg:     #F0EAE4;
+  --ff-status-neutral-fg:     #4B4742;
+  --ff-status-neutral-border: #D1C9C0;
+
+  /* Legacy aliases — kept so nothing outside StatusBadge breaks; every new
+     usage should reference --ff-status-* directly. */
+  --ff-approved:   var(--ff-status-success-fg);
+  --ff-approved-bg:var(--ff-status-success-bg);
+  --ff-pending:    var(--ff-status-warning-fg);
+  --ff-pending-bg: var(--ff-status-warning-bg);
+  --ff-rejected:   var(--ff-status-danger-fg);
+  --ff-rejected-bg:var(--ff-status-danger-bg);
+  --ff-flagged:    var(--ff-status-review-fg);
+  --ff-flagged-bg: var(--ff-status-review-bg);
+  --ff-info:       var(--ff-status-info-fg);
+
+  /* Neutrals — near-black warm ink (#0c0a08, extracted from ramp.com body
+     text) over a cream surface system (matches the sidebar/card cream in
+     the real product screenshots, not ramp.com's pure-white marketing bg). */
+  --ff-ink-950: oklch(0.14 0.006 70);   /* primary text, ~#0c0a08 */
+  --ff-ink-800: oklch(0.27 0.007 70);
+  --ff-ink-700: oklch(0.39 0.008 70);   /* body */
+  --ff-ink-500: oklch(0.53 0.008 70);   /* muted */
+  --ff-ink-400: oklch(0.64 0.008 70);   /* placeholder */
+  --ff-ink-300: oklch(0.76 0.008 70);
+  --ff-ink-200: oklch(0.87 0.010 75);   /* borders */
+  --ff-ink-100: oklch(0.92 0.013 78);   /* subtle surface */
+  --ff-ink-50:  oklch(0.955 0.014 80);
+
+  --ff-paper:    oklch(0.955 0.014 80); /* cream sidebar/app background */
+  --ff-surface:  #ffffff;               /* white cards, matches every card in the refs */
+  --ff-surface-2: oklch(0.945 0.015 80);
+  --ff-overlay:  oklch(0.14 0.006 70 / 0.55);
+
+  /* Role tokens (used by components) */
+  --ff-bg: var(--ff-paper);
+  --ff-fg: var(--ff-ink-950);
+  --ff-fg-muted: var(--ff-ink-500);
+  --ff-fg-subtle: var(--ff-ink-400);
+  --ff-border: var(--ff-ink-200);
+  --ff-border-strong: var(--ff-ink-300);
+  --ff-card: var(--ff-surface);
+  --ff-card-2: var(--ff-surface-2);
+  --ff-input-bg: var(--ff-surface);
+  --ff-hover: oklch(0.92 0.013 78);
+
+  /* Primary = slate blue. White text now (not ink-950) — the darker,
+     more saturated slate blue only clears WCAG AA with white on top
+     (6.75:1); near-black text on this fill was 2.93:1, a real AA fail. */
+  --ff-primary: var(--ff-blue-500);
+  --ff-primary-hover: var(--ff-blue-600);
+  --ff-primary-pressed: var(--ff-blue-700);
+  --ff-primary-fg: #fff;
+  --ff-accent: var(--ff-blue-500);
+  --ff-accent-fg: #fff;
+
+  --ff-focus-ring: 0 0 0 2px var(--ff-bg), 0 0 0 4px var(--ff-blue-400);
+
+  /* Chart palette — categorical. Only series 1 uses the brand color;
+     series 2-6 are their own hues so charts don't read as "all blue." */
+  --ff-chart-1: #385A9C;  /* brand (slate blue) */
+  --ff-chart-2: #0EA5A4;  /* teal */
+  --ff-chart-3: #8B5CF6;  /* violet */
+  --ff-chart-4: #F59E0B;  /* amber */
+  --ff-chart-5: #EF4444;  /* red */
+  --ff-chart-6: #64748B;  /* slate gray */
+  --ff-chart-grid: var(--ff-ink-200);
+  --ff-chart-axis: var(--ff-ink-500);
+
+  /* Type scale — single grotesk everywhere (General Sans), matching
+     Ramp's real one-typeface system. No separate display face. */
+  --ff-font-sans: "General Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-font-display: "General Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ff-text-2xs: 11px;
+  --ff-text-xs:  12px;
+  --ff-text-sm:  13px;
+  --ff-text-base:14px;
+  --ff-text-md:  15px;
+  --ff-text-lg:  17px;
+  --ff-text-xl:  20px;
+  --ff-text-2xl: 24px;
+  --ff-text-3xl: 30px;
+  --ff-text-4xl: 38px;
+  --ff-text-5xl: 48px;
+  --ff-text-6xl: 64px;
+  --ff-text-display: 88px;
+
+  --ff-leading-tight: 1.1;
+  --ff-leading-snug:  1.25;
+  --ff-leading-base:  1.5;
+  --ff-leading-loose: 1.7;
+
+  --ff-tracking-tight: -0.01em;
+  --ff-tracking-base:  0;
+  --ff-tracking-wide:  0.04em;
+  --ff-tracking-ucase: 0.06em;
+
+  /* Spacing — 4px base */
+  --ff-s-0:  0;
+  --ff-s-1:  4px;
+  --ff-s-2:  8px;
+  --ff-s-3:  12px;
+  --ff-s-4:  16px;
+  --ff-s-5:  20px;
+  --ff-s-6:  24px;
+  --ff-s-8:  32px;
+  --ff-s-10: 40px;
+  --ff-s-12: 48px;
+  --ff-s-16: 64px;
+  --ff-s-20: 80px;
+
+  /* Radius — Ramp's real button/card radius, extracted live: 6px */
+  --ff-radius-xs: 4px;
+  --ff-radius-sm: 6px;
+  --ff-radius-md: 6px;
+  --ff-radius-lg: 10px;
+  --ff-radius-xl: 14px;
+  --ff-radius-pill: 999px;
+  /* Shared radius for badge/chip pills — a subtle rounded rectangle, not a
+     full capsule. Category and status labels (Software, Approved, etc.) use
+     this so every pill-shaped label in the product reads the same way. */
+  --ff-radius-badge: 6px;
+
+  /* Elevation — Ramp uses almost no shadow, hairline borders instead */
+  --ff-shadow-xs: 0 1px 0 0 oklch(0.14 0.006 70 / 0.04);
+  --ff-shadow-sm: 0 1px 2px 0 oklch(0.14 0.006 70 / 0.05), 0 1px 0 0 oklch(0.14 0.006 70 / 0.03);
+  --ff-shadow-md: 0 3px 6px -2px oklch(0.14 0.006 70 / 0.06), 0 1px 3px -1px oklch(0.14 0.006 70 / 0.04);
+  --ff-shadow-lg: 0 10px 20px -6px oklch(0.14 0.006 70 / 0.08), 0 4px 8px -4px oklch(0.14 0.006 70 / 0.04);
+  --ff-shadow-xl: 0 20px 40px -12px oklch(0.14 0.006 70 / 0.14);
+
+  /* Motion */
+  --ff-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ff-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ff-dur-1: 80ms;
+  --ff-dur-2: 140ms;
+  --ff-dur-3: 220ms;
+  --ff-dur-4: 360ms;
+
+  /* Layout */
+  --ff-sidebar-w: 240px;
+  --ff-topbar-h:  56px;
+}
+
+/* ---------- Dark theme --------------------------------------------------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ff-paper:    oklch(0.15 0.008 70);
+  --ff-surface:  oklch(0.19 0.009 70);
+  --ff-surface-2:oklch(0.23 0.010 70);
+
+  --ff-bg: var(--ff-paper);
+  --ff-fg: oklch(0.93 0.008 80);
+  --ff-fg-muted: oklch(0.66 0.010 70);
+  --ff-fg-subtle: oklch(0.48 0.009 70);
+  --ff-border: oklch(0.29 0.011 70);
+  --ff-border-strong: oklch(0.38 0.012 70);
+  --ff-card: var(--ff-surface);
+  --ff-card-2: var(--ff-surface-2);
+  --ff-input-bg: oklch(0.19 0.009 70);
+  --ff-hover: oklch(0.26 0.010 70);
+  --ff-overlay: oklch(0.07 0.006 70 / 0.70);
+
+  --ff-primary: var(--ff-blue-400);
+  --ff-primary-hover: var(--ff-blue-300);
+  --ff-primary-pressed: var(--ff-blue-600);
+  --ff-primary-fg: var(--ff-ink-950);
+  --ff-accent: var(--ff-blue-400);
+  --ff-accent-fg: var(--ff-ink-950);
+
+  --ff-status-success-bg:     #103118;
+  --ff-status-success-fg:     #71D887;
+  --ff-status-success-border: #184824;
+  --ff-status-warning-bg:     #3B2301;
+  --ff-status-warning-fg:     #FFB147;
+  --ff-status-warning-border: #573400;
+  --ff-status-info-bg:        #152946;
+  --ff-status-info-fg:        #88BFFF;
+  --ff-status-info-border:    #213D66;
+  --ff-status-review-bg:      #2B2148;
+  --ff-status-review-fg:      #C2A8FF;
+  --ff-status-review-border:  #42356A;
+  --ff-status-action-bg:      #441B06;
+  --ff-status-action-fg:      #FF9C68;
+  --ff-status-action-border:  #652D11;
+  --ff-status-danger-bg:      #451816;
+  --ff-status-danger-fg:      #FF8A82;
+  --ff-status-danger-border:  #672926;
+  --ff-status-neutral-bg:     #272320;
+  --ff-status-neutral-fg:     #C2BDB7;
+  --ff-status-neutral-border: #3C3731;
+
+  --ff-approved:   var(--ff-status-success-fg);
+  --ff-approved-bg:var(--ff-status-success-bg);
+  --ff-pending:    var(--ff-status-warning-fg);
+  --ff-pending-bg: var(--ff-status-warning-bg);
+  --ff-rejected:   var(--ff-status-danger-fg);
+  --ff-rejected-bg:var(--ff-status-danger-bg);
+  --ff-flagged:    var(--ff-status-review-fg);
+  --ff-flagged-bg: var(--ff-status-review-bg);
+
+  --ff-chart-1: var(--ff-blue-400);
+  --ff-chart-2: oklch(0.76 0.11 194);
+  --ff-chart-3: oklch(0.76 0.16 293);
+  --ff-chart-4: oklch(0.80 0.15 70);
+  --ff-chart-5: oklch(0.74 0.17 25);
+  --ff-chart-6: oklch(0.68 0.03 257);
+  --ff-chart-grid: oklch(0.29 0.011 70);
+  --ff-chart-axis: oklch(0.55 0.009 70);
+
+  --ff-shadow-xs: 0 1px 0 0 oklch(0 0 0 / 0.30);
+  --ff-shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.40);
+  --ff-shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.50);
+  --ff-shadow-lg: 0 12px 32px -6px oklch(0 0 0 / 0.55);
+  --ff-shadow-xl: 0 24px 48px -12px oklch(0 0 0 / 0.65);
+}
+
+/* ---------- Base elements ----------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--ff-bg);
+  color: var(--ff-fg);
+  font-family: var(--ff-font-sans);
+  font-size: var(--ff-text-base);
+  line-height: var(--ff-leading-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01" on, "cv11" on;
+}
+
+/* Tabular figures for money/quantities */
+.ff-tnum, .ff-money, .ff-number {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" on, "lnum" on;
+}
+
+/* Type roles */
+.ff-display {
+  font-family: var(--ff-font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.ff-display-italic { font-family: var(--ff-font-display); font-weight: 500; letter-spacing: -0.01em; line-height: 1.1; font-style: italic; }
+.ff-mono { font-family: var(--ff-font-mono); }
+.ff-eyebrow {
+  font-size: var(--ff-text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--ff-tracking-ucase);
+  font-weight: 500;
+  color: var(--ff-fg-muted);
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+h1 { font-size: var(--ff-text-3xl); }
+h2 { font-size: var(--ff-text-2xl); }
+h3 { font-size: var(--ff-text-xl); }
+h4 { font-size: var(--ff-text-lg); }
+
+a { color: var(--ff-ink-950); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Focus visible — accessibility, both themes. Uses the one documented
+   --ff-focus-ring token (not a duplicate hardcoded color) so every focusable
+   element, including inputs, gets the same ring instead of two divergent
+   focus treatments. box-shadow (not outline) so the ring follows each
+   element's own border-radius instead of forcing a fixed one. */
+:focus { outline: none; }
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ff-focus-ring);
+}
+
+/* Selection */
+::selection { background: var(--ff-blue-200); color: var(--ff-ink-950); }
+[data-theme="dark"] ::selection { background: var(--ff-blue-800); color: var(--ff-fg); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Scrollbars — calm */
+.ff-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.ff-scroll::-webkit-scrollbar-thumb { background: var(--ff-border-strong); border-radius: 999px; border: 2px solid var(--ff-bg); }
+.ff-scroll::-webkit-scrollbar-track { background: transparent; }

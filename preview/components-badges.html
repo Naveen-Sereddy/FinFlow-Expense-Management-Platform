@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><title>Components · Badges & status</title>
+<link rel="stylesheet" href="../foundations/colors_and_type.css"/>
+<link rel="stylesheet" href="../foundations/components.css"/>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
+<style>body{padding:24px;display:flex;flex-direction:column;gap:18px;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.label{font-size:11px;color:var(--ff-fg-muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:500;}
+</style>
+</head><body>
+<div>
+  <div class="label" style="margin-bottom:8px;">Status badges — icon + label, never color-only</div>
+  <div class="row">
+    <span class="ff-badge ff-badge--approved ff-badge--no-dot"><i class="ph ph-check-circle"></i> Approved</span>
+    <span class="ff-badge ff-badge--pending ff-badge--no-dot"><i class="ph ph-clock"></i> Pending</span>
+    <span class="ff-badge ff-badge--rejected ff-badge--no-dot"><i class="ph ph-x-circle"></i> Rejected</span>
+    <span class="ff-badge ff-badge--flagged ff-badge--no-dot"><i class="ph ph-warning"></i> Flagged</span>
+    <span class="ff-badge ff-badge--plum ff-badge--no-dot">Finance Admin</span>
+    <span class="ff-badge">Neutral</span>
+  </div>
+</div>
+<div>
+  <div class="label" style="margin-bottom:8px;">Alerts</div>
+  <div class="ff-alert ff-alert--info"><i class="ph ph-info ff-alert__icon"></i>
+    <div class="ff-alert__body"><div class="ff-alert__title">Within policy</div><div>Airfare under $1,000 cap. Receipt attached.</div></div>
+  </div>
+  <div style="height:8px;"></div>
+  <div class="ff-alert ff-alert--warn"><i class="ph ph-warning ff-alert__icon"></i>
+    <div class="ff-alert__body"><div class="ff-alert__title">Policy: over hotel cap</div><div>3 nights at $413/night exceeds the $300/night domestic cap.</div></div>
+  </div>
+</div>
+</body></html>

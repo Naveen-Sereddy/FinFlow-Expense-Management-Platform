@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><title>Components · KPI tile</title>
+<link rel="stylesheet" href="../foundations/colors_and_type.css"/>
+<link rel="stylesheet" href="../foundations/components.css"/>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
+<style>body{padding:24px;}</style>
+</head><body>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+  <div class="ff-kpi">
+    <div class="ff-kpi__label">Spend MTD</div>
+    <div class="ff-kpi__value">$284,120</div>
+    <div style="display:flex;justify-content:space-between;">
+      <div class="ff-kpi__delta ff-kpi__delta--up"><i class="ph ph-trend-up" style="font-size:12px;"></i> +12.4% vs Apr</div>
+      <svg width="80" height="28" viewBox="0 0 80 28"><path d="M 0,22 L 13,18 L 26,21 L 40,12 L 53,15 L 66,9 L 80,5" stroke="var(--ff-chart-1)" fill="none" stroke-width="1.5"/><path d="M 0,22 L 13,18 L 26,21 L 40,12 L 53,15 L 66,9 L 80,5 L 80,28 L 0,28 Z" fill="var(--ff-chart-1)" opacity="0.10"/></svg>
+    </div>
+  </div>
+  <div class="ff-kpi">
+    <div class="ff-kpi__label">Pending Approvals</div>
+    <div class="ff-kpi__value">37</div>
+    <div style="display:flex;justify-content:space-between;">
+      <div class="ff-kpi__delta ff-kpi__delta--down"><i class="ph ph-trend-down" style="font-size:12px;"></i> 8 over 48h</div>
+      <svg width="80" height="28" viewBox="0 0 80 28"><path d="M 0,8 L 13,12 L 26,10 L 40,14 L 53,12 L 66,18 L 80,16" stroke="var(--ff-chart-1)" fill="none" stroke-width="1.5"/></svg>
+    </div>
+  </div>
+</div>
+<div style="margin-top:12px;font-size:11px;color:var(--ff-fg-muted);">Display serif for numerals · tabular figures · optional sparkline · trend semantic color</div>
+</body></html>

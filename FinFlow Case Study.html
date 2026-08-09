@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FinFlow · Portfolio Case Study</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="case-study/style.css">
+  <style>
+    html, body { background: #2a2a28; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="ui_kits/finflow/data.js"></script>
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="case-study/dashmock.jsx"></script>
+  <script type="text/babel" src="case-study/ab-personas.jsx"></script>
+  <script type="text/babel" src="case-study/ab-research.jsx"></script>
+  <script type="text/babel" src="case-study/ab-journey.jsx"></script>
+  <script type="text/babel" src="case-study/ab-sitemap.jsx"></script>
+  <script type="text/babel" src="case-study/ab-lofi.jsx"></script>
+  <script type="text/babel" src="case-study/ab-midfi.jsx"></script>
+  <script type="text/babel" src="case-study/ab-system.jsx"></script>
+  <script type="text/babel" src="case-study/ab-accessibility.jsx"></script>
+  <script type="text/babel" src="case-study/ab-final.jsx"></script>
+  <script type="text/babel" src="case-study/ab-proto.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const W = 1760;
+    const H = 1100;
+
+    function App() {
+      return (
+        <DesignCanvas>
+          <DCSection id="research" title="Discovery" subtitle="Personas · workflow · IA">
+            <DCArtboard id="01-personas" label="01 · Personas" width={W} height={H}>
+              <ArtboardPersonas />
+            </DCArtboard>
+            <DCArtboard id="01b-research" label="01b · Research" width={W} height={H}>
+              <ArtboardResearch />
+            </DCArtboard>
+            <DCArtboard id="02-journey" label="02 · Journey map" width={W} height={H}>
+              <ArtboardJourney />
+            </DCArtboard>
+            <DCArtboard id="03-sitemap" label="03 · Information architecture" width={W} height={H}>
+              <ArtboardSitemap />
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="design" title="Design" subtitle="Wireframes · system · accessibility">
+            <DCArtboard id="04-lofi" label="04 · Low-fi wireframes" width={W} height={H}>
+              <ArtboardLoFi />
+            </DCArtboard>
+            <DCArtboard id="05-midfi" label="05 · Mid-fi wireframes" width={W} height={H}>
+              <ArtboardMidFi />
+            </DCArtboard>
+            <DCArtboard id="06-system" label="06 · Design system" width={W} height={H}>
+              <ArtboardDesignSystem />
+            </DCArtboard>
+            <DCArtboard id="07-a11y" label="07 · Accessibility audit" width={W} height={H}>
+              <ArtboardAccessibility />
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="deliver" title="Deliver" subtitle="Hi-fi UI · clickable prototype">
+            <DCArtboard id="08-final" label="08 · Final UI · responsive" width={W} height={H}>
+              <ArtboardFinalUI />
+            </DCArtboard>
+            <DCArtboard id="09-proto" label="09 · Clickable prototype" width={W} height={H}>
+              <ArtboardPrototype />
+            </DCArtboard>
+          </DCSection>
+        </DesignCanvas>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

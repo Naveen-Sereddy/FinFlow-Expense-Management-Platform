@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><title>Colors · Semantic</title>
+<link rel="stylesheet" href="../foundations/colors_and_type.css"/>
+<link rel="stylesheet" href="../foundations/components.css"/>
+<style>body{padding:20px;}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.card{padding:14px;border-radius:8px;border:1px solid var(--ff-border);display:flex;flex-direction:column;gap:8px;}
+.dot{width:14px;height:14px;border-radius:999px;}
+</style>
+</head><body>
+<div class="row">
+  <div class="card" style="background:var(--ff-approved-bg);">
+    <div style="display:flex;align-items:center;gap:8px;color:var(--ff-approved);">
+      <div class="dot" style="background:var(--ff-approved);"></div>
+      <strong>Approved</strong>
+    </div>
+    <div style="font-size:11px;color:var(--ff-fg-muted);">Decision made · paid · cleared</div>
+  </div>
+  <div class="card" style="background:var(--ff-pending-bg);">
+    <div style="display:flex;align-items:center;gap:8px;color:var(--ff-pending);">
+      <div class="dot" style="background:var(--ff-pending);"></div>
+      <strong>Pending</strong>
+    </div>
+    <div style="font-size:11px;color:var(--ff-fg-muted);">Awaiting approval · in review</div>
+  </div>
+  <div class="card" style="background:var(--ff-rejected-bg);">
+    <div style="display:flex;align-items:center;gap:8px;color:var(--ff-rejected);">
+      <div class="dot" style="background:var(--ff-rejected);"></div>
+      <strong>Rejected</strong>
+    </div>
+    <div style="font-size:11px;color:var(--ff-fg-muted);">Declined · returned · cancelled</div>
+  </div>
+  <div class="card" style="background:var(--ff-flagged-bg);">
+    <div style="display:flex;align-items:center;gap:8px;color:var(--ff-flagged);">
+      <div class="dot" style="background:var(--ff-flagged);"></div>
+      <strong>Flagged</strong>
+    </div>
+    <div style="font-size:11px;color:var(--ff-fg-muted);">Policy hit · needs override</div>
+  </div>
+</div>
+<div style="margin-top:14px;font-size:11px;color:var(--ff-fg-muted);">Never color-only — every status pairs with an icon + label for WCAG AA.</div>
+<div style="margin-top:18px;display:flex;gap:6px;">
+  <span class="ff-badge ff-badge--approved ff-badge--no-dot"><i class="ph ph-check-circle" style="font-size:12px;"></i> Approved</span>
+  <span class="ff-badge ff-badge--pending ff-badge--no-dot"><i class="ph ph-clock" style="font-size:12px;"></i> Pending</span>
+  <span class="ff-badge ff-badge--rejected ff-badge--no-dot"><i class="ph ph-x-circle" style="font-size:12px;"></i> Rejected</span>
+  <span class="ff-badge ff-badge--flagged ff-badge--no-dot"><i class="ph ph-warning" style="font-size:12px;"></i> Flagged</span>
+</div>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
+</body></html>
