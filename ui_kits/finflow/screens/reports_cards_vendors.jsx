@@ -38,7 +38,7 @@ const ReportsHome = () => {
               {d.vendors.slice(0,6).map(v => (
                 <tr key={v.id}>
                   <td><span className="ff-row" style={{gap:8}}><MerchantIcon name={v.name} size={14}/> {v.name}</span></td>
-                  <td><span className="ff-badge ff-badge--neutral ff-badge--no-dot">{d.categories.find(c=>c.id===v.cat).name}</span></td>
+                  <td><CategoryTag color={d.categories.find(c=>c.id===v.cat).color} name={d.categories.find(c=>c.id===v.cat).name}/></td>
                   <td className="ff-num"><Money value={v.spend}/></td>
                   <td className="ff-num" style={{color: v.change > 0 ? 'var(--ff-rejected)' : v.change < 0 ? 'var(--ff-approved)' : 'var(--ff-fg-muted)'}}>{v.change > 0 ? '+' : ''}{v.change.toFixed(1)}%</td>
                 </tr>
