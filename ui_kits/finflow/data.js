@@ -10,7 +10,7 @@ window.FF_DATA = (() => {
     employees: 243,
     stage: "Series B",
     fiscalYear: "FY 2026",
-    accent: "Teal"
+    accent: "Slate Blue"
   };
 
   const me = {

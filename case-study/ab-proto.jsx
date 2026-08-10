@@ -1,25 +1,30 @@
 /* global React */
 // Clickable prototype artboard — the real app, fully interactive.
+// Rebuilt entirely in FinFlow's own design system (slate blue + cream + General Sans).
 
 function ArtboardPrototype() {
   return (
-    <div className="ab">
-      <div className="ab-head">
+    <div className="ab" style={{background:"var(--p-paper)"}}>
+      <div className="ab-head" style={{borderBottom:"1px solid var(--p-line)"}}>
         <div className="ab-head__left">
-          <div className="ab-eyebrow"><span className="num" style={{background:"var(--c-surface-2)"}}>09</span>Deliver · Prototype</div>
-          <h1 className="ab-title">Fully clickable. Not a Figma flow.</h1>
-          <div className="ab-sub">Real screen-to-screen navigation — workspace onboarding through all three role dashboards, expenses, approvals, cards, reports, and settings. Try the bulk-approve flow in Approvals, or ⌘K to jump anywhere.</div>
+          <div style={{fontFamily:"var(--f-mono)", fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--p-accent)", display:"flex", alignItems:"center", gap:8, marginBottom:10}}>
+            <span style={{background:"var(--p-accent)", color:"#fff", borderRadius:4, padding:"2px 7px", fontWeight:700}}>09</span>Deliver · Prototype
+          </div>
+          <h1 style={{fontFamily:"var(--p-font)", fontSize:32, fontWeight:600, color:"var(--p-ink)", margin:0, letterSpacing:"-0.01em"}}>Fully clickable. Not a Figma flow.</h1>
+          <div style={{fontFamily:"var(--p-font)", fontSize:14, color:"var(--p-ink-3)", marginTop:8, maxWidth:640, lineHeight:1.5}}>Real screen-to-screen navigation, workspace onboarding through all three role dashboards, expenses, approvals, cards, reports, and settings. Try the bulk-approve flow in Approvals, or ⌘K to jump anywhere.</div>
         </div>
         <div className="ab-head__right">
-          <div className="ab-meta"><span className="ab-meta__k">Status</span><span className="ab-meta__v" style={{color:"var(--c-success)"}}>Live · interactive</span></div>
+          <div style={{textAlign:"right"}}>
+            <div style={{fontFamily:"var(--f-mono)", fontSize:9.5, letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--p-ink-3)"}}>Status</div>
+            <div style={{fontFamily:"var(--p-font)", fontSize:15, fontWeight:600, color:"#005603"}}>Live · interactive</div>
+          </div>
         </div>
       </div>
 
-      <div className="ab-body" style={{padding:"20px 40px 32px"}}>
+      <div className="ab-body" style={{padding:"20px 40px 32px", background:"var(--p-paper)"}}>
         <div style={{
           height:"100%", borderRadius:14, overflow:"hidden",
-          border:"1px solid var(--c-accent-line)", background:"var(--c-surface)",
-          boxShadow:"0 0 0 1px var(--c-accent-tint)",
+          border:"1px solid var(--p-line)", background:"#FFFFFF",
         }}>
           <iframe
             src="ui_kits/finflow/index.html"
@@ -29,9 +34,9 @@ function ArtboardPrototype() {
         </div>
       </div>
 
-      <div className="ab-foot">
-        <div className="brand"><span className="dot"></span> FinFlow · Concept Case Study · 2026</div>
-        <div>Deliver · Clickable prototype</div>
+      <div className="ab-foot" style={{borderTop:"1px solid var(--p-line)"}}>
+        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Concept Case Study · 2026</div>
+        <div style={{color:"var(--p-ink-3)"}}>Deliver · Clickable prototype</div>
       </div>
     </div>
   );
