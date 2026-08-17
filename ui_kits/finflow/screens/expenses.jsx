@@ -325,23 +325,10 @@ const OcrReview = () => {
           <div style={{padding:20}}>
             <div style={{
               background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:8,
-              width:'min(100%, 320px)', aspectRatio:'0.62 / 1', margin:'0 auto', position:'relative', overflow:'hidden'
+              width:'min(100%, 320px)', aspectRatio:'0.8 / 1', margin:'0 auto', position:'relative', overflow:'hidden'
             }}>
-              {/* faux receipt — real receipt proportions (narrow, portrait), not a square frame */}
-              <div style={{position:'absolute', inset:16, background:'#fff', borderRadius:4, boxShadow:'var(--ff-shadow-md)', padding:'22px 16px', color:'#15181c', fontSize:11, fontFamily:'var(--ff-font-mono)'}}>
-                <div style={{textAlign:'center', fontFamily:'var(--ff-font-display)', fontSize:22, marginBottom:14}}>MARRIOTT</div>
-                <div style={{textAlign:'center', marginBottom:18, color:'#666'}}>
-                  <span style={{background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3, padding:'2px 6px'}}>Austin, TX · Folio 4471</span>
-                </div>
-                <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}><span>Room 412 — 3 nights</span><span>$1,140.00</span></div>
-                <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}><span>Resort fee</span><span>$45.00</span></div>
-                <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}><span>Tax</span><span>$55.00</span></div>
-                <hr style={{margin:'10px 0', border:'0', borderTop:'1px dashed #ccc'}}/>
-                <div style={{display:'flex', justifyContent:'space-between', fontWeight:600}}>
-                  <span>TOTAL</span>
-                  <span style={{background:'oklch(0.72 0.14 75 / 0.25)', border:'1px solid oklch(0.72 0.14 75)', borderRadius:3, padding:'1px 6px'}}>$1,240.00</span>
-                </div>
-                <div style={{marginTop:18, textAlign:'center', color:'#888'}}>VISA •••• 4112 · 05/21/26 14:08</div>
+              <div style={{position:'absolute', inset:16, borderRadius:4, boxShadow:'var(--ff-shadow-md)', overflow:'hidden'}}>
+                <img src="assets/marriott-austin.jpg" alt="Marriott Austin hotel receipt" style={{width:'100%', height:'100%', objectFit:'contain', background:'#fff'}}/>
               </div>
               <div style={{position:'absolute', top:10, right:10, background:'var(--ff-card)', border:'1px solid var(--ff-border)', borderRadius:6, padding:'4px 8px', fontSize:11, color:'var(--ff-fg-muted)', display:'flex', gap:8, alignItems:'center'}}>
                 <Icon name="sparkle" size={12}/> OCR confidence · 94%
@@ -406,7 +393,9 @@ const FlaggedExpense = () => {
       <div className="ff-grid" style={{gridTemplateColumns:'1.6fr 1fr', gap:16}}>
         <Card title="Receipt + transcription">
           <div className="ff-grid ff-grid--2">
-            <div style={{height:300, background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--ff-font-mono)', fontSize:11, color:'var(--ff-fg-muted)'}}>receipt.jpg</div>
+            <div style={{aspectRatio:'0.8 / 1', maxHeight:300, margin:'0 auto', background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:8, overflow:'hidden'}}>
+              <img src="assets/marriott-austin.jpg" alt="Marriott Austin hotel receipt" style={{width:'100%', height:'100%', objectFit:'contain'}}/>
+            </div>
             <div style={{fontSize:13, lineHeight:1.6}}>
               <DetailRow label="Total"><span style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:24, letterSpacing:'-0.025em'}} className="ff-tnum">$1,240.00</span></DetailRow>
               <div style={{height:12}}/>

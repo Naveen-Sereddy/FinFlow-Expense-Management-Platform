@@ -171,14 +171,8 @@ const MobileSnapReceipt = ({ onNav = noop, fullbleed = false }) => (
         <div style={{position:'absolute', top:'66.6%', left:0, right:0, height:1, background:'#fff'}}/>
       </div>
       {/* Receipt placeholder centered */}
-      <div style={{position:'absolute', top:'18%', left:'14%', right:'14%', bottom:'22%', background:'#fff', color:'#15181c', borderRadius:8, padding:24, fontFamily:'var(--ff-font-mono)', fontSize:10, transform:'rotate(-2deg)', boxShadow:'0 18px 40px rgba(0,0,0,0.5)'}}>
-        <div style={{textAlign:'center', fontFamily:'var(--ff-font-display)', fontSize:22}}>STARBUCKS</div>
-        <div style={{textAlign:'center', color:'#666', marginBottom:18}}>SF · Market St</div>
-        <div style={{display:'flex', justifyContent:'space-between'}}><span>Latte ×2</span><span>14.00</span></div>
-        <div style={{display:'flex', justifyContent:'space-between'}}><span>Pastry ×3</span><span>15.50</span></div>
-        <div style={{display:'flex', justifyContent:'space-between'}}><span>Tax</span><span>3.20</span></div>
-        <hr style={{margin:'10px 0', border:0, borderTop:'1px dashed #ccc'}}/>
-        <div style={{display:'flex', justifyContent:'space-between', fontWeight:600}}><span>TOTAL</span><span>$42.80</span></div>
+      <div style={{position:'absolute', top:'18%', left:'14%', right:'14%', bottom:'22%', background:'#fff', borderRadius:8, overflow:'hidden', transform:'rotate(-2deg)', boxShadow:'0 18px 40px rgba(0,0,0,0.5)'}}>
+        <img src="assets/starbucks-market-st.jpg" alt="Starbucks Market St receipt" style={{width:'100%', height:'100%', objectFit:'contain'}}/>
       </div>
       {/* Capture frame corners */}
       <CaptureCorners/>
