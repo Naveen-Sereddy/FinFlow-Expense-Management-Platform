@@ -5,7 +5,7 @@
   <title>FinFlow — Interactive UI Kit</title>
   <meta name="viewport" content="width=1320"/>
   <link rel="stylesheet" href="../../foundations/colors_and_type.css?v=100"/>
-  <link rel="stylesheet" href="../../foundations/components.css?v=100"/>
+  <link rel="stylesheet" href="../../foundations/components.css?v=102"/>
   <!-- Additional Google Fonts for wordmark tweaks -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&display=swap"/>
   <!-- Phosphor Icons (regular + bold + fill) -->
@@ -16,7 +16,6 @@
   <style>
     html, body, #root { height: 100%; min-height: 100%; }
     body { overflow-x: auto; overflow-y: hidden; }
-    #root { min-width: 1180px; }
 
     /* Screen-directory launcher */
     .ff-launch {
@@ -61,13 +60,13 @@
   <script type="text/babel" src="../../brand/BrandMark.jsx?v=101"></script>
   <script type="text/babel" src="tweaks-panel.jsx?v=101"></script>
   <script type="text/babel" src="charts.jsx?v=101"></script>
-  <script type="text/babel" src="layout.jsx?v=101"></script>
+  <script type="text/babel" src="layout.jsx?v=102"></script>
   <script type="text/babel" src="screens/dashboards.jsx?v=101"></script>
-  <script type="text/babel" src="screens/expenses.jsx?v=101"></script>
-  <script type="text/babel" src="screens/approvals.jsx?v=101"></script>
+  <script type="text/babel" src="screens/expenses.jsx?v=102"></script>
+  <script type="text/babel" src="screens/approvals.jsx?v=102"></script>
   <script type="text/babel" src="screens/reports_cards_vendors.jsx?v=101"></script>
   <script type="text/babel" src="screens/settings.jsx?v=102"></script>
-  <script type="text/babel" src="screens/misc.jsx?v=101"></script>
+  <script type="text/babel" src="screens/misc.jsx?v=102"></script>
   <script type="text/babel" src="screens/mobile.jsx?v=101"></script>
 
   <script type="text/babel">
@@ -188,6 +187,7 @@
       { id:"state-empty", group:"States", label:"Empty expenses", Comp: () => <EmptyExpenses/> },
       { id:"state-error", group:"States", label:"Error", Comp: () => <ErrorState/> },
       { id:"state-success", group:"States", label:"Success — approval", Comp: () => <SuccessApproval/> },
+      { id:"state-rejected", group:"States", label:"Rejected — approval", Comp: () => <RejectedState/> },
       { id:"state-confirm", group:"States", label:"Confirmation — payout scheduled", Comp: () => <ConfirmReimbursement/> },
 
       // Mobile

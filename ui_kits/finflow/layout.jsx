@@ -306,11 +306,14 @@ const TopNav = ({ role, current, onNavigate, theme, onTheme, onRole, onSearchCli
       <div style={{flex:1}}/>
       <div className="ff-segmented ff-segmented--sm" role="tablist" aria-label="Viewing role">
         {[
-          { id: "finance",  label: "Admin" },
-          { id: "manager",  label: "Manager" },
-          { id: "employee", label: "Employee" }
+          { id: "finance",  label: "Admin",    short: "Adm" },
+          { id: "manager",  label: "Manager",  short: "Mgr" },
+          { id: "employee", label: "Employee", short: "Emp" }
         ].map(r => (
-          <button key={r.id} aria-pressed={role === r.id} onClick={() => onRole(r.id)}>{r.label}</button>
+          <button key={r.id} aria-pressed={role === r.id} onClick={() => onRole(r.id)} aria-label={r.label}>
+            <span className="ff-segmented__full">{r.label}</span>
+            <span className="ff-segmented__short">{r.short}</span>
+          </button>
         ))}
       </div>
       <button className="ff-btn ff-btn--ghost ff-btn--icon" onClick={onSearchClick} aria-label="Search">

@@ -608,6 +608,22 @@ const SuccessApproval = () => {
   );
 };
 
+const RejectedState = () => {
+  const remaining = Math.max(0, FF_DATA.expenses.filter(e => e.status === "pending" || e.status === "flagged").length - 1);
+  return (
+  <div style={{maxWidth:480, margin:'48px auto', textAlign:'center'}}>
+    <div style={{width:72, height:72, borderRadius:999, background:'var(--ff-rejected-bg)', color:'var(--ff-rejected)', margin:'0 auto', display:'grid', placeItems:'center'}}>
+      <Icon name="x-circle" size={36} weight="fill"/>
+    </div>
+    <h1 style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:42, lineHeight:1.1, letterSpacing:'-0.03em', marginTop:24}}>Rejected.</h1>
+    <p style={{color:'var(--ff-fg-muted)', marginTop:8}}>The submitter has been notified, with a note to correct and resubmit if needed.</p>
+    <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
+      <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('approvals')}>Back to queue ({remaining}) →</button>
+    </div>
+  </div>
+  );
+};
+
 const ConfirmReimbursement = () => (
   <div style={{maxWidth:520, margin:'48px auto', textAlign:'center'}}>
     <div style={{width:72, height:72, borderRadius:999, background:'var(--ff-flagged-bg)', color:'var(--ff-flagged)', margin:'0 auto', display:'grid', placeItems:'center'}}>
@@ -631,4 +647,4 @@ const ConfirmReimbursement = () => (
   </div>
 );
 
-Object.assign(window, { WelcomeWorkspace, CompanyDetails, ConnectSystems, InviteTeam, ExpensePolicy, OnboardingSuccess, AuditLog, NotificationsCenter, Help, LoadingDashboard, EmptyExpenses, ErrorState, SuccessApproval, ConfirmReimbursement });
+Object.assign(window, { WelcomeWorkspace, CompanyDetails, ConnectSystems, InviteTeam, ExpensePolicy, OnboardingSuccess, AuditLog, NotificationsCenter, Help, LoadingDashboard, EmptyExpenses, ErrorState, SuccessApproval, RejectedState, ConfirmReimbursement });

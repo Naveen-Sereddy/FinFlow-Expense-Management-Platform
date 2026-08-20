@@ -146,7 +146,7 @@ const ExpenseDetail = () => {
         sub={`${e.id} · Submitted by ${e.who} on ${fmtDate(e.date)}`}
         actions={<>
           <button className="ff-btn"><Icon name="chat-text" size={14}/> Comment</button>
-          <button className="ff-btn"><Icon name="x" size={14}/> Reject</button>
+          <button className="ff-btn" onClick={()=>ffGo('state-rejected')}><Icon name="x" size={14}/> Reject</button>
           <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('state-success')}><Icon name="check" size={14}/> Approve</button>
         </>}
       />
@@ -378,8 +378,8 @@ const FlaggedExpense = () => {
         sub="EXP-2839 · Jordan Lee · May 21, 2026"
         actions={<>
           <button className="ff-btn"><Icon name="chat-text" size={14}/> Ask for info</button>
-          <button className="ff-btn ff-btn--danger"><Icon name="x" size={14}/> Reject</button>
-          <button className="ff-btn ff-btn--primary"><Icon name="check" size={14}/> Approve override</button>
+          <button className="ff-btn ff-btn--danger" onClick={()=>ffGo('state-rejected')}><Icon name="x" size={14}/> Reject</button>
+          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('state-success')}><Icon name="check" size={14}/> Approve override</button>
         </>}
       />
       <div className="ff-alert ff-alert--error" style={{marginBottom:16}}>

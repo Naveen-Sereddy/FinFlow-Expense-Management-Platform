@@ -58,7 +58,7 @@ const ApprovalsQueue = () => {
             <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{d.categories.find(c=>c.id===e.cat).name}</div>
           </div>
           <div className="ff-row" onClick={ev=>ev.stopPropagation()}>
-            <button className="ff-btn ff-btn--ghost ff-btn--sm">Reject</button>
+            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>ffGo('state-rejected')}>Reject</button>
             <button className="ff-btn ff-btn--primary ff-btn--sm" onClick={()=>ffGo('state-success')}>Approve</button>
           </div>
         </div>

@@ -485,6 +485,18 @@
 .ff-topnav__profile-title { font-size: 11px; color: var(--ff-fg-muted); white-space: nowrap; }
 .ff-segmented--sm { padding: 2px; margin-right: 4px; }
 .ff-segmented--sm button { height: 24px; padding: 0 9px; font-size: 11px; }
+.ff-segmented__short { display: none; }
+
+/* Below 1240px the topnav's fixed chrome (role switcher, profile name/title)
+   no longer fits alongside the primary nav items at common laptop widths
+   (~1050-1300px), pushing real screen content off the right edge. Collapse
+   the chrome that's least essential to the actual task, not the content. */
+@media (max-width: 1240px) {
+  .ff-segmented__full { display: none; }
+  .ff-segmented__short { display: inline; }
+  .ff-topnav__profile-name, .ff-topnav__profile-title { display: none; }
+  .ff-topnav__profile { margin-left: 8px; padding-left: 8px; gap: 0; }
+}
 
 .ff-nav-item {
   display: flex; align-items: center; gap: 10px;
@@ -508,7 +520,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 1180px;
   background: var(--ff-bg);
 }
 .ff-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; flex: 1; }
