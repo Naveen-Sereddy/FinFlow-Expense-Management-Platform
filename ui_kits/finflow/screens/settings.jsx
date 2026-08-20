@@ -34,7 +34,7 @@ const SettingsProfile = () => (
       <Avatar initials="MS" name="Marcus Stoinis" size="xl"/>
       <div>
         <div style={{fontSize:18, fontWeight:600}}>Marcus Stoinis</div>
-        <div style={{fontSize:13, color:'var(--ff-fg-muted)'}}>Director of Finance · Joined Mar 2023</div>
+        <div style={{fontSize:13, color:'var(--ff-fg-muted)'}}>Head of Finance · Joined Mar 2023</div>
         <div className="ff-row" style={{marginTop:10, gap:8}}>
           <button className="ff-btn ff-btn--sm">Upload photo</button>
           <button className="ff-btn ff-btn--sm ff-btn--ghost">Remove</button>
@@ -44,7 +44,7 @@ const SettingsProfile = () => (
     <div className="ff-grid ff-grid--2" style={{gap:'14px 18px'}}>
       <div className="ff-field"><label className="ff-label">Full name</label><input className="ff-input" defaultValue="Marcus Stoinis"/></div>
       <div className="ff-field"><label className="ff-label">Preferred name</label><input className="ff-input" defaultValue="Marcus"/></div>
-      <div className="ff-field"><label className="ff-label">Title</label><input className="ff-input" defaultValue="Director of Finance"/></div>
+      <div className="ff-field"><label className="ff-label">Title</label><input className="ff-input" defaultValue="Head of Finance"/></div>
       <div className="ff-field"><label className="ff-label">Department</label><input className="ff-input" defaultValue="Finance"/></div>
       <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input" defaultValue="marcus.stoinis@reyonal.com"/></div>
       <div className="ff-field"><label className="ff-label">Time zone</label><select className="ff-select"><option>America/Los_Angeles</option><option>America/New_York</option><option>UTC</option></select></div>
@@ -107,8 +107,11 @@ const SettingsTeam = () => (
           ["Corey Anderson","Employee","corey.anderson@reyonal.com","2 hours ago"],
           ["Jordan Lee","Employee","jordan.lee@reyonal.com","4 hours ago"],
           ["Sam Richardson","Employee","sam.richardson@reyonal.com","Yesterday"],
+          ["Alex Morgan","Employee","alex.morgan@reyonal.com","Yesterday"],
           ["James Taylor","Employee","james.taylor@reyonal.com","2 days ago"],
-          ["Jamie Smith","Auditor","jamie.smith@reyonal.com","1 week ago"]
+          ["Jamie Smith","Auditor","jamie.smith@reyonal.com","1 week ago"],
+          ["Riley Meredith","Employee","riley.meredith@reyonal.com","1 week ago"],
+          ["Sam Curran","Employee","sam.curran@reyonal.com","3 days ago"]
         ].map(([n, role, em, la], i) => (
           <tr key={i}>
             <td><span className="ff-row" style={{gap:8}}><Avatar initials={n.split(' ').map(x=>x[0]).join('').slice(0,2)} name={n}/>{n}</span></td>

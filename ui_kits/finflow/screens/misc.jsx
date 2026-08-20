@@ -72,7 +72,24 @@ const OnboardingShell = ({ step, children, title, sub, next, nextId, back, backI
 /* WelcomeWorkspace needs its own heading + a signup-style CTA row instead of
    the shell's default Continue/Skip footer, so it composes the sidebar
    directly rather than reusing the generic OnboardingShell body. */
-const WelcomeWorkspace = () => (
+const WelcomeWorkspace = () => {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [errors, setErrors] = React.useState({ name: false, email: false });
+
+  const handleContinue = () => {
+    const nameOk = name.trim().length > 0;
+    const emailOk = email.trim().length > 0;
+    if (!nameOk || !emailOk) {
+      setErrors({ name: !nameOk, email: !emailOk });
+      return;
+    }
+    ffGo('onb-company');
+  };
+
+  const errorStyle = { borderColor: 'var(--ff-rejected)' };
+
+  return (
   <div style={{display:'grid', gridTemplateColumns:'25% 75%', minHeight:'100%', background:'var(--ff-bg)'}}>
     <aside style={{borderRight:'1px solid var(--ff-border)', padding:'40px 32px', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
       <div>
@@ -110,9 +127,21 @@ const WelcomeWorkspace = () => (
         <p style={{color:'var(--ff-fg-muted)', marginTop:8, fontSize:15}}>Let's create your finance workspace.</p>
 
         <div className="ff-stack" style={{'--ff-stack-gap':'14px', marginTop:32}}>
-          <div className="ff-field"><label className="ff-label">Workspace name</label><input className="ff-input ff-input--lg" placeholder="Reyonal"/></div>
-          <div className="ff-field"><label className="ff-label">Company email</label><input className="ff-input ff-input--lg" placeholder="you@company.com"/></div>
-          <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={()=>ffGo('onb-company')}>Continue</button>
+          <div className="ff-field">
+            <label className="ff-label">Workspace name</label>
+            <input className="ff-input ff-input--lg" placeholder="Reyonal" value={name}
+              style={errors.name ? errorStyle : undefined}
+              onChange={e=>{setName(e.target.value); if (errors.name) setErrors(x=>({...x, name:false}));}}/>
+            {errors.name && <div style={{fontSize:12, color:'var(--ff-rejected)', marginTop:4}}>Enter a workspace name.</div>}
+          </div>
+          <div className="ff-field">
+            <label className="ff-label">Company email</label>
+            <input className="ff-input ff-input--lg" placeholder="you@company.com" value={email}
+              style={errors.email ? errorStyle : undefined}
+              onChange={e=>{setEmail(e.target.value); if (errors.email) setErrors(x=>({...x, email:false}));}}/>
+            {errors.email && <div style={{fontSize:12, color:'var(--ff-rejected)', marginTop:4}}>Enter a company email.</div>}
+          </div>
+          <button className="ff-btn ff-btn--primary ff-btn--lg" style={{width:'100%'}} onClick={handleContinue}>Continue</button>
 
           <div style={{display:'flex', alignItems:'center', gap:12, color:'var(--ff-fg-muted)', fontSize:12, margin:'6px 0'}}>
             <hr style={{flex:1, border:0, borderTop:'1px solid var(--ff-border)'}}/> or <hr style={{flex:1, border:0, borderTop:'1px solid var(--ff-border)'}}/>
@@ -132,7 +161,8 @@ const WelcomeWorkspace = () => (
       </div>
     </main>
   </div>
-);
+  );
+};
 
 const CompanyDetails = () => (
   <OnboardingShell step={1} back="← Back" backId="onb-workspace" nextId="onb-connect" next="Continue →"
@@ -380,7 +410,7 @@ const AUDIT_ACTION_GROUP = {
 
 const AuditLog = () => {
   const d = FF_DATA;
-  const entries = d.auditEntries.concat(d.auditEntries.map(e => ({...e, ts: e.ts.replace("2026-05-22", "2026-05-21")}))).slice(0, 12);
+  const entries = d.auditEntries;
   return (
     <>
       <PageHead eyebrow="Audit" title="Audit log" sub="Every action, every actor, immutable"
@@ -436,7 +466,7 @@ const NotificationsCenter = () => {
           ))}
         </div>
         <Card padded={false}>
-          {d.notifications.concat(d.notifications).slice(0, 10).map((n, i, arr) => (
+          {d.notifications.map((n, i, arr) => (
             <div key={i} style={{padding:'14px 20px', borderBottom: i < arr.length-1 ? '1px solid var(--ff-border)' : '0', display:'flex', gap:12, alignItems:'flex-start'}}>
               <div style={{width:30, height:30, borderRadius:8, background:'var(--ff-card-2)', display:'grid', placeItems:'center', flexShrink:0, color: i % 4 === 0 ? 'var(--ff-pending)' : 'var(--ff-fg)'}}>
                 <Icon name={{approval:"check-square", policy:"warning", payout:"arrows-clockwise", card:"credit-card", report:"file-text"}[n.kind]} size={14}/>

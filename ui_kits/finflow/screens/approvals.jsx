@@ -107,6 +107,8 @@ const ApprovalHistory = () => {
 
 const ReimbursementsList = () => {
   const d = FF_DATA;
+  const outstanding = d.reimbursements.filter(r => r.status !== "paid");
+  const owedTotal = outstanding.reduce((sum, r) => sum + r.amount, 0);
   return (
     <>
       <PageHead
@@ -119,7 +121,7 @@ const ReimbursementsList = () => {
         </>}
       />
       <StatRow items={[
-        { label: "Owed this cycle", value: "$685.10", delta: "4 employees" },
+        { label: "Owed this cycle", value: <Money value={owedTotal}/>, delta: `${outstanding.length} employees` },
         { label: "Scheduled", value: "$320.40", delta: "May 30" },
         { label: "Paid YTD", value: "$48,210", delta: "142 payouts", trend: "up" }
       ]} style={{padding:'4px 0 20px'}}/>
@@ -131,7 +133,7 @@ const ReimbursementsList = () => {
           <thead><tr><th>ID</th><th>Employee</th><th className="ff-num">Amount</th><th>Status</th><th>Date</th><th>Method</th><th></th></tr></thead>
           <tbody>
             {d.reimbursements.map(r => (
-              <tr key={r.id}>
+              <tr key={r.id} onClick={()=>ffGo('payout-detail')} style={{cursor:'pointer'}}>
                 <td className="ff-mono" style={{fontSize:12}}>{r.id}</td>
                 <td><span className="ff-row" style={{gap:6}}><Avatar initials={r.who.split(' ').map(x=>x[0]).join('').slice(0,2)} name={r.who}/>{r.who}</span></td>
                 <td className="ff-num"><Money value={r.amount}/></td>

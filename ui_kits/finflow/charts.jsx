@@ -159,7 +159,7 @@ const BarChart = ({ data, height = 240, xKey = "cat", yKey = "value", labelMap =
       <g className="axis">
         {Array.from({length: ticks + 1}, (_, i) => {
           const yv = (max) * (i / ticks);
-          return <text key={i} x={P.l - 8} y={y(yv)} textAnchor="end" dominantBaseline="middle" fontSize="10">{unit}{yv.toFixed(0)}</text>;
+          return <text key={i} x={P.l - 8} y={y(yv)} textAnchor="end" dominantBaseline="middle" fontSize="10">{unit}{yv.toFixed(0)}K</text>;
         })}
       </g>
       {data.map((d, i) => {
@@ -171,13 +171,13 @@ const BarChart = ({ data, height = 240, xKey = "cat", yKey = "value", labelMap =
         const lbl = labelMap[d[xKey]] || d[xKey];
         return (
           <g key={i}
-            tabIndex={0} role="button" aria-label={`${lbl}: ${unit}${v.toFixed(0)}`}
+            tabIndex={0} role="button" aria-label={`${lbl}: ${unit}${v.toFixed(0)}K`}
             onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}
             onFocus={() => setHover(i)} onBlur={() => setHover(null)}
             style={{cursor:'pointer'}}>
             <rect x={px} y={py} width={bw} height={h} fill={c} rx="2" opacity={hover === null || hover === i ? 1 : 0.55}/>
             <text x={px + bw / 2} y={H - 18} textAnchor="middle" fontSize="11" fill={hover === i ? 'var(--ff-fg)' : 'var(--ff-chart-axis)'} fontWeight={hover === i ? 600 : 400}>{lbl}</text>
-            <text x={px + bw / 2} y={py - 6} textAnchor="middle" fontSize="10" fill="var(--ff-fg-muted)" style={{fontVariantNumeric:'tabular-nums'}}>{unit}{v.toFixed(0)}</text>
+            <text x={px + bw / 2} y={py - 6} textAnchor="middle" fontSize="10" fill="var(--ff-fg-muted)" style={{fontVariantNumeric:'tabular-nums'}}>{unit}{v.toFixed(0)}K</text>
           </g>
         );
       })}

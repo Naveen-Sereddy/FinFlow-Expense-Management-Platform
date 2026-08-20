@@ -213,9 +213,7 @@ const TOPNAV_ITEMS = {
     { id: "expenses",   label: "Expenses",      count: 14 },
     { id: "approvals",  label: "Approvals",     count: FF_PENDING },
     { id: "reimburse",  label: "Reimbursements" },
-    { id: "reports",    label: "Reports" },
-    { id: "cards",      label: "Cards" },
-    { id: "vendors",    label: "Vendors" }
+    { id: "reports",    label: "Reports" }
   ],
   manager: [
     { id: "dashboard-mgr", label: "Team overview" },
@@ -238,6 +236,8 @@ const TOPNAV_ITEMS = {
    treatment regardless of role, reachable by search or here, never buried
    per-role). Global ⌘K search is offered as its own explicit last item. */
 const MORE_MENU_ITEMS = [
+  { id: "cards",                 label: "Cards",          icon: "credit-card" },
+  { id: "vendors",               label: "Vendors",        icon: "storefront" },
   { id: "settings-profile",      label: "Settings",      icon: "gear" },
   { id: "settings-policies",     label: "Policies",       icon: "scales" },
   { id: "settings-team",         label: "Team & roles",   icon: "users-three" },

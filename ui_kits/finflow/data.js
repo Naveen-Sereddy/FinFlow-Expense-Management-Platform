@@ -29,16 +29,16 @@ window.FF_DATA = (() => {
   ];
 
   const vendors = [
-    { id: "v1", name: "Figma",            cat: "sw", spend: 18420, change:  4.2 },
     { id: "v2", name: "Google Cloud",     cat: "sw", spend: 41280, change:  9.1 },
     { id: "v3", name: "United Airlines",  cat: "tr", spend: 23715, change: -2.4 },
-    { id: "v4", name: "Notion",           cat: "sw", spend:  3960, change:  0.8 },
-    { id: "v5", name: "Starbucks",        cat: "me", spend:  1820, change: 12.0 },
-    { id: "v6", name: "Udemy",            cat: "sw", spend:  8400, change:  0.0 },
+    { id: "v1", name: "Figma",            cat: "sw", spend: 18420, change:  4.2 },
     { id: "v7", name: "Marriott",         cat: "tr", spend: 14280, change: -5.5 },
+    { id: "v6", name: "Udemy",            cat: "sw", spend:  8400, change:  0.0 },
+    { id: "v10",name: "Ticketmaster",     cat: "ad", spend:  6420, change: -1.2 },
     { id: "v8", name: "Lyft",             cat: "tr", spend:  4810, change:  3.1 },
+    { id: "v4", name: "Notion",           cat: "sw", spend:  3960, change:  0.8 },
     { id: "v9", name: "Webflow",          cat: "sw", spend:  2940, change:  6.7 },
-    { id: "v10",name: "Ticketmaster",     cat: "ad", spend:  6420, change: -1.2 }
+    { id: "v5", name: "Starbucks",        cat: "me", spend:  1820, change: 12.0 }
   ];
 
   const employees = [
@@ -55,12 +55,12 @@ window.FF_DATA = (() => {
   // Expenses — consistent IDs used across detail / approvals
   const expenses = [
     { id: "EXP-2841", date: "2026-05-22", merchant: "United Airlines",  amount:  842.50, cat: "tr", who: "Jordan Lee",      status: "pending",  policy: "ok",      cardLast4: "4112", memo: "SF → Austin (sales kickoff)" },
-    { id: "EXP-2840", date: "2026-05-22", merchant: "Figma",             amount:  180.00, cat: "sw", who: "James Taylor",   status: "approved", policy: "ok",      cardLast4: "9032", memo: "Pro seats × 2" },
+    { id: "EXP-2840", date: "2026-05-22", merchant: "Figma",             amount:  180.00, cat: "sw", who: "James Taylor",   status: "approved", policy: "ok",      cardLast4: "6628", memo: "Pro seats × 2" },
     { id: "EXP-2839", date: "2026-05-21", merchant: "Marriott Austin",   amount: 1240.00, cat: "tr", who: "Jordan Lee",      status: "flagged",  policy: "over",    cardLast4: "4112", memo: "3 nights — exceeds $300/night cap" },
     { id: "EXP-2838", date: "2026-05-21", merchant: "Starbucks",         amount:   42.80, cat: "me", who: "Corey Anderson",  status: "approved", policy: "ok",      cardLast4: "9032", memo: "Team coffee, Q2 review" },
     { id: "EXP-2837", date: "2026-05-20", merchant: "Google Cloud",      amount: 3204.18, cat: "sw", who: "Sam Richardson",  status: "approved", policy: "ok",      cardLast4: "4112", memo: "Monthly infra" },
     { id: "EXP-2836", date: "2026-05-20", merchant: "Lyft",              amount:   38.60, cat: "tr", who: "Jamie Smith",     status: "pending",  policy: "ok",      cardLast4: "4112", memo: "Client visit" },
-    { id: "EXP-2835", date: "2026-05-19", merchant: "Webflow",           amount:  290.00, cat: "sw", who: "James Taylor",   status: "pending",  policy: "needs",   cardLast4: "9032", memo: "Missing receipt" },
+    { id: "EXP-2835", date: "2026-05-19", merchant: "Webflow",           amount:  290.00, cat: "sw", who: "James Taylor",   status: "pending",  policy: "needs",   cardLast4: "6628", memo: "Missing receipt" },
     { id: "EXP-2834", date: "2026-05-19", merchant: "Udemy",             amount:  995.00, cat: "sw", who: "Corey Anderson",  status: "approved", policy: "ok",      cardLast4: "9032", memo: "PMM intensive course" },
     { id: "EXP-2833", date: "2026-05-18", merchant: "Notion",            amount:   88.00, cat: "sw", who: "Riley Meredith",  status: "approved", policy: "ok",      cardLast4: "4112", memo: "Plus seat" },
     { id: "EXP-2832", date: "2026-05-18", merchant: "Ticketmaster",      amount:  640.00, cat: "ad", who: "Corey Anderson",  status: "rejected", policy: "violate", cardLast4: "9032", memo: "Sponsorship — needs CMO sign-off" },
