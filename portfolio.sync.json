@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "project": "FinFlow",
+  "portfolio": {
+    "slug": "case-finflow",
+    "liveUrl": "/case-finflow/prototype.html"
+  },
+  "sync": {
+    "captureRules": [
+      {
+        "source": "ui_kits/finflow/index.html",
+        "target": "src/assets/case/finflow/ui-dashboard.png",
+        "viewport": { "width": 1440, "height": 900 },
+        "localStorage": { "ff-screen": "dashboard", "ff-role": "finance" }
+      }
+    ],
+    "copyRules": [
+      {
+        "kind": "copy",
+        "source": "ui_kits/finflow",
+        "target": "public/case-finflow/ui_kits/finflow",
+        "exclude": [".DS_Store"]
+      }
+    ]
+  }
+}
