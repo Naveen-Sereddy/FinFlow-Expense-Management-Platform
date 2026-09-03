@@ -34,6 +34,20 @@
         "viewport": { "width": 1440, "height": 900 },
         "localStorage": { "ff-screen": "audit", "ff-role": "finance" },
         "deviceScaleFactor": 2
+      },
+      {
+        "source": "ui_kits/finflow/index.html",
+        "target": "src/assets/case/finflow/ui-new-expense.png",
+        "viewport": { "width": 1440, "height": 900 },
+        "localStorage": { "ff-screen": "new-expense", "ff-role": "employee" },
+        "deviceScaleFactor": 2
+      },
+      {
+        "source": "ui_kits/finflow/index.html",
+        "target": "src/assets/case/finflow/ui-payouts.png",
+        "viewport": { "width": 1440, "height": 900 },
+        "localStorage": { "ff-screen": "payout-detail", "ff-role": "finance" },
+        "deviceScaleFactor": 2
       }
     ],
     "copyRules": [
