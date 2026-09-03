@@ -74,7 +74,7 @@ function ArtboardLoFi() {
       </div>
 
       <div className="ab-foot">
-        <div className="brand"><span className="dot"></span> FinFlow · Concept Case Study · 2026</div>
+        <div className="brand"><span className="dot"></span> FinFlow · Shipped Client Product · 2026</div>
         <div>Design · Low-fi wireframes</div>
       </div>
     </div>

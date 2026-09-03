@@ -60,12 +60,12 @@ const MobileSignIn = ({ onNav = noop, fullbleed = false }) => (
       </div>
       <p style={{opacity:0.7, fontSize:13, marginTop:12}}>Sign in to submit and track your expenses.</p>
       <div className="ff-stack" style={{'--ff-stack-gap':'10px', marginTop:24}}>
-        <input className="ff-input ff-input--lg" placeholder="Work email" defaultValue="corey.anderson@reyonal.com" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#fff'}}/>
+        <input className="ff-input ff-input--lg" placeholder="Work email" defaultValue="corey@client.example" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#fff'}}/>
         <input className="ff-input ff-input--lg" type="password" placeholder="Password" defaultValue="••••••••••" style={{background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)', color:'#fff'}}/>
         <button className="ff-btn ff-btn--accent ff-btn--lg" style={{width:'100%', marginTop:8}} onClick={() => onNav('home')}>Sign in</button>
         <button className="ff-btn ff-btn--ghost" style={{color:'#fff', width:'100%'}} onClick={() => onNav('home')}><Icon name="fingerprint" size={16}/> Use Face ID</button>
       </div>
-      <div style={{textAlign:'center', fontSize:12, opacity:0.6, marginTop:24}}>Reyonal · SSO available</div>
+      <div style={{textAlign:'center', fontSize:12, opacity:0.6, marginTop:24}}>Client workspace · SSO available</div>
     </div>
   </MobileFrame>
 );

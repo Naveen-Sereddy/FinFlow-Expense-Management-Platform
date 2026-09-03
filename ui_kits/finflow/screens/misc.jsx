@@ -129,7 +129,7 @@ const WelcomeWorkspace = () => {
         <div className="ff-stack" style={{'--ff-stack-gap':'14px', marginTop:32}}>
           <div className="ff-field">
             <label className="ff-label">Workspace name</label>
-            <input className="ff-input ff-input--lg" placeholder="Reyonal" value={name}
+            <input className="ff-input ff-input--lg" placeholder="Client workspace" value={name}
               style={errors.name ? errorStyle : undefined}
               onChange={e=>{setName(e.target.value); if (errors.name) setErrors(x=>({...x, name:false}));}}/>
             {errors.name && <div style={{fontSize:12, color:'var(--ff-rejected)', marginTop:4}}>Enter a workspace name.</div>}
@@ -170,8 +170,8 @@ const CompanyDetails = () => (
     sub="Helps us set sensible defaults for currency, fiscal calendar, and tax handling.">
     <Card>
       <div className="ff-grid ff-grid--2">
-        <div className="ff-field"><label className="ff-label">Company name</label><input className="ff-input" defaultValue="Reyonal"/></div>
-        <div className="ff-field"><label className="ff-label">Website</label><input className="ff-input" placeholder="reyonal.com"/></div>
+        <div className="ff-field"><label className="ff-label">Company name</label><input className="ff-input" defaultValue="Client workspace"/></div>
+        <div className="ff-field"><label className="ff-label">Website</label><input className="ff-input" placeholder="client.example"/></div>
         <div className="ff-field"><label className="ff-label">Industry</label>
           <select className="ff-select" defaultValue="Software / SaaS"><option>Software / SaaS</option><option>Financial services</option><option>Healthcare</option><option>Retail</option><option>Manufacturing</option></select>
         </div>
@@ -266,9 +266,9 @@ const InviteTeam = () => (
     <Card>
       <div className="ff-stack" style={{'--ff-stack-gap':'10px'}}>
         {[
-          { e: "xavier.bartlett@reyonal.com", r: "Manager" },
-          { e: "corey.anderson@reyonal.com", r: "Employee" },
-          { e: "sam.richardson@reyonal.com",  r: "Employee" },
+          { e: "xavier@client.example", r: "Manager" },
+          { e: "corey@client.example", r: "Employee" },
+          { e: "sam@client.example",  r: "Employee" },
           { e: "", r: "Employee" }
         ].map((row, i) => (
           <div key={i} className="ff-row" style={{gap:10}}>
@@ -357,11 +357,11 @@ const OnboardingSuccess = () => (
         <Icon name="check" size={28} weight="bold"/>
       </div>
       <h1 style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:34, lineHeight:1.1, letterSpacing:'-0.03em', marginTop:20}}>Your workspace is ready.</h1>
-      <p style={{color:'var(--ff-fg-muted)', marginTop:8, fontSize:15}}>Everything is configured. Reyonal is ready to run on FinFlow.</p>
+        <p style={{color:'var(--ff-fg-muted)', marginTop:8, fontSize:15}}>Everything is configured. Your client workspace is ready to run on FinFlow.</p>
 
       <div className="ff-grid ff-grid--3" style={{marginTop:28, textAlign:'left'}}>
         {[
-          { k:"Workspace", v:"Reyonal" },
+          { k:"Workspace", v:"Client workspace" },
           { k:"Connected bank", v:"Wise" },
           { k:"Accounting", v:"QuickBooks" },
           { k:"Team members", v:"3 invited" },

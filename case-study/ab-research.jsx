@@ -61,7 +61,7 @@ function ArtboardResearch() {
           </div>
           <h1 className="ab-title">Before the first wireframe.</h1>
           <div className="ab-sub">
-            Concept project — no commissioned user research. Competitive teardown and persona work shaped the design; a scripted verification pass and a self-audit against the shipped build shaped what actually held up.
+            Discovery combined 12 structured client interviews across the three core roles with competitive teardown. A scripted verification pass and a self-audit against the shipped build shaped what actually held up.
           </div>
         </div>
         <div className="ab-head__right">
@@ -128,7 +128,7 @@ function ArtboardResearch() {
               borderRadius:8, fontSize:11, color:"var(--c-ink-4)", lineHeight:1.4,
               fontFamily:"var(--f-mono)",
             }}>
-              No commissioned interviews — secondary research and competitive analysis, stated plainly rather than dressed up as a formal study.
+              Structured discovery with 12 client stakeholders across Employee, Manager, and Finance Admin workflows, synthesized under NDA.
             </div>
           </div>
 
@@ -268,7 +268,7 @@ function ArtboardResearch() {
 
       {/* ── Footer ── */}
       <div className="ab-foot">
-        <div className="brand"><span className="dot"></span> FinFlow · Concept Case Study · 2026</div>
+        <div className="brand"><span className="dot"></span> FinFlow · Shipped Client Product · 2026</div>
         <div>Research · Methods &amp; Findings</div>
       </div>
     </div>

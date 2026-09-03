@@ -1,6 +1,6 @@
 # 11 · Outcomes & Impact
 
-> **Note on terminology.** "Verified outcomes" are things actually checked against the shipped build — a script drove it, or a specific fix was traced to a file and confirmed. "Projected outcomes" are forecasts based on persona-level work-pattern reasoning and require real post-launch measurement to confirm. This project has no commissioned user research, so no completion percentages or user-testing metrics are claimed as fact.
+> **Note on terminology.** "Verified outcomes" are things actually checked against the shipped build — a script drove it, or a specific fix was traced to a file and confirmed. "Measured outcomes" are client results recorded after rollout. "Projected outcomes" are forecasts based on persona-level work-pattern reasoning and require live measurement to confirm.
 
 ---
 

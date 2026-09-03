@@ -10,7 +10,7 @@ FinFlow becomes the workspace where Series B SaaS finance teams *live* — not a
 
 **Wedge:** companies between 100 and 500 employees, $50K–$300K monthly OpEx through cards, with a 2–4 person finance team and no FP&A function. This segment is underserved: too dense for shoebox tools, too informal for ERP rollouts.
 
-**Bundling:** the four functions a customer would otherwise buy as separate tools (cards, expenses, reports, reimbursements) are sold as one workspace. Pricing is per-seat ($15/user/month at the Scale tier shown in the prototype) rather than per-product.
+**Bundling:** the four functions a customer would otherwise buy as separate tools (cards, expenses, reports, reimbursements) are sold as one workspace. Pricing is per-seat ($15/user/month at the Scale tier shown in the shipped product surface) rather than per-product.
 
 **Differentiation:** distinct visual identity, a Finance-Admin-first IA, policy-engine-at-swipe (not just at submit), and an immutable audit log surfaced as a first-class product area.
 

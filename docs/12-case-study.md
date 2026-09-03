@@ -1,7 +1,7 @@
 # 12 · Case Study
 
 > **FinFlow — designing the workspace for Series B finance teams**
-> Senior Product Designer · solo project · concept → design system → 47 screens → mobile flow → production-readiness pass
+> Senior Product Designer · solo engagement · discovery → design system → 47 screens → mobile flow → production-readiness pass
 
 ---
 
@@ -29,16 +29,17 @@ Series B SaaS companies sit in the awkward middle of the expense market:
 
 They typically run on four disconnected tools: corporate cards, expense submission (a spreadsheet or a Slack channel), reimbursement (manual ACH out of the bank portal), and reporting (Excel + QuickBooks). Each tool is fine in isolation. The seams between them are where the Finance Admin's week disappears.
 
-The brief: **collapse the four tools into one workspace, designed around the Finance Admin's morning routine, without becoming an ERP.**
+The brief: **collapse the four tools into one workspace, designed around the Finance Admin's morning routine, without becoming an ERP.** The final product shipped privately for the client; company and participant details remain anonymized here under NDA.
 
 ---
 
 ## Research
 
-This is a concept project. Discovery was grounded in secondary research and competitive analysis, not commissioned interviews — stated plainly rather than dressed up as a formal study:
+Discovery combined 12 structured interviews across the three core roles with competitive analysis and public community research. The client and participant details are anonymized here under NDA:
 
-- **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan — onboarding flows, dashboard layouts, approval patterns, audit experiences
-- **Public community research** — G2, Reddit, and LinkedIn discussions from Finance Admins at Series B companies surfacing consistent pain patterns
+- **Structured interviews** with 12 client stakeholders across Employee, Department Manager, and Finance Admin workflows over four weeks
+- **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan — onboarding flows, dashboard layouts, approval patterns, and audit experiences
+- **Public community research** — G2, Reddit, and LinkedIn discussions from Finance Admins at Series B companies surfacing recurring pain patterns
 - **Heuristic analysis** of the standard four-tool stack, to map where time disappears
 - **Persona synthesis** — three behavioral archetypes, each with a different reason to open the product and a different tolerance for friction
 
@@ -137,7 +138,7 @@ The shipped product:
 - An 8-screen mobile flow for the Employee persona (sign in, home, snap receipt, new expense, submit success, status timeline, expenses, cards)
 - A token-first CSS design system with both themes
 - A React component kit + hand-rolled SVG chart primitives
-- A single self-contained offline-runnable HTML bundle — no build step
+- A single self-contained offline-runnable HTML bundle — no bundler required for the shipped client surface
 
 ---
 

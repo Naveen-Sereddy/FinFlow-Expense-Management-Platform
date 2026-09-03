@@ -144,13 +144,13 @@ const ExportReport = () => (
               <label className="ff-row" style={{gap:6, fontSize:13}}><input type="checkbox"/> Receipt images</label>
             </div>
           </div>
-          <div className="ff-field"><label className="ff-label">Email to</label><input className="ff-input" defaultValue="marcus.stoinis@reyonal.com, board@reyonal.com"/></div>
+          <div className="ff-field"><label className="ff-label">Email to</label><input className="ff-input" defaultValue="marcus@client.example, board@client.example"/></div>
         </div>
       </Card>
       <Card title="Preview">
         <div style={{aspectRatio:'8.5/11', background:'#fff', border:'1px solid var(--ff-border)', borderRadius:6, boxShadow:'var(--ff-shadow-md)', padding:'20px 18px', color:'#15181c', display:'flex', flexDirection:'column', gap:8, fontSize:11}}>
           <div style={{fontFamily:'var(--ff-font-sans)', fontWeight:600, fontSize:18, letterSpacing:'-0.02em'}}>FinFlow · Monthly Close — April FY26</div>
-          <div style={{color:'#888'}}>Reyonal · Generated May 1, 2026</div>
+          <div style={{color:'#888'}}>Client workspace · Generated May 1, 2026</div>
           <div style={{height:60, background:'var(--ff-chart-1)', opacity:0.2, borderRadius:4, marginTop:8}}/>
           <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:6}}>
             {["$348K","$42K","−2.4%","6/6"].map((x,i)=>(
@@ -362,7 +362,7 @@ const VendorsList = () => {
           <tbody>
             {d.vendors.map(v => (
               <tr key={v.id} onClick={()=>ffGo('vendor-detail')} style={{cursor:'pointer'}}>
-                <td><div className="ff-row" style={{gap:8, fontWeight:500}}><MerchantIcon name={v.name} size={16}/> {v.name}</div><div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>vendor-{v.id.slice(1).padStart(4, '0')}@reyonal.com</div></td>
+                <td><div className="ff-row" style={{gap:8, fontWeight:500}}><MerchantIcon name={v.name} size={16}/> {v.name}</div><div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>vendor-{v.id.slice(1).padStart(4, '0')}@client.example</div></td>
                 <td><CategoryTag color={d.categories.find(c=>c.id===v.cat).color} name={d.categories.find(c=>c.id===v.cat).name}/></td>
                 <td className="ff-num"><Money value={v.spend}/></td>
                 <td className="ff-num" style={{color: v.change > 0 ? 'var(--ff-rejected)' : v.change < 0 ? 'var(--ff-approved)' : 'var(--ff-fg-muted)'}}>{v.change > 0 ? '+' : ''}{v.change.toFixed(1)}%</td>

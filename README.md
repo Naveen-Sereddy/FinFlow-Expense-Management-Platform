@@ -1,6 +1,6 @@
 # FinFlow
 
-B2B expense management prototype built around three roles that touch the same expense at different points: the employee submitting it, the manager approving it, and the finance admin reconciling and reporting on it. 47 screens, no build step.
+B2B expense management platform shipped privately for an anonymized Series B SaaS client. Three roles touch the same expense at different points: the employee submitting it, the manager approving it, and the finance admin reconciling and reporting on it. 47 desktop screens, an 8-screen employee mobile flow, and a token-driven UI kit.
 
 **Live case study:** [naveensereddy.com/case-finflow](https://naveensereddy.com/case-finflow)
 
@@ -30,7 +30,7 @@ B2B expense management prototype built around three roles that touch the same ex
 
 ## Tech stack
 
-React 18.3 and Babel Standalone from unpkg, no bundler, no package.json. Icons are Phosphor. One typeface system throughout: General Sans (Fontshare) for everything, JetBrains Mono for tabular figures (money, IDs, dates), loaded via `foundations/colors_and_type.css`. Space Grotesk and Fraunces are loaded separately in `index.html` for the wordmark-tweak experiment (`WORDMARK_PRESETS`) only, not the product's type system.
+React 18.3 and Babel Standalone from unpkg, with no bundler in the shipped client bundle. A minimal Node-based verification and local server setup lives in `scripts/`; it does not change the runtime architecture. Icons are Phosphor. One typeface system throughout: General Sans (Fontshare) for everything, JetBrains Mono for tabular figures (money, IDs, dates), loaded via `foundations/colors_and_type.css`. Space Grotesk and Fraunces are loaded separately in `index.html` for the wordmark-tweak experiment (`WORDMARK_PRESETS`) only, not the product's type system.
 
 State is a handful of `useLocalStorage`-backed values (`ff-role`, `ff-screen`, `ff-theme`), no state management library. No backend, no database: `ui_kits/finflow/data.js` holds all the mock expenses, approvals, vendors, and categories as plain JS.
 
@@ -60,6 +60,22 @@ docs/                                 # business context through outcomes and im
 screenshots/                           # screenshots used in this README
 ```
 
+## Verification
+
+Run the structural screen and token checks before sharing a change:
+
+```bash
+npm run check
+```
+
+For a local browser session, start the zero-build server and open the printed URL:
+
+```bash
+npm run dev
+```
+
+The check confirms the 47 desktop surfaces plus the mobile shelf are registered, required role routes and design tokens exist, local assets resolve, and concept-only framing has not returned to the shipped entry point.
+
 ## Architecture
 
 `onRole` and `onNavigate` in `index.html` are the whole router. `REACHABLE` is a plain object mapping each role to the screen IDs it can reach; switching roles checks the current screen against that set and redirects to the role's default if it's not reachable, so you can't get stranded on Vendors after switching to Employee. Screens are plain functions keyed by ID in `SCREEN_REGISTRY` and rendered directly. No route-matching library.
@@ -78,7 +94,7 @@ Layout composition is deliberately asymmetric page to page: a hero KPI next to a
 
 ## Getting started
 
-Open `ui_kits/finflow/index.html` in any modern browser for the desktop app, or `ui_kits/finflow/mobile-app.html` for the employee mobile flow. No install, no build.
+Run `npm run dev`, then open the printed URL for the desktop app. The employee mobile flow is available at `/ui_kits/finflow/mobile-app.html`. The shipped bundle remains zero-build and can also be opened directly from `ui_kits/finflow/index.html` in a modern browser.
 
 ## Future improvements
 

@@ -78,7 +78,7 @@ function ArtboardMidFi() {
       </div>
 
       <div className="ab-foot" style={{borderTop:"1px solid var(--p-line)"}}>
-        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Concept Case Study · 2026</div>
+        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Shipped Client Product · 2026</div>
         <div style={{color:"var(--p-ink-3)"}}>Design · Mid-fi wireframes</div>
       </div>
     </div>

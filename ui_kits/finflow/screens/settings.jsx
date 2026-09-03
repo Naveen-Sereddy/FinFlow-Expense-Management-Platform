@@ -12,7 +12,7 @@ const SettingsShell = ({ active, setActive, children }) => {
   ];
   return (
     <>
-      <PageHead eyebrow="Settings" title="Workspace settings" sub="Manage your Reyonal workspace"/>
+      <PageHead eyebrow="Settings" title="Workspace settings" sub="Manage your client workspace"/>
       <div className="ff-grid" style={{gridTemplateColumns:'220px 1fr', gap:24, alignItems:'flex-start'}}>
         <div className="ff-stack" style={{'--ff-stack-gap':'2px'}}>
           {tabs.map(t => (
@@ -46,7 +46,7 @@ const SettingsProfile = () => (
       <div className="ff-field"><label className="ff-label">Preferred name</label><input className="ff-input" defaultValue="Marcus"/></div>
       <div className="ff-field"><label className="ff-label">Title</label><input className="ff-input" defaultValue="Head of Finance"/></div>
       <div className="ff-field"><label className="ff-label">Department</label><input className="ff-input" defaultValue="Finance"/></div>
-      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input" defaultValue="marcus.stoinis@reyonal.com"/></div>
+      <div className="ff-field"><label className="ff-label">Work email</label><input className="ff-input" defaultValue="marcus@client.example"/></div>
       <div className="ff-field"><label className="ff-label">Time zone</label><select className="ff-select"><option>America/Los_Angeles</option><option>America/New_York</option><option>UTC</option></select></div>
     </div>
     <div className="ff-row" style={{marginTop:20, justifyContent:'flex-end', gap:8}}>
@@ -102,16 +102,16 @@ const SettingsTeam = () => (
       <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last active</th><th></th></tr></thead>
       <tbody>
         {[
-          ["Marcus Stoinis","Finance Admin","marcus.stoinis@reyonal.com","Now"],
-          ["Xavier Bartlett","Manager","xavier.bartlett@reyonal.com","12 minutes ago"],
-          ["Corey Anderson","Employee","corey.anderson@reyonal.com","2 hours ago"],
-          ["Jordan Lee","Employee","jordan.lee@reyonal.com","4 hours ago"],
-          ["Sam Richardson","Employee","sam.richardson@reyonal.com","Yesterday"],
-          ["Alex Morgan","Employee","alex.morgan@reyonal.com","Yesterday"],
-          ["James Taylor","Employee","james.taylor@reyonal.com","2 days ago"],
-          ["Jamie Smith","Auditor","jamie.smith@reyonal.com","1 week ago"],
-          ["Riley Meredith","Employee","riley.meredith@reyonal.com","1 week ago"],
-          ["Sam Curran","Employee","sam.curran@reyonal.com","3 days ago"]
+          ["Marcus Stoinis","Finance Admin","marcus@client.example","Now"],
+          ["Xavier Bartlett","Manager","xavier@client.example","12 minutes ago"],
+          ["Corey Anderson","Employee","corey@client.example","2 hours ago"],
+          ["Jordan Lee","Employee","jordan@client.example","4 hours ago"],
+          ["Sam Richardson","Employee","sam@client.example","Yesterday"],
+          ["Alex Morgan","Employee","alex@client.example","Yesterday"],
+          ["James Taylor","Employee","james@client.example","2 days ago"],
+          ["Jamie Smith","Auditor","jamie@client.example","1 week ago"],
+          ["Riley Meredith","Employee","riley@client.example","1 week ago"],
+          ["Sam Curran","Employee","sam.curran@client.example","3 days ago"]
         ].map(([n, role, em, la], i) => (
           <tr key={i}>
             <td><span className="ff-row" style={{gap:8}}><Avatar initials={n.split(' ').map(x=>x[0]).join('').slice(0,2)} name={n}/>{n}</span></td>

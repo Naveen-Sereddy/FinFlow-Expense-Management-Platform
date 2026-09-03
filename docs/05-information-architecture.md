@@ -88,7 +88,7 @@ Each page follows the same content order:
 
 1. **Eyebrow** — context label (e.g. "Workspace · Finance Admin")
 2. **Page title** — short, declarative ("Good morning, Marcus.")
-3. **Subtitle** — orienting metadata ("Spend across Reyonal · Fiscal week 22")
+3. **Subtitle** — orienting metadata ("Spend across client workspace · Fiscal week 22")
 4. **Actions** — top-right; secondary action(s) + a single primary action
 5. **Hero + stats** — one dominant number, then a compact inline stat row — not a grid of equal cards
 6. **Primary content** — chart, table, or asymmetric split layout

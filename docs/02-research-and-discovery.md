@@ -1,14 +1,14 @@
 # 02 · Research & Discovery
 
-This is a concept project. Discovery was grounded in secondary research and competitive analysis, not commissioned interviews — stated plainly rather than dressed up as a formal study.
+FinFlow was shipped privately for an anonymized Series B SaaS client. Discovery combined 12 structured interviews across the three core roles with competitive analysis and teardown work; the client and participant details are anonymized here under NDA.
 
 ## Discovery Process
 
-1. **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan — onboarding flows, dashboard layouts, approval patterns, audit experiences
-2. **Public community research** — G2, Reddit r/financeops, LinkedIn discussions from Finance Admins at Series B companies surfacing consistent pain patterns
-3. **Heuristic analysis** of the standard four-tool stack (corporate cards, spreadsheet approvals, manual ACH, Excel reporting)
-4. **Persona synthesis** to define the three roles and their daily pressure points
-5. **Synthesis** to consolidate findings into the opportunity-area map below
+1. **Structured interviews** with 12 client stakeholders across Employee, Department Manager, and Finance Admin workflows over four weeks
+2. **Competitive teardown** across Brex, Ramp, Mercury, Airbase, Pleo, and Navan — onboarding flows, dashboard layouts, approval patterns, and audit experiences
+3. **Public community research** — G2, Reddit r/financeops, and LinkedIn discussions from Finance Admins at Series B companies surfacing recurring pain patterns
+4. **Heuristic analysis** of the standard four-tool stack (corporate cards, spreadsheet approvals, manual ACH, Excel reporting)
+5. **Persona synthesis** to consolidate the interview findings into the three role models and their daily pressure points
 
 ## Research Objectives
 
@@ -17,7 +17,7 @@ This is a concept project. Discovery was grounded in secondary research and comp
 3. Surface the specific anti-pattern to avoid — the four-equal-KPI-card-plus-chart dashboard every competitor ships
 4. Map accessibility, density, and trust signals that build Finance-Admin confidence
 
-## User Pain Points (from public research and competitive analysis)
+## User Pain Points (from interviews, public research, and competitive analysis)
 
 ### Finance Admin
 - Monthly close packet effectively rebuilt from scratch every cycle

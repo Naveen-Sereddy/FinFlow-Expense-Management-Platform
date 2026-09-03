@@ -8,7 +8,7 @@ const FinanceDashboard = () => {
       <PageHead
         eyebrow="Workspace · Finance Admin"
         title="Good morning, Marcus."
-        sub="Spend across Reyonal · Fiscal week 22, FY 2026"
+        sub="Spend across client workspace · Fiscal week 22, FY 2026"
         actions={<>
           <RefreshButton/>
           <button className="ff-btn"><Icon name="download-simple" size={14}/> Export</button>

@@ -12,6 +12,24 @@
         "target": "src/assets/case/finflow/ui-dashboard.png",
         "viewport": { "width": 1440, "height": 900 },
         "localStorage": { "ff-screen": "dashboard", "ff-role": "finance" }
+      },
+      {
+        "source": "ui_kits/finflow/index.html",
+        "target": "src/assets/case/finflow/ui-manager.png",
+        "viewport": { "width": 1440, "height": 900 },
+        "localStorage": { "ff-screen": "approvals", "ff-role": "manager" }
+      },
+      {
+        "source": "ui_kits/finflow/index.html",
+        "target": "src/assets/case/finflow/ui-employee.png",
+        "viewport": { "width": 1440, "height": 900 },
+        "localStorage": { "ff-screen": "dashboard-emp", "ff-role": "employee" }
+      },
+      {
+        "source": "ui_kits/finflow/index.html",
+        "target": "src/assets/case/finflow/ui-audit.png",
+        "viewport": { "width": 1440, "height": 900 },
+        "localStorage": { "ff-screen": "audit", "ff-role": "finance" }
       }
     ],
     "copyRules": [

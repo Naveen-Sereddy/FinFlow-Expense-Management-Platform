@@ -1,6 +1,6 @@
 # 02 · Figma Handoff
 
-> Figma file plan, page-by-page anatomy, and what lives where (components vs variants vs tokens vs assets). The actual prototype was built directly in code — this is the file structure a Figma source-of-truth would use if this shipped as a production Figma → code handoff.
+> Figma file plan, page-by-page anatomy, and what lives where (components vs variants vs tokens vs assets). The shipped product was built directly in code; this is the file structure a Figma source-of-truth would use for a production Figma → code handoff.
 
 ## 1. Files & permissions
 

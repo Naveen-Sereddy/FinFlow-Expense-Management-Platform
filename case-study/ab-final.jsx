@@ -16,7 +16,7 @@ function ArtboardFinalUI() {
         <div className="ab-head__right">
           <div style={{textAlign:"right", marginBottom:8}}>
             <div style={{fontFamily:"var(--f-mono)", fontSize:9.5, letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--p-ink-3)"}}>Company</div>
-            <div style={{fontFamily:"var(--p-font)", fontSize:14, fontWeight:600, color:"var(--p-ink)"}}>Reyonal</div>
+            <div style={{fontFamily:"var(--p-font)", fontSize:14, fontWeight:600, color:"var(--p-ink)"}}>Client workspace</div>
           </div>
           <div style={{textAlign:"right"}}>
             <div style={{fontFamily:"var(--f-mono)", fontSize:9.5, letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--p-ink-3)"}}>Screens</div>
@@ -39,7 +39,7 @@ function ArtboardFinalUI() {
       </div>
 
       <div className="ab-foot" style={{borderTop:"1px solid var(--p-line)"}}>
-        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Concept Case Study · 2026</div>
+        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Shipped Client Product · 2026</div>
         <div style={{color:"var(--p-ink-3)"}}>Deliver · Final UI · responsive</div>
       </div>
     </div>

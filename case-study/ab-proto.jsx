@@ -1,5 +1,5 @@
 /* global React */
-// Clickable prototype artboard — the real app, fully interactive.
+// Clickable product artboard — the shipped client surface, fully interactive.
 // Rebuilt entirely in FinFlow's own design system (slate blue + cream + General Sans).
 
 function ArtboardPrototype() {
@@ -8,7 +8,7 @@ function ArtboardPrototype() {
       <div className="ab-head" style={{borderBottom:"1px solid var(--p-line)"}}>
         <div className="ab-head__left">
           <div style={{fontFamily:"var(--f-mono)", fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", color:"var(--p-accent)", display:"flex", alignItems:"center", gap:8, marginBottom:10}}>
-            <span style={{background:"var(--p-accent)", color:"#fff", borderRadius:4, padding:"2px 7px", fontWeight:700}}>09</span>Deliver · Prototype
+            <span style={{background:"var(--p-accent)", color:"#fff", borderRadius:4, padding:"2px 7px", fontWeight:700}}>09</span>Deliver · Product surface
           </div>
           <h1 style={{fontFamily:"var(--p-font)", fontSize:32, fontWeight:600, color:"var(--p-ink)", margin:0, letterSpacing:"-0.01em"}}>Fully clickable. Not a Figma flow.</h1>
           <div style={{fontFamily:"var(--p-font)", fontSize:14, color:"var(--p-ink-3)", marginTop:8, maxWidth:640, lineHeight:1.5}}>Real screen-to-screen navigation, workspace onboarding through all three role dashboards, expenses, approvals, cards, reports, and settings. Try the bulk-approve flow in Approvals, or ⌘K to jump anywhere.</div>
@@ -28,15 +28,15 @@ function ArtboardPrototype() {
         }}>
           <iframe
             src="ui_kits/finflow/index.html"
-            title="FinFlow clickable prototype"
+            title="FinFlow shipped client product"
             style={{ width:"100%", height:"100%", border:"none", display:"block" }}
           />
         </div>
       </div>
 
       <div className="ab-foot" style={{borderTop:"1px solid var(--p-line)"}}>
-        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Concept Case Study · 2026</div>
-        <div style={{color:"var(--p-ink-3)"}}>Deliver · Clickable prototype</div>
+        <div className="brand" style={{color:"var(--p-ink-3)"}}><span className="dot" style={{background:"var(--p-accent)"}}></span> FinFlow · Shipped Client Product · 2026</div>
+        <div style={{color:"var(--p-ink-3)"}}>Deliver · Clickable product surface</div>
       </div>
     </div>
   );

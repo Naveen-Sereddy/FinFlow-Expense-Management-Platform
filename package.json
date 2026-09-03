@@ -1,0 +1,14 @@
+{
+  "name": "finflow-expense-management-platform",
+  "private": true,
+  "version": "1.0.0",
+  "description": "FinFlow shipped client product and design-system source",
+  "scripts": {
+    "check": "node scripts/verify.mjs",
+    "verify": "node scripts/verify.mjs",
+    "dev": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,24 +1,26 @@
 # 03 · Engineering Handoff Notes
 
 > Design-to-dev notes for the FinFlow Expense Management Platform. Component names map directly
-> to the prototype and the CSS design system.
+> to the shipped client surface and the CSS design system.
 
 ---
 
-## Recommended stack
+## Shipped architecture and next-step stack
 
-The prototype runs as a self-contained HTML bundle. For a production build, the natural stack
-given the component structure and role-based routing:
+The shipped client surface runs as a self-contained HTML bundle with React 18, Babel Standalone,
+and the tokenized CSS system. It has no bundler or application server in this repository. If the
+client takes the product beyond the current shipped surface, the component structure and
+role-based routing map naturally to:
 
 - **Frontend:** Next.js (App Router) + React + TypeScript
 - **Styling:** the existing token system (CSS custom properties) maps cleanly to either
   Tailwind configured from the same tokens, or a small utility layer on top of the component CSS
 - **Auth:** a role-aware auth provider (three distinct roles — Finance Admin, Manager, Employee —
   with meaningfully different navigation and permissions)
-- **Charts:** the prototype's hand-rolled SVG charts (Sparkline, LineChart, BarChart, AreaChart,
+- **Charts:** the shipped hand-rolled SVG charts (Sparkline, LineChart, BarChart, AreaChart,
   Donut) are the interaction spec — including hover/keyboard tooltips and real `aria-label`s.
   Recharts or Visx would be reasonable production replacements if a library is preferred
-- **Icons:** Phosphor (the exact set used throughout the prototype, via `@phosphor-icons/web`)
+- **Icons:** Phosphor (the exact set used throughout the shipped product, via `@phosphor-icons/web`)
 
 ---
 
@@ -118,9 +120,9 @@ per screen.
 
 ---
 
-## Prototype reference
+## Shipped product reference
 
-The self-contained HTML bundle in the repo root runs offline with no build step. It covers all
+The self-contained HTML bundle in the repo root runs offline with no bundler. It covers all
 47 desktop screens across three roles, the 8-screen mobile submission flow (Employee), and all
 explicit states (loading, empty, error, success, confirmation). Use it as the interaction
 source of truth.

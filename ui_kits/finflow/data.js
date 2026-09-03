@@ -1,12 +1,12 @@
 /* FinFlow Demo Data
-   Company: Reyonal (Series B SaaS, 243 people).
+   Company: anonymized Series B SaaS client (243 people).
    Primary persona: Marcus Stoinis — Head of Finance.
    All data consistent across screens.
 */
 
 window.FF_DATA = (() => {
   const company = {
-    name: "Reyonal",
+    name: "Client workspace",
     employees: 243,
     stage: "Series B",
     fiscalYear: "FY 2026",
@@ -14,9 +14,9 @@ window.FF_DATA = (() => {
   };
 
   const me = {
-    finance: { name: "Marcus Stoinis", title: "Head of Finance", initials: "MS", email: "marcus.stoinis@reyonal.com", role: "Finance Admin" },
-    manager: { name: "Xavier Bartlett", title: "VP Sales",         initials: "XB", email: "xavier.bartlett@reyonal.com", role: "Manager" },
-    employee:{ name: "Corey Anderson",  title: "Product Marketing", initials: "CA", email: "corey.anderson@reyonal.com", role: "Employee" }
+    finance: { name: "Marcus Stoinis", title: "Head of Finance", initials: "MS", email: "marcus@client.example", role: "Finance Admin" },
+    manager: { name: "Xavier Bartlett", title: "VP Sales",         initials: "XB", email: "xavier@client.example", role: "Manager" },
+    employee:{ name: "Corey Anderson",  title: "Product Marketing", initials: "CA", email: "corey@client.example", role: "Employee" }
   };
 
   const categories = [

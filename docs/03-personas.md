@@ -7,7 +7,7 @@ Three primary personas drove the design. A fourth (Auditor) is supported but nev
 ## Persona 1 · Corey Anderson — Employee Expense Submitter
 
 ### Background
-Corey is a Senior Product Marketing Manager at Reyonal. They joined 18 months ago from a smaller startup. They run marketing programs, attend industry events, and frequently expense team coffees and small software subscriptions.
+Corey is a Senior Product Marketing Manager at an anonymized Series B SaaS company. They joined 18 months ago from a smaller startup. They run marketing programs, attend industry events, and frequently expense team coffees and small software subscriptions.
 
 ### Demographics
 - 31 years old, based in San Francisco
@@ -53,7 +53,7 @@ Corey is a Senior Product Marketing Manager at Reyonal. They joined 18 months ag
 ## Persona 2 · Xavier Bartlett — Department Manager
 
 ### Background
-Xavier runs a 12-person Sales team at Reyonal. Reports to the CRO. Approves an average of 8–14 expense items per week from his team. Spends 70% of his time in Slack, 20% in the CRM, 10% everywhere else.
+Xavier runs a 12-person Sales team at an anonymized Series B SaaS company. Reports to the CRO. Approves an average of 8–14 expense items per week from his team. Spends 70% of his time in Slack, 20% in the CRM, 10% everywhere else.
 
 ### Demographics
 - 39 years old, Austin, TX
@@ -99,7 +99,7 @@ Xavier runs a 12-person Sales team at Reyonal. Reports to the CRO. Approves an a
 ## Persona 3 · Marcus Stoinis — Finance Administrator (Primary)
 
 ### Background
-Marcus is the Head of Finance at Reyonal, a 248-person Series B SaaS company. They joined three years ago when the company was 80 people. They own the monthly close, board financials, policy enforcement, card issuance, and the audit relationship. They have one direct report (a junior FP&A analyst) and report to the CFO.
+Marcus is the Head of Finance at an anonymized 248-person Series B SaaS company. They joined three years ago when the company was 80 people. They own the monthly close, board financials, policy enforcement, card issuance, and the audit relationship. They have one direct report (a junior FP&A analyst) and report to the CFO.
 
 ### Demographics
 - 36 years old, San Francisco

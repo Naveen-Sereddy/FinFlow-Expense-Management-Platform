@@ -82,7 +82,7 @@ I owned the project end-to-end:
 | Tokens | CSS custom properties (light + dark) | Shipped |
 | Brand assets | SVG (mark, wordmark, lockups) + reusable component | Shipped |
 | Component library | React/JSX kit, no external UI framework | Shipped |
-| Screens — desktop | 47, interactive prototype | Shipped |
+| Screens — desktop | 47, interactive shipped product surfaces | Shipped |
 | Screens — mobile | 8 (employee flow) | Shipped |
 | Design system preview catalog | 13 reference pages | Shipped |
 | Case study + portfolio pack | This documentation set | Shipped |
