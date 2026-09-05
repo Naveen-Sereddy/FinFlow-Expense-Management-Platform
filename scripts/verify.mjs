@@ -36,12 +36,15 @@ if (!registryMatch) {
   }
 }
 
-const localScriptRefs = [...entry.matchAll(/(?:src|href)="([^"?#]+)(?:\?[^"#]*)?"/g)]
-  .map((match) => match[1])
-  .filter((ref) => ref.startsWith('./') || ref.startsWith('../'));
-for (const ref of localScriptRefs) {
-  const relativePath = path.normalize(path.join('ui_kits/finflow', ref));
-  if (!fs.existsSync(path.join(root, relativePath))) fail(`local asset referenced by index.html is missing: ${relativePath}`);
+for (const filename of ['index.html', 'mobile-app.html']) {
+  const source = filename === 'index.html' ? entry : read(`ui_kits/finflow/${filename}`);
+  const refs = [...source.matchAll(/<(?:script|link)\b[^>]*(?:src|href)="([^"?#]+)(?:\?[^"#]*)?"/g)]
+    .map((match) => match[1])
+    .filter((ref) => !/^(?:[a-z]+:|\/\/)/i.test(ref));
+  for (const ref of refs) {
+    const relativePath = path.normalize(path.join('ui_kits/finflow', ref));
+    if (!fs.existsSync(path.join(root, relativePath))) fail(`local asset referenced by ${filename} is missing: ${relativePath}`);
+  }
 }
 
 const requiredTokens = ['--ff-bg', '--ff-fg', '--ff-primary', '--ff-focus-ring', '--ff-chart-1', '--ff-status-success-fg'];

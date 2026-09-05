@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "description": "FinFlow shipped client product and design-system source",
   "scripts": {
-    "check": "node scripts/verify.mjs",
-    "verify": "node scripts/verify.mjs",
-    "dev": "node scripts/serve.mjs"
+    "check": "node scripts/verify.mjs && node --test tests/lifecycle.test.mjs",
+    "verify": "node scripts/verify.mjs && node --test tests/lifecycle.test.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test:browser": "node tests/browser.mjs"
   },
   "engines": {
     "node": ">=18"

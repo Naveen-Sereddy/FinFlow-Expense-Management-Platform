@@ -18,15 +18,13 @@ const mime = {
 };
 
 const server = http.createServer((request, response) => {
-  const requestPath = decodeURIComponent((request.url || '/').split('?')[0]);
+  let requestPath;
+  try { requestPath = decodeURIComponent((request.url || '/').split('?')[0]); } catch { response.writeHead(400); response.end('Invalid URL'); return; }
+  if (requestPath === '/') { response.writeHead(302, { Location: '/ui_kits/finflow/' }); response.end(); return; }
   // Serve the product from its repository path so the relative JSX, data, and
   // foundation imports in index.html resolve exactly as they do when opened
   // from the source tree. The root URL remains a convenient shortcut.
-  const relativePath = requestPath === '/'
-    ? '/ui_kits/finflow/index.html'
-    : requestPath.endsWith('/')
-      ? `${requestPath}index.html`
-      : requestPath;
+  const relativePath = requestPath.endsWith('/') ? `${requestPath}index.html` : requestPath;
   const absolutePath = path.resolve(root, `.${relativePath}`);
   if (!absolutePath.startsWith(`${root}${path.sep}`)) {
     response.writeHead(403);

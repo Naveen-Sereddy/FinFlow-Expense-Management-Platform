@@ -1,457 +1,744 @@
-/* FinFlow Screens — Expenses (list, detail, new, OCR review, flagged, import) */
-
-const EXPENSE_COLUMNS = ["ID", "Date", "Merchant / memo", "Owner", "Category", "Amount", "Status"];
-
-const ExpenseList = () => {
-  const d = FF_DATA;
-  const [status, setStatus] = React.useState("all");
-  const [cat, setCat] = React.useState("all");
-  const [q, setQ] = React.useState("");
-  const [compact, setCompact] = React.useState(false);
-  const [selected, setSelected] = React.useState([]);
-  const [columnsOpen, setColumnsOpen] = React.useState(false);
-  const query = q.trim().toLowerCase();
-  const filtered = d.expenses.filter(e =>
-    (status === "all" || e.status === status) &&
-    (cat === "all" || e.cat === cat) &&
-    (query === "" || [e.merchant, e.memo, e.who, e.id].some(f => f.toLowerCase().includes(query)))
-  );
-  const total = filtered.reduce((s, e) => s + e.amount, 0);
-  const selectedTotal = filtered.filter(e => selected.includes(e.id)).reduce((s, e) => s + e.amount, 0);
-  const allSelected = filtered.length > 0 && filtered.every(e => selected.includes(e.id));
-
-  const toggleRow = (id) => setSelected(sel => sel.includes(id) ? sel.filter(x => x !== id) : [...sel, id]);
-  const toggleAll = () => setSelected(allSelected ? [] : filtered.map(e => e.id));
-
-  return (
-    <>
-      <PageHead
-        eyebrow="Expenses"
-        title="All expenses"
-        sub={`${filtered.length} items · total ${new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' }).format(total)}`}
-        actions={<>
-          <DensityToggle compact={compact} onToggle={()=>setCompact(c=>!c)}/>
-          <RefreshButton/>
-          <button className="ff-btn" onClick={()=>ffGo('import')}><Icon name="upload-simple" size={14}/> Import CSV</button>
-          <button className="ff-btn"><Icon name="download-simple" size={14}/> Export</button>
-          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('new-expense')}><Icon name="plus" size={14}/> New expense</button>
-        </>}
-      />
-
-      <div className="ff-row" style={{justifyContent:'space-between', marginBottom:14, flexWrap:'wrap', gap:12}}>
-        <div className="ff-row" style={{gap:8, flexWrap:'wrap'}}>
-          <ChipBar items={[
-            { id: "all",     label: "All",     count: d.expenses.length },
-            { id: "pending", label: "Pending", count: d.expenses.filter(e=>e.status==="pending").length },
-            { id: "approved",label: "Approved",count: d.expenses.filter(e=>e.status==="approved").length },
-            { id: "flagged", label: "Flagged", count: d.expenses.filter(e=>e.status==="flagged").length },
-            { id: "rejected",label: "Rejected",count: d.expenses.filter(e=>e.status==="rejected").length }
-          ]} value={status} onChange={setStatus}/>
-        </div>
-        <div className="ff-row" style={{gap:8}}>
-          <div className="ff-search" style={{width:240}}>
-            <Icon name="magnifying-glass" size={14}/>
-            <input placeholder="Search expenses…" value={q} onChange={e=>setQ(e.target.value)}/>
-          </div>
-          <select className="ff-select" style={{width:140}} value={cat} onChange={e=>setCat(e.target.value)}>
-            <option value="all">All categories</option>
-            {d.categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-          </select>
-          <button className="ff-btn"><Icon name="calendar-blank" size={14}/> May 2026 <Icon name="caret-down" size={12}/></button>
-          <div style={{position:'relative'}}>
-            <button className="ff-btn" onClick={()=>setColumnsOpen(o=>!o)}><Icon name="columns" size={14}/> Columns</button>
-            {columnsOpen && (
-              <div className="ff-card" style={{position:'absolute', top:'calc(100% + 6px)', right:0, zIndex:10, padding:10, width:180, boxShadow:'var(--ff-shadow-lg)'}}>
-                {EXPENSE_COLUMNS.map(col => (
-                  <label key={col} className="ff-row" style={{gap:8, padding:'5px 4px', fontSize:13}}>
-                    <input type="checkbox" defaultChecked/> {col}
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {selected.length > 0 && (
-        <div className="ff-row" style={{
-          justifyContent:'space-between', padding:'10px 16px', marginBottom:10,
-          background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:'var(--ff-radius-md)'
-        }}>
-          <div className="ff-row" style={{gap:10, fontSize:13}}>
-            <input type="checkbox" checked readOnly/>
-            <span>{selected.length} selected · total {new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' }).format(selectedTotal)}</span>
-          </div>
-          <div className="ff-row" style={{gap:8}}>
-            <button className="ff-btn ff-btn--primary ff-btn--sm" onClick={()=>{alert('Selected approved'); setSelected([]);}}>Approve selected</button>
-            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>alert('Flagged')}>Flag</button>
-            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>alert('Exported')}>Export</button>
-            <button className="ff-btn ff-btn--ghost ff-btn--sm" onClick={()=>{alert('Deleted'); setSelected([]);}}>Delete</button>
-          </div>
-        </div>
-      )}
-
-      <table className={`ff-table ${compact ? 'ff-table--compact' : ''}`}>
-        <thead>
-          <tr>
-            <th style={{width:32}}><input type="checkbox" aria-label="Select all" checked={allSelected} onChange={toggleAll}/></th>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Merchant / memo</th>
-            <th>Owner</th>
-            <th>Category</th>
-            <th className="ff-num">Amount</th>
-            <th>Status</th>
-            <th style={{width:40}}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map(e => {
-            const cat = d.categories.find(c => c.id === e.cat);
-            return (
-              <tr key={e.id} onClick={()=>ffGo('expense-detail')} style={{cursor:'pointer'}}>
-                <td onClick={ev=>ev.stopPropagation()}><input type="checkbox" checked={selected.includes(e.id)} onChange={()=>toggleRow(e.id)}/></td>
-                <td><span className="ff-mono" style={{fontSize:12, color:'var(--ff-fg-muted)'}}>{e.id}</span></td>
-                <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{fmtDate(e.date)}</td>
-                <td>
-                  <div className="ff-row" style={{gap:8, fontWeight:500}}><MerchantIcon name={e.merchant} size={15}/> {e.merchant}</div>
-                  <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{e.memo}</div>
-                </td>
-                <td><span className="ff-row" style={{gap:6}}><Avatar initials={e.who.split(' ').map(x=>x[0]).join('').slice(0,2)} name={e.who}/>{e.who}</span></td>
-                <td><CategoryTag color={cat.color} name={cat.name}/></td>
-                <td className="ff-num"><Money value={e.amount}/></td>
-                <td><StatusBadge status={e.status}/></td>
-                <td><button className="ff-btn ff-btn--ghost ff-btn--sm ff-btn--icon" aria-label={`More actions for ${e.merchant}, ${e.id}`}><Icon name="dots-three" size={16}/></button></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
-  );
-};
-
-const ExpenseDetail = () => {
-  const d = FF_DATA;
-  const e = d.expenses.find(x => x.id === "EXP-2841");
-  return (
-    <>
-      <div className="ff-row" style={{gap:8, marginBottom:12, color:'var(--ff-fg-muted)', fontSize:13, whiteSpace:'nowrap'}}>
-        <a href="#" style={{color:'inherit'}} onClick={(ev)=>{ev.preventDefault(); ffGo('expenses');}}>Expenses</a>
-        <Icon name="caret-right" size={12}/>
-        <span style={{color:'var(--ff-fg)'}} className="ff-mono">{e.id}</span>
-      </div>
-      <PageHead
-        title={<span className="ff-row" style={{gap:10, alignItems:'center'}}><MerchantIcon name={e.merchant} size={26}/> {e.merchant}</span>}
-        sub={`${e.id} · Submitted by ${e.who} on ${fmtDate(e.date)}`}
-        actions={<>
-          <button className="ff-btn"><Icon name="chat-text" size={14}/> Comment</button>
-          <button className="ff-btn" onClick={()=>ffGo('state-rejected')}><Icon name="x" size={14}/> Reject</button>
-          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('state-success')}><Icon name="check" size={14}/> Approve</button>
-        </>}
-      />
-
-      <div className="ff-grid" style={{gridTemplateColumns:'1.6fr 1fr'}}>
-        <div className="ff-stack" style={{'--ff-stack-gap':'16px'}}>
-          <Card title="Summary">
-            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px 28px'}}>
-              <DetailRow label="Amount"><span style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:28, letterSpacing:'-0.025em'}} className="ff-tnum"><Money value={e.amount}/></span></DetailRow>
-              <DetailRow label="Status"><StatusBadge status={e.status}/></DetailRow>
-              <DetailRow label="Category">{d.categories.find(c=>c.id===e.cat).name}</DetailRow>
-              <DetailRow label="Date"><span className="ff-tnum">{fmtDate(e.date)}</span></DetailRow>
-              <DetailRow label="Payment"><span className="ff-mono">•••• {e.cardLast4}</span></DetailRow>
-              <DetailRow label="Memo">{e.memo}</DetailRow>
-            </div>
-          </Card>
-
-          <Card title="Receipt" action={<button className="ff-btn ff-btn--sm ff-btn--ghost"><Icon name="download-simple" size={12}/> Download</button>}>
-            <div style={{
-              background:'var(--ff-card-2)', border:'1px dashed var(--ff-border)', borderRadius:10,
-              padding:32, display:'flex', flexDirection:'column', alignItems:'center', gap:12
-            }}>
-              <div style={{
-                width:200, height:280,
-                background:`repeating-linear-gradient(0deg, var(--ff-border) 0 1px, transparent 1px 12px), var(--ff-card)`,
-                border:'1px solid var(--ff-border)', borderRadius:6, position:'relative'
-              }}>
-                <div style={{position:'absolute', top:14, left:0, right:0, textAlign:'center', fontFamily:'var(--ff-font-mono)', fontSize:10, color:'var(--ff-fg-muted)'}}>UNITED · receipt.pdf</div>
-                <div style={{position:'absolute', bottom:14, left:0, right:0, textAlign:'center', fontFamily:'var(--ff-font-display)', fontSize:22, fontStyle:'italic'}} className="ff-tnum">$842.50</div>
-              </div>
-              <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>1 of 1 · receipt_2026-05-22_united.pdf · 248 KB</div>
-            </div>
-          </Card>
-
-          <Card title="Activity" padded={false}>
-            <div className="ff-stack" style={{'--ff-stack-gap':'0'}}>
-              {[
-                { who: "Jordan Lee",       act: "Submitted expense",  ts: "May 22, 9:12 AM" },
-                { who: "System",          act: "Policy check passed", ts: "May 22, 9:12 AM" },
-                { who: "Xavier Bartlett",    act: "Routed for approval", ts: "May 22, 9:15 AM" },
-                { who: "Marcus Stoinis",    act: "Viewing now",         ts: "Just now" }
-              ].map((a, i, arr) => (
-                <div key={i} style={{padding:'14px 20px', borderBottom: i < arr.length - 1 ? '1px solid var(--ff-border)' : '0', display:'flex', gap:12, alignItems:'center'}}>
-                  <Avatar initials={a.who.split(' ').map(x=>x[0]).join('').slice(0,2)} name={a.who}/>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:13}}><strong>{a.who}</strong> · {a.act}</div>
-                    <div style={{fontSize:11, color:'var(--ff-fg-muted)'}} className="ff-tnum">{a.ts}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
-
-        <div className="ff-stack" style={{'--ff-stack-gap':'16px'}}>
-          <Card title="Approval chain">
-            <div className="ff-stack" style={{'--ff-stack-gap':'12px'}}>
-              {[
-                { name:"Xavier Bartlett", title:"Head of Sales", status:"approved" },
-                { name:"Marcus Stoinis", title:"Finance",       status:"pending" }
-              ].map((s, i) => (
-                <div key={i} className="ff-row" style={{justifyContent:'space-between', gap:8}}>
-                  <div className="ff-row" style={{gap:10, minWidth:0, flex:1}}>
-                    <Avatar initials={s.name.split(' ').map(x=>x[0]).join('').slice(0,2)} name={s.name}/>
-                    <div style={{minWidth:0}}>
-                      <div style={{fontSize:13, fontWeight:500, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{s.name}</div>
-                      <div style={{fontSize:11, color:'var(--ff-fg-muted)'}}>{s.title}</div>
-                    </div>
-                  </div>
-                  <StatusBadge status={s.status}/>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          <div className="ff-alert ff-alert--info">
-            <Icon name="info" size={18} weight="fill" style={{color:'inherit'}}/>
-            <div className="ff-alert__body">
-              <div className="ff-alert__title">Within policy</div>
-              <div>Airfare under domestic cap ($1,000). Receipt attached. Tax ID matches vendor.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
+/* Shared desktop/mobile capture and canonical expense views. */
+const currentDemoRole = () => FF_STORE.getRole();
 const DetailRow = ({ label, children }) => (
   <div>
-    <div className="ff-eyebrow" style={{marginBottom:4}}>{label}</div>
-    <div style={{fontSize:14}}>{children}</div>
+    <div className="ff-eyebrow">{label}</div>
+    <div>{children}</div>
   </div>
 );
+const Field = ({ id, label, error, children }) => (
+  <div className="ff-field">
+    <label htmlFor={id} className="ff-label">
+      {label}
+    </label>
+    {React.cloneElement(children, {
+      id,
+      "aria-invalid": Boolean(error),
+      "aria-describedby": error ? `${id}-error` : undefined,
+    })}
+    {error && (
+      <p id={`${id}-error`} className="ff-form-error">
+        {error}
+      </p>
+    )}
+  </div>
+);
+const TableRegion = ({ children, label = "Records" }) => (
+  <div
+    className="ff-table-region"
+    role="region"
+    aria-label={label}
+    tabIndex="0"
+  >
+    {children}
+  </div>
+);
+const MissingRecord = () => (
+  <EmptyState
+    icon="warning"
+    title="Record unavailable"
+    body="This record does not exist or is outside your current demo role."
+    action={
+      <button className="ff-btn" onClick={() => ffGo("expenses")}>
+        Back to expenses
+      </button>
+    }
+  />
+);
+const ExpenseLink = ({ expense, destination = "expense-detail", children }) => (
+  <a
+    className="ff-record-link"
+    href={`#screen=${destination}&expenseId=${encodeURIComponent(expense.id)}`}
+    onClick={(event) => {
+      event.preventDefault();
+      ffGo(destination, { expenseId: expense.id });
+    }}
+  >
+    {children || expense.merchant}
+  </a>
+);
 
-const NewExpense = () => {
-  const d = FF_DATA;
+const ExpenseList = ({ route = {} }) => {
+  const [data] = useFinFlow();
+  const expenses = FF_STORE.selectors.expenses(data);
+  const [query, setQuery] = React.useState(route.q || "");
+  const [status, setStatus] = React.useState(route.status || "all");
+  const [category, setCategory] = React.useState(route.cat || "all");
+  const [selected, setSelected] = React.useState([]);
+  const filtered = expenses.filter(
+    (expense) =>
+      (status === "all" ||
+        (status === "flagged"
+          ? expense.policy !== "ok"
+          : expense.status === status)) &&
+      (category === "all" || expense.cat === category) &&
+      [expense.id, expense.merchant, expense.memo, expense.who].some((value) =>
+        value.toLowerCase().includes(query.toLowerCase()),
+      ),
+  );
+  const selectedItems = filtered.filter((expense) =>
+    selected.includes(expense.id),
+  );
+  React.useEffect(() => {
+    setSelected([]);
+  }, [query, status, category, data.revision]);
+  React.useEffect(() => {
+    if (!window.ffSaveFilters) return;
+    window.ffSaveFilters({ q: query, status, cat: category });
+  }, [query, status, category]);
   return (
     <>
       <PageHead
         eyebrow="Expenses"
-        title="New expense"
-        sub="Submit a business expense for approval"
-        actions={<>
-          <button className="ff-btn">Save draft</button>
-          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('expenses')}>Submit for approval</button>
-        </>}
+        title={
+          currentDemoRole() === "employee"
+            ? "My expenses"
+            : currentDemoRole() === "manager"
+              ? "Sales team expenses"
+              : "All expenses"
+        }
+        sub={`${filtered.length} records · USD · ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(filtered.reduce((sum, e) => sum + e.amountCents, 0) / 100)}`}
+        actions={
+          <button
+            className="ff-btn ff-btn--primary"
+            onClick={() => ffGo("new-expense")}
+          >
+            New expense
+          </button>
+        }
       />
-
-      <div className="ff-grid" style={{gridTemplateColumns:'1.5fr 1fr', gap:24}}>
-        <Card>
-          <div className="ff-stack" style={{'--ff-stack-gap':'18px'}}>
-            <div className="ff-grid ff-grid--2">
-              <div className="ff-field"><label className="ff-label">Merchant</label><input className="ff-input" placeholder="e.g. United Airlines"/></div>
-              <div className="ff-field"><label className="ff-label">Date</label><input className="ff-input" type="text" placeholder="YYYY-MM-DD"/></div>
-            </div>
-            <div className="ff-grid ff-grid--2">
-              <div className="ff-field"><label className="ff-label">Amount (USD)</label><input className="ff-input ff-tnum" placeholder="0.00"/></div>
-              <div className="ff-field"><label className="ff-label">Category</label>
-                <select className="ff-select" defaultValue="">
-                  <option value="" disabled>Select a category</option>
-                  {d.categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
-              </div>
-            </div>
-            <div className="ff-field"><label className="ff-label">Memo</label><textarea className="ff-textarea" placeholder="What was this for?"/></div>
-            <div className="ff-grid ff-grid--2">
-              <div className="ff-field"><label className="ff-label">Project / cost center</label>
-                <select className="ff-select" defaultValue="">
-                  <option value="" disabled>Select a project</option>
-                  <option>Sales — FY26</option><option>Marketing</option><option>R&amp;D</option>
-                </select>
-              </div>
-              <div className="ff-field"><label className="ff-label">Payment</label>
-                <select className="ff-select" defaultValue="">
-                  <option value="" disabled>Select a payment method</option>
-                  <option>FinFlow Card · •••• 4112</option><option>Personal — request reimbursement</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        <div className="ff-stack" style={{'--ff-stack-gap':'16px'}}>
-          <Card title="Receipt">
-            <div style={{
-              border:'1.5px dashed var(--ff-border-strong)', borderRadius:10, padding:'24px 20px',
-              display:'flex', flexDirection:'column', alignItems:'center', gap:8, textAlign:'center'
-            }}>
-              <div className="ff-empty__icon"><Icon name="upload-simple" size={22}/></div>
-              <div style={{fontSize:14, fontWeight:500}}>Drop a receipt</div>
-              <div style={{fontSize:12, color:'var(--ff-fg-muted)'}}>PDF or image · OCR fills the form automatically</div>
-              <button className="ff-btn ff-btn--sm" style={{marginTop:6}} onClick={()=>ffGo('ocr')}>Choose file</button>
-            </div>
-          </Card>
-          <Card title="Approval preview">
-            <div style={{fontSize:13, color:'var(--ff-fg-muted)', marginBottom:10}}>This expense will be routed to:</div>
-            <div className="ff-stack" style={{'--ff-stack-gap':'8px'}}>
-              <div className="ff-row" style={{gap:8}}><Avatar initials="XB" name="Xavier Bartlett"/><span>Xavier Bartlett · Head of Sales</span></div>
-              <div className="ff-row" style={{gap:8}}><Avatar initials="MS" name="Marcus Stoinis"/><span>Marcus Stoinis · Finance</span></div>
-            </div>
-          </Card>
-        </div>
+      <div className="ff-filter-row">
+        <Field id="expense-query" label="Search expenses">
+          <input
+            className="ff-input"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </Field>
+        <Field id="expense-status" label="Status">
+          <select
+            className="ff-select"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            {[
+              "all",
+              "pending",
+              "approved",
+              "needs-info",
+              "rejected",
+              "flagged",
+            ].map((value) => (
+              <option key={value} value={value}>
+                {value === "flagged" ? "Policy exceptions" : value}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field id="expense-cat" label="Category">
+          <select
+            className="ff-select"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="all">All categories</option>
+            {data.categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </Field>
       </div>
+      <p className="ff-muted" role="status">
+        {selectedItems.length} selected ·{" "}
+        <Money
+          value={selectedItems.reduce((sum, e) => sum + e.amountCents, 0) / 100}
+        />
+        . Changing filters clears selection.
+      </p>
+      {filtered.length ? (
+        <TableRegion>
+          <table className="ff-table">
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    aria-label="Select all visible expenses"
+                    type="checkbox"
+                    checked={
+                      filtered.length > 0 &&
+                      selectedItems.length === filtered.length
+                    }
+                    onChange={(event) =>
+                      setSelected(
+                        event.target.checked ? filtered.map((e) => e.id) : [],
+                      )
+                    }
+                  />
+                </th>
+                <th>Expense</th>
+                <th>Owner</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Review</th>
+                <th>Policy</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((expense) => (
+                <tr key={expense.id}>
+                  <td>
+                    <input
+                      aria-label={`Select ${expense.id}`}
+                      type="checkbox"
+                      checked={selected.includes(expense.id)}
+                      onChange={(event) =>
+                        setSelected((ids) =>
+                          event.target.checked
+                            ? [...ids, expense.id]
+                            : ids.filter((id) => id !== expense.id),
+                        )
+                      }
+                    />
+                  </td>
+                  <td>
+                    <ExpenseLink expense={expense} />
+                    <div className="ff-mono">{expense.id}</div>
+                  </td>
+                  <td>{expense.who}</td>
+                  <td>{fmtDate(expense.date)}</td>
+                  <td>
+                    <Money value={expense.amount} />
+                  </td>
+                  <td>
+                    <StatusBadge status={expense.status} />
+                  </td>
+                  <td>
+                    <StatusBadge status={expense.policy} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </TableRegion>
+      ) : (
+        <EmptyState
+          icon="receipt"
+          title="No matching expenses"
+          body="Clear the filters or create an expense."
+        />
+      )}
     </>
   );
 };
 
-const OcrReview = () => {
-  return (
-    <>
-      <PageHead
-        eyebrow="Receipt OCR"
-        title="Review extracted data"
-        sub="We've parsed the receipt — confirm the fields below."
-        actions={<>
-          <button className="ff-btn">Re-scan</button>
-          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('expenses')}>Save expense</button>
-        </>}
-      />
-      <div className="ff-grid" style={{gridTemplateColumns:'1fr 1fr', gap:24}}>
-        <Card padded={false}>
-          <div style={{padding:20}}>
-            <div style={{
-              background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:8,
-              width:'min(100%, 320px)', aspectRatio:'0.8 / 1', margin:'0 auto', position:'relative', overflow:'hidden'
-            }}>
-              <div style={{position:'absolute', inset:16, borderRadius:4, boxShadow:'var(--ff-shadow-md)', overflow:'hidden'}}>
-                <img src="assets/marriott-austin.jpg" alt="Marriott Austin hotel receipt" style={{width:'100%', height:'100%', objectFit:'contain', background:'#fff'}}/>
-              </div>
-              <div style={{position:'absolute', top:10, right:10, background:'var(--ff-card)', border:'1px solid var(--ff-border)', borderRadius:6, padding:'4px 8px', fontSize:11, color:'var(--ff-fg-muted)', display:'flex', gap:8, alignItems:'center'}}>
-                <Icon name="sparkle" size={12}/> OCR confidence · 94%
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        <Card>
-          <div className="ff-stack" style={{'--ff-stack-gap':'14px'}}>
-            <OcrField label="Merchant" value="Marriott Austin" confidence={98}/>
-            <OcrField label="Date" value="2026-05-21" confidence={99}/>
-            <OcrField label="Amount" value="$1,240.00" confidence={97} highlight/>
-            <OcrField label="Tax" value="$55.00" confidence={88}/>
-            <OcrField label="Card" value="VISA •••• 4112" confidence={96}/>
-            <OcrField label="Category (predicted)" value="Travel · Lodging" confidence={91}/>
-          </div>
-          <div className="ff-alert ff-alert--warn" style={{marginTop:18}}>
-            <Icon name="warning" size={18} weight="fill"/>
-            <div className="ff-alert__body">
-              <div className="ff-alert__title">Policy: over hotel cap</div>
-              <div>3 nights at $413/night exceeds the $300/night domestic cap. This expense will be flagged.</div>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </>
-  );
-};
-
-const OcrField = ({ label, value, confidence, highlight }) => (
-  <div className="ff-field">
-    <div className="ff-row" style={{justifyContent:'space-between'}}>
-      <label className="ff-label">{label}</label>
-      <span style={{fontSize:11, color: confidence > 90 ? 'var(--ff-approved)' : 'var(--ff-pending)'}}>{confidence}% confidence</span>
-    </div>
-    <input className={"ff-input " + (highlight ? "ff-tnum" : "")} defaultValue={value} style={highlight ? {fontWeight:600} : {}}/>
-  </div>
+const ReceiptEvidence = ({ expense }) => (
+  <Card title="Receipt evidence">
+    {expense.receipt ? (
+      <>
+        <p>
+          {expense.receipt.name}
+          {expense.receipt.sample ? " · sample evidence" : ""}
+        </p>
+        {expense.receipt.url.startsWith("data:application/pdf") ? (
+          <a download={expense.receipt.name} href={expense.receipt.url}>
+            Download attached PDF
+          </a>
+        ) : (
+          <a href={expense.receipt.url} target="_blank" rel="noreferrer">
+            <img
+              className="ff-receipt-image"
+              src={expense.receipt.url}
+              alt={`Receipt attached to ${expense.id}`}
+            />
+          </a>
+        )}
+      </>
+    ) : (
+      <p className="ff-muted">
+        {expense.receiptName
+          ? `${expense.receiptName}: only the filename survived the earlier demo. Request a new attachment if evidence is required.`
+          : "No receipt attached. Review the policy exception before deciding."}
+      </p>
+    )}
+  </Card>
 );
 
-const FlaggedExpense = () => {
+const ReviewActions = ({ ids, onDone }) => {
+  const [, actions] = useFinFlow();
+  const [note, setNote] = React.useState("");
+  const [error, setError] = React.useState("");
+  const decide = (decision) => {
+    try {
+      const result = actions.decideExpenses(ids, decision, note);
+      setError("");
+      onDone(result);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  return (
+    <div className="ff-stack">
+      <Field id="review-note" label="Decision reason / policy override">
+        <textarea
+          className="ff-textarea"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
+      </Field>
+      <p className="ff-muted">
+        Required for correction, rejection, or approval of a policy exception.
+        Applies to {ids.length} selected record{ids.length === 1 ? "" : "s"}.
+      </p>
+      {error && (
+        <p role="alert" className="ff-form-error">
+          {error}
+        </p>
+      )}
+      <div className="ff-action-row">
+        <button
+          className="ff-btn"
+          disabled={!ids.length}
+          onClick={() => decide("needs-info")}
+        >
+          Request correction
+        </button>
+        <button
+          className="ff-btn ff-btn--danger"
+          disabled={!ids.length}
+          onClick={() => decide("rejected")}
+        >
+          Reject
+        </button>
+        <button
+          className="ff-btn ff-btn--primary"
+          disabled={!ids.length}
+          onClick={() => decide("approved")}
+        >
+          Approve
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ExpenseDetail = ({ route = {} }) => {
+  const [data, actions] = useFinFlow();
+  const [error, setError] = React.useState("");
+  const expense = FF_STORE.selectors
+    .expenses(data)
+    .find((item) => item.id === route.expenseId);
+  if (!expense) return <MissingRecord />;
+  const reviewer = FF_STORE.selectors.canReview(expense, data);
+  const events = data.events.filter((item) => item.expenseId === expense.id);
   return (
     <>
+      <button
+        className="ff-btn ff-btn--ghost"
+        onClick={() => ffGo(reviewer ? "approvals" : "expenses")}
+      >
+        ← {reviewer ? "Review queue" : "Expenses"}
+      </button>
       <PageHead
-        eyebrow="Expense · Policy violation"
-        title={<span className="ff-row" style={{gap:10, alignItems:'center'}}><MerchantIcon name="Marriott Austin" size={26}/> Marriott Austin — flagged</span>}
-        sub="EXP-2839 · Jordan Lee · May 21, 2026"
-        actions={<>
-          <button className="ff-btn"><Icon name="chat-text" size={14}/> Ask for info</button>
-          <button className="ff-btn ff-btn--danger" onClick={()=>ffGo('state-rejected')}><Icon name="x" size={14}/> Reject</button>
-          <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('state-success')}><Icon name="check" size={14}/> Approve override</button>
-        </>}
+        title={expense.merchant}
+        sub={`${expense.id} · ${expense.who}`}
+        actions={
+          expense.status === "needs-info" &&
+          expense.who === data.me[currentDemoRole()].name && (
+            <button
+              className="ff-btn ff-btn--primary"
+              onClick={() => ffGo("new-expense", { expenseId: expense.id })}
+            >
+              Correct and resubmit
+            </button>
+          )
+        }
       />
-      <div className="ff-alert ff-alert--error" style={{marginBottom:16}}>
-        <Icon name="warning-octagon" size={20} weight="fill"/>
-        <div className="ff-alert__body">
-          <div className="ff-alert__title">3 policy violations detected</div>
-          <div>Hotel rate $413/night (cap $300) · Stay extended past sanctioned trip window · Missing project code</div>
+      <div className="ff-grid ff-grid--2">
+        <div className="ff-stack">
+          <Card title="Expense">
+            <div className="ff-detail-fields">
+              <DetailRow label="Amount">
+                <Money value={expense.amount} />
+              </DetailRow>
+              <DetailRow label="Date">{fmtDate(expense.date)}</DetailRow>
+              <DetailRow label="Review">
+                <StatusBadge status={expense.status} />
+              </DetailRow>
+              <DetailRow label="Policy">
+                <StatusBadge status={expense.policy} />
+              </DetailRow>
+              <DetailRow label="Payment source">
+                {expense.paymentSource === "personal"
+                  ? "Personal funds"
+                  : `Corporate card •••• ${expense.cardLast4}`}
+              </DetailRow>
+              <DetailRow label="Accounting">
+                {expense.accountingState}
+              </DetailRow>
+              <DetailRow label="Category">
+                {data.categories.find((cat) => cat.id === expense.cat)?.name}
+              </DetailRow>
+              <DetailRow label="Memo">{expense.memo || "—"}</DetailRow>
+            </div>
+            {expense.decisionNote && (
+              <p>
+                <strong>Decision reason:</strong> {expense.decisionNote}
+              </p>
+            )}
+          </Card>
+          <ReceiptEvidence expense={expense} />
         </div>
-      </div>
-
-      <div className="ff-grid" style={{gridTemplateColumns:'1.6fr 1fr', gap:16}}>
-        <Card title="Receipt + transcription">
-          <div className="ff-grid ff-grid--2">
-            <div style={{aspectRatio:'0.8 / 1', maxHeight:300, margin:'0 auto', background:'var(--ff-card-2)', border:'1px solid var(--ff-border)', borderRadius:8, overflow:'hidden'}}>
-              <img src="assets/marriott-austin.jpg" alt="Marriott Austin hotel receipt" style={{width:'100%', height:'100%', objectFit:'contain'}}/>
-            </div>
-            <div style={{fontSize:13, lineHeight:1.6}}>
-              <DetailRow label="Total"><span style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:24, letterSpacing:'-0.025em'}} className="ff-tnum">$1,240.00</span></DetailRow>
-              <div style={{height:12}}/>
-              <DetailRow label="Nights">3 × $413.33</DetailRow>
-              <div style={{height:12}}/>
-              <DetailRow label="Policy cap">$300/night</DetailRow>
-              <div style={{height:12}}/>
-              <DetailRow label="Overage"><span style={{color:'var(--ff-rejected)'}} className="ff-tnum">+$340.00</span></DetailRow>
-            </div>
-          </div>
-        </Card>
-        <Card title="Override note">
-          <textarea className="ff-textarea" defaultValue="Customer offsite — only room block available. Approving as one-time exception."/>
-          <div style={{fontSize:12, color:'var(--ff-fg-muted)', marginTop:10}}>Override will be recorded in audit log under Marcus Stoinis (Finance Admin).</div>
-        </Card>
+        <div className="ff-stack">
+          {reviewer && (
+            <Card title="Review decision">
+              <ReviewActions
+                ids={[expense.id]}
+                onDone={(result) =>
+                  ffGo(
+                    result.type === "approved"
+                      ? "state-success"
+                      : "state-rejected",
+                    { operationId: result.id },
+                  )
+                }
+              />
+            </Card>
+          )}
+          {currentDemoRole() === "finance" &&
+            expense.status === "approved" &&
+            expense.paymentSource === "card" &&
+            expense.accountingState !== "ready" && (
+              <Card title="Card reconciliation">
+                <p>
+                  Mark the sample transaction matched to make it
+                  accounting-ready. This does not reimburse the employee.
+                </p>
+                <button
+                  className="ff-btn"
+                  onClick={() => {
+                    try {
+                      actions.reconcile(expense.id);
+                    } catch (error) {
+                      setError(error.message);
+                    }
+                  }}
+                >
+                  Reconcile card expense (demo)
+                </button>
+                {error && <p role="alert">{error}</p>}
+              </Card>
+            )}
+          <Card title="Activity">
+            {events.length ? (
+              <ol>
+                {events.map((event) => (
+                  <li key={event.id}>
+                    <strong>{event.action}</strong> · {event.actor}
+                    <p className="ff-muted">
+                      {new Date(event.ts).toLocaleString()}
+                    </p>
+                    {event.note && <p>{event.note}</p>}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>Historical fixture. No detailed event history is available.</p>
+            )}
+          </Card>
+        </div>
       </div>
     </>
   );
 };
 
-const BulkImport = () => (
-  <>
-    <PageHead eyebrow="Expenses" title="Bulk import" sub="Upload a CSV of expenses to import in one batch."/>
-    <div className="ff-grid" style={{gridTemplateColumns:'1.5fr 1fr', gap:24}}>
-      <Card>
-        <div style={{border:'1.5px dashed var(--ff-border-strong)', borderRadius:12, padding:48, textAlign:'center'}}>
-          <div className="ff-empty__icon" style={{margin:'0 auto'}}><Icon name="file-csv" size={26}/></div>
-          <div style={{fontSize:16, fontWeight:600, marginTop:12}}>Drop your CSV here</div>
-          <div style={{fontSize:13, color:'var(--ff-fg-muted)', marginTop:4}}>Up to 5,000 rows · UTF-8 · max 10 MB</div>
-          <button className="ff-btn ff-btn--primary" style={{marginTop:18}} onClick={()=>ffGo('expenses')}><Icon name="upload-simple" size={14}/> Choose file</button>
-          <div style={{marginTop:12, fontSize:12}}><a href="#">Download CSV template</a></div>
-        </div>
-      </Card>
-      <Card title="Expected columns">
-        <table className="ff-table ff-table--compact">
-          <thead><tr><th>Column</th><th>Required</th></tr></thead>
-          <tbody>
-            {[
-              ["date", "Yes"], ["merchant", "Yes"], ["amount", "Yes"],
-              ["category", "Yes"], ["memo", "No"], ["card_last4", "No"],
-              ["owner_email", "No"], ["project_code", "No"]
-            ].map(([k, r], i) => (
-              <tr key={i}><td className="ff-mono" style={{fontSize:12}}>{k}</td><td>{r}</td></tr>
+const ExpenseForm = ({ expenseId, onSubmitted, onBack, sample = false }) => {
+  const [data, actions] = useFinFlow();
+  const owner = data.me[currentDemoRole()].name;
+  const expense = data.expenses.find(
+    (item) =>
+      item.id === expenseId &&
+      item.who === owner &&
+      item.status === "needs-info",
+  );
+  const initial = () =>
+    data.drafts[`${owner}:${expenseId || "new"}`] ||
+    (expense
+      ? { ...expense, amount: String(expense.amount) }
+      : {
+          merchant: "",
+          amount: "",
+          date: FF_STORE.today(),
+          cat: "",
+          memo: "",
+          paymentSource: "personal",
+          receipt: null,
+        });
+  const [form, setForm] = React.useState(initial);
+  const latestForm = React.useRef(form);
+  latestForm.current = form;
+  const [errors, setErrors] = React.useState({});
+  const [message, setMessage] = React.useState("");
+  const [savingError, setSavingError] = React.useState("");
+  const [reading, setReading] = React.useState(false);
+  const formRef = React.useRef(null);
+  const change = (key, value) => {
+    const next = { ...latestForm.current, [key]: value };
+    latestForm.current = next;
+    setForm(next);
+    setMessage("");
+    try {
+      actions.saveDraft(next, expenseId);
+      setSavingError("");
+    } catch (error) {
+      setSavingError(error.message);
+    }
+  };
+  const attach = async (file) => {
+    if (!file) return;
+    if (
+      !["image/jpeg", "image/png", "image/webp", "application/pdf"].includes(
+        file.type,
+      ) ||
+      file.size > 1500000
+    ) {
+      setSavingError("Choose a JPEG, PNG, WebP or PDF file up to 1.5 MB.");
+      return;
+    }
+    setReading(true);
+    try {
+      const url = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () =>
+          reject(Error("Could not read the receipt. Choose it again."));
+        reader.readAsDataURL(file);
+      });
+      change("receipt", { name: file.name, url });
+    } catch (error) {
+      setSavingError(error.message);
+    } finally {
+      setReading(false);
+    }
+  };
+  const submit = (event) => {
+    event.preventDefault();
+    const invalid = FF_STORE.validateExpense(form);
+    setErrors(invalid);
+    if (Object.keys(invalid).length) {
+      setMessage(
+        "Check the highlighted fields. Your other entries are preserved.",
+      );
+      setTimeout(
+        () => formRef.current?.querySelector('[aria-invalid="true"]')?.focus(),
+        0,
+      );
+      return;
+    }
+    try {
+      const result = actions.submitExpense(form, expenseId);
+      setSavingError("");
+      onSubmitted(result);
+    } catch (error) {
+      setSavingError(error.message);
+    }
+  };
+  if (expenseId && !expense) return <MissingRecord />;
+  return (
+    <form ref={formRef} onSubmit={submit} noValidate className="ff-stack">
+      <div className="ff-action-row">
+        <button type="button" className="ff-btn ff-btn--ghost" onClick={onBack}>
+          ← Back
+        </button>
+        <span className="ff-muted">Draft retained in this browser.</span>
+      </div>
+      {sample && (
+        <p className="ff-muted">
+          Receipt capture uses a sample or file picker; live OCR is not
+          connected.
+        </p>
+      )}
+      {(message || savingError) && (
+        <p role="alert" className="ff-form-error">
+          {savingError || message}
+        </p>
+      )}
+      <div className="ff-grid ff-grid--2">
+        <Field id="capture-merchant" label="Merchant" error={errors.merchant}>
+          <input
+            className="ff-input"
+            value={form.merchant}
+            onChange={(e) => change("merchant", e.target.value)}
+          />
+        </Field>
+        <Field id="capture-amount" label="Amount (USD)" error={errors.amount}>
+          <input
+            className="ff-input"
+            inputMode="decimal"
+            value={form.amount}
+            onChange={(e) => change("amount", e.target.value)}
+          />
+        </Field>
+        <Field id="capture-date" label="Date" error={errors.date}>
+          <input
+            className="ff-input"
+            type="date"
+            max={FF_STORE.today()}
+            value={form.date}
+            onChange={(e) => change("date", e.target.value)}
+          />
+        </Field>
+        <Field id="capture-category" label="Category" error={errors.cat}>
+          <select
+            className="ff-select"
+            value={form.cat}
+            onChange={(e) => change("cat", e.target.value)}
+          >
+            <option value="">Choose a category</option>
+            {data.categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
             ))}
-          </tbody>
-        </table>
-      </Card>
-    </div>
+          </select>
+        </Field>
+      </div>
+      <Field id="capture-memo" label="Business purpose / memo">
+        <textarea
+          className="ff-textarea"
+          value={form.memo}
+          onChange={(e) => change("memo", e.target.value)}
+        />
+      </Field>
+      <Field
+        id="capture-payment"
+        label="Payment source"
+        error={errors.paymentSource}
+      >
+        <select
+          className="ff-select"
+          value={form.paymentSource}
+          onChange={(e) => change("paymentSource", e.target.value)}
+        >
+          <option value="personal">Personal — request reimbursement</option>
+          <option value="card">Corporate card</option>
+        </select>
+      </Field>
+      <Field
+        id="capture-receipt"
+        label="Receipt (JPEG, PNG, WebP or PDF; up to 1.5 MB)"
+      >
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp,application/pdf"
+          onChange={(e) => attach(e.target.files[0])}
+        />
+      </Field>
+      {form.receipt && (
+        <div>
+          <p>{form.receipt.name}</p>
+          <button
+            type="button"
+            className="ff-btn"
+            onClick={() => change("receipt", null)}
+          >
+            Remove receipt
+          </button>
+        </div>
+      )}
+      <button
+        type="button"
+        className="ff-btn"
+        onClick={() =>
+          change("receipt", {
+            name: "Starbucks sample receipt",
+            url: "assets/starbucks-market-st.jpg",
+            sample: true,
+          })
+        }
+      >
+        Attach sample receipt
+      </button>
+      <p className="ff-muted">
+        No receipt creates a policy exception. Reviewers must record a reason to
+        override it.
+      </p>
+      <div className="ff-action-row">
+        <button
+          type="button"
+          className="ff-btn"
+          onClick={() => {
+            try {
+              actions.saveDraft(form, expenseId);
+              setSavingError("");
+              setMessage("Draft saved.");
+            } catch (error) {
+              setSavingError(error.message);
+            }
+          }}
+        >
+          Save draft
+        </button>
+        <button
+          className="ff-btn ff-btn--primary"
+          disabled={reading}
+          type="submit"
+        >
+          {expense ? "Resubmit for approval" : "Submit for approval"}
+        </button>
+      </div>
+    </form>
+  );
+};
+const NewExpense = ({ route = {} }) => (
+  <>
+    <PageHead
+      title={route.expenseId ? "Correct expense" : "New expense"}
+      sub="Enter the expense and attach its evidence."
+    />
+    <Card>
+      <ExpenseForm
+        expenseId={route.expenseId}
+        onBack={() => ffGo("expenses")}
+        onSubmitted={(result) =>
+          ffGo("expense-detail", { expenseId: result.expense.id })
+        }
+      />
+    </Card>
   </>
 );
-
-Object.assign(window, { ExpenseList, ExpenseDetail, NewExpense, OcrReview, FlaggedExpense, BulkImport });
+const OcrReview = () => (
+  <>
+    <p className="ff-muted">
+      Live OCR is unavailable. Attach a receipt and enter its values.
+    </p>
+    <NewExpense />
+  </>
+);
+const FlaggedExpense = ({ route = {} }) =>
+  route.expenseId ? (
+    <ExpenseDetail route={route} />
+  ) : (
+    <ExpenseList route={{ status: "flagged" }} />
+  );
+const BulkImport = () => (
+  <EmptyState
+    icon="file-csv"
+    title="CSV import is not connected"
+    body="Create an expense manually. Batch import is outside this demonstration."
+    action={
+      <button className="ff-btn" onClick={() => ffGo("new-expense")}>
+        New expense
+      </button>
+    }
+  />
+);
+Object.assign(window, {
+  ExpenseList,
+  ExpenseDetail,
+  NewExpense,
+  OcrReview,
+  FlaggedExpense,
+  BulkImport,
+});

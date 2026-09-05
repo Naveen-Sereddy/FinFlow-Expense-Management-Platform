@@ -1,11 +1,28 @@
 /* FinFlow Layout — App shell, sidebar, topbar, page wrappers, primitives */
 
-/* Single source of truth for the open-approvals count, derived from the data
-   so every surface (sidebar badges, KPIs, queue) agrees. */
-const FF_PENDING = (window.FF_DATA ? window.FF_DATA.expenses : []).filter(e => e.status === "pending" || e.status === "flagged").length;
+/* The local demo store is used by both desktop and mobile entries. It keeps
+   records coherent while deliberately avoiding any claim of server persistence. */
+const useFinFlow = () => {
+  const subscribe = React.useCallback((listener) => window.FF_STORE.subscribe(listener), []);
+  const getSnapshot = React.useCallback(() => window.FF_STORE.getState(), []);
+  const data = React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  return [data, window.FF_STORE.actions];
+};
+
+const DemoStorageNotice = () => {
+  useFinFlow();
+  const [error, setError] = React.useState('');
+  const message = FF_STORE.getStorageError();
+  if (!message) return null;
+  return <div className="ff-alert" role="alert">{error || message} <button className="ff-btn" onClick={() => {
+    if (!confirm('Reset only FinFlow demo records in this browser?')) return;
+    try { FF_STORE.actions.reset();setError(''); }
+    catch { setError('Reset could not be saved. Free browser storage and retry. Existing data remains preserved.'); }
+  }}>Reset demo data</button></div>;
+};
 
 /* Navigate the app from any screen (App wires window.ffNavigate on mount). */
-const ffGo = (id) => { if (window.ffNavigate) window.ffNavigate(id); };
+const ffGo = (id, params = {}) => { if (window.ffNavigate) window.ffNavigate(id, params); };
 
 const Icon = ({ name, size = 16, weight = "regular", style = {} }) => (
   <i className={`ph${weight === "fill" ? "-fill" : weight === "bold" ? "-bold" : ""} ph-${name}`}
@@ -161,7 +178,7 @@ const STATUS_MAP = {
   disabled:   { group: "neutral", label: "Disabled",  icon: "circle" },
   expired:    { group: "neutral", label: "Expired",   icon: "clock" },
   frozen:     { group: "neutral", label: "Frozen",    icon: "snowflake" },
-  ok:         { group: "neutral", label: "OK",        icon: "check-circle" }
+  ok:         { group: "neutral", label: "No exception",        icon: "check-circle" }
 };
 
 const StatusBadge = ({ status }) => {
@@ -210,17 +227,16 @@ const Avatar = ({ initials, name, size = "md", style = {} }) => {
 const TOPNAV_ITEMS = {
   finance: [
     { id: "dashboard",  label: "Dashboard" },
-    { id: "expenses",   label: "Expenses",      count: 14 },
-    { id: "approvals",  label: "Approvals",     count: FF_PENDING },
+    { id: "expenses",   label: "Expenses" },
+    { id: "approvals",  label: "Approvals" },
     { id: "reimburse",  label: "Reimbursements" },
     { id: "reports",    label: "Reports" }
   ],
   manager: [
     { id: "dashboard-mgr", label: "Team overview" },
-    { id: "approvals",     label: "Approvals", count: FF_PENDING },
+    { id: "approvals",     label: "Approvals" },
     { id: "expenses",      label: "Team expenses" },
-    { id: "reports",       label: "Reports" },
-    { id: "budgets",       label: "Budgets" }
+    { id: "reports",       label: "Reports" }
   ],
   employee: [
     { id: "dashboard-emp", label: "My spend" },
@@ -247,8 +263,22 @@ const MORE_MENU_ITEMS = [
   { id: "help",                  label: "Help",           icon: "question" },
 ];
 
+const navSection = (id) => {
+  const map = {'my-expenses':'expenses','my-reimburse':'reimburse','my-cards':'cards','budgets':'reports','expense-detail':'expenses','new-expense':'expenses','flagged':'expenses','ocr':'expenses','approval-detail':'approvals','approval-history':'approvals','approval-bulk':'approvals','state-success':'approvals','state-rejected':'approvals','payout-detail':'reimburse','schedule-payout':'reimburse','state-confirm':'reimburse','card-detail':'cards','vendor-detail':'vendors','saved-report':'reports','export-report':'reports'};
+  return map[id] || id;
+};
 const TopNav = ({ role, current, onNavigate, theme, onTheme, onRole, onSearchClick, onNotif }) => {
-  const user = FF_DATA.me[role];
+  const [data] = useFinFlow();
+  const user = data.me[role];
+  const pending = FF_STORE.selectors.expenses(data).filter((expense) => FF_STORE.selectors.canReview(expense,data)).length;
+  const visibleItems = TOPNAV_ITEMS[role].map((item) => ({
+    ...item,
+    count: item.id === "approvals" ? pending : item.id === "expenses" && role === "finance" ? data.expenses.length : undefined
+  }));
+  const activeItem = visibleItems.find((item) => item.id === current) || visibleItems.find((item) => navSection(item.id) === navSection(current));
+  const allowedMore = role === "finance" ? MORE_MENU_ITEMS : MORE_MENU_ITEMS.filter((item) =>
+    ["notif", "help"].includes(item.id)
+  );
   const [moreOpen, setMoreOpen] = React.useState(false);
   const moreRef = React.useRef(null);
   React.useEffect(() => {
@@ -261,42 +291,42 @@ const TopNav = ({ role, current, onNavigate, theme, onTheme, onRole, onSearchCli
   }, [moreOpen]);
   return (
     <header className="ff-topnav">
-      <a href="#" className="ff-topnav__brand" onClick={e=>{e.preventDefault(); onSearchClick();}}>
+      <a href="#" className="ff-topnav__brand" onClick={e=>{e.preventDefault(); onNavigate(role === "finance" ? "dashboard" : role === "manager" ? "dashboard-mgr" : "dashboard-emp");}}>
         <BrandMark variant="mark" size={24}/>
         <BrandMark variant="wordmark" size={17}/>
       </a>
       <nav className="ff-topnav__items" aria-label="Primary">
-        {TOPNAV_ITEMS[role].map(it => (
+        {visibleItems.map(it => (
           <a key={it.id} href="#"
-             aria-current={current === it.id ? "page" : undefined}
+             aria-current={activeItem?.id === it.id ? "page" : undefined}
              onClick={(e)=>{e.preventDefault(); onNavigate(it.id);}}>
             {it.label}
             {it.count !== undefined && it.count > 0 && <span className="ff-topnav__count ff-tnum">{it.count}</span>}
           </a>
         ))}
         <div ref={moreRef} style={{position:'relative'}}>
-          <a href="#" className="ff-topnav__more" aria-haspopup="menu" aria-expanded={moreOpen}
+          <a href="#" className="ff-topnav__more" aria-controls="more-destinations" aria-expanded={moreOpen}
              onClick={(e)=>{e.preventDefault(); setMoreOpen(o => !o);}}>
             More <Icon name="caret-down" size={11}/>
           </a>
           {moreOpen && (
-            <div role="menu" style={{
+            <div id="more-destinations" className="ff-more-destinations" style={{
               position:'absolute', top:'calc(100% + 6px)', left:0, minWidth:240, zIndex:60,
               background:'var(--ff-card)', border:'1px solid var(--ff-border-strong)', borderRadius:'var(--ff-radius-lg)',
               boxShadow:'var(--ff-shadow-lg)', padding:6,
             }}>
-              {MORE_MENU_ITEMS.map(it => (
-                <a key={it.id} role="menuitem" href="#" className="ff-nav-item"
+              {allowedMore.map(it => (
+                <a key={it.id} href="#" className="ff-nav-item"
                    onClick={(e)=>{e.preventDefault(); setMoreOpen(false); onNavigate(it.id);}}>
                   <span className="ff-nav-item__icon"><Icon name={it.icon} size={16}/></span>
                   <span>{it.label}</span>
                 </a>
               ))}
               <hr className="ff-divider" style={{margin:'6px 4px'}}/>
-              <a role="menuitem" href="#" className="ff-nav-item"
+              <a href="#" className="ff-nav-item"
                  onClick={(e)=>{e.preventDefault(); setMoreOpen(false); onSearchClick();}}>
                 <span className="ff-nav-item__icon"><Icon name="magnifying-glass" size={16}/></span>
-                <span>Search all screens</span>
+                <span>Demo screen directory</span>
                 <span className="ff-nav-item__count">⌘K</span>
               </a>
             </div>
@@ -304,7 +334,7 @@ const TopNav = ({ role, current, onNavigate, theme, onTheme, onRole, onSearchCli
         </div>
       </nav>
       <div style={{flex:1}}/>
-      <div className="ff-segmented ff-segmented--sm" role="tablist" aria-label="Viewing role">
+      <div className="ff-segmented ff-segmented--sm" role="group" aria-label="Demo role preview">
         {[
           { id: "finance",  label: "Admin",    short: "Adm" },
           { id: "manager",  label: "Manager",  short: "Mgr" },
@@ -316,7 +346,7 @@ const TopNav = ({ role, current, onNavigate, theme, onTheme, onRole, onSearchCli
           </button>
         ))}
       </div>
-      <button className="ff-btn ff-btn--ghost ff-btn--icon" onClick={onSearchClick} aria-label="Search">
+      <button className="ff-btn ff-btn--ghost ff-btn--icon" onClick={onSearchClick} aria-label="Demo screen directory">
         <Icon name="magnifying-glass" size={16}/>
       </button>
       <button className="ff-btn ff-btn--ghost ff-btn--icon" onClick={onTheme} aria-label="Toggle theme">
@@ -442,13 +472,13 @@ const CategoryTag = ({ color, name }) => (
    language as the dedicated empty-state gallery screen, just without
    forcing a bordered Card around it, so it sits on the page like the
    borderless tables it replaces. */
-const EmptyState = ({ icon, title, body, actions }) => (
+const EmptyState = ({ icon, title, body, actions, action }) => (
   <div style={{display:'flex', alignItems:'center', justifyContent:'center', minHeight:'40vh'}}>
     <div className="ff-empty" style={{maxWidth:420}}>
       <div className="ff-empty__icon"><Icon name={icon} size={24}/></div>
       <div className="ff-empty__title">{title}</div>
       <div className="ff-empty__body">{body}</div>
-      {actions && <div className="ff-row" style={{marginTop:12, gap:8, justifyContent:'center'}}>{actions}</div>}
+      {(actions || action) && <div className="ff-row" style={{marginTop:12, gap:8, justifyContent:'center'}}>{actions || action}</div>}
     </div>
   </div>
 );
@@ -464,4 +494,4 @@ const ChipBar = ({ items, value, onChange }) => (
   </div>
 );
 
-Object.assign(window, { Icon, BrandIcon, Money, fmtDate, StatusBadge, Avatar, TopNav, PageHead, KpiTile, StatItem, StatRow, Card, CategoryTag, EmptyState, ChipBar, RefreshButton, DensityToggle, ffGo, FF_PENDING });
+Object.assign(window, { Icon, BrandIcon, Money, fmtDate, StatusBadge, Avatar, TopNav, PageHead, KpiTile, StatItem, StatRow, Card, CategoryTag, EmptyState, ChipBar, RefreshButton, DensityToggle, ffGo, useFinFlow, DemoStorageNotice });

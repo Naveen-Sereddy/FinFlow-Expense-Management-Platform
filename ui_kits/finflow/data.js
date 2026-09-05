@@ -1,8 +1,6 @@
-/* FinFlow Demo Data
-   Company: anonymized Series B SaaS client (243 people).
-   Primary persona: Marcus Stoinis — Head of Finance.
-   All data consistent across screens.
-*/
+/* FinFlow demo data and local interaction store.
+   This is deliberately a stateful prototype, not a payment or accounting service.
+   Changes persist only in this browser so the same record can move between views. */
 
 window.FF_DATA = (() => {
   const company = {
@@ -54,7 +52,7 @@ window.FF_DATA = (() => {
 
   // Expenses — consistent IDs used across detail / approvals
   const expenses = [
-    { id: "EXP-2841", date: "2026-05-22", merchant: "United Airlines",  amount:  842.50, cat: "tr", who: "Jordan Lee",      status: "pending",  policy: "ok",      cardLast4: "4112", memo: "SF → Austin (sales kickoff)" },
+    { id: "EXP-2841", date: "2026-05-22", merchant: "United Airlines",  amount:  842.50, cat: "tr", who: "Jordan Lee",      status: "pending",  policy: "ok",      paymentSource: "card", cardLast4: "4112", memo: "SF → Austin (sales kickoff)" },
     { id: "EXP-2840", date: "2026-05-22", merchant: "Figma",             amount:  180.00, cat: "sw", who: "James Taylor",   status: "approved", policy: "ok",      cardLast4: "6628", memo: "Pro seats × 2" },
     { id: "EXP-2839", date: "2026-05-21", merchant: "Marriott Austin",   amount: 1240.00, cat: "tr", who: "Jordan Lee",      status: "flagged",  policy: "over",    cardLast4: "4112", memo: "3 nights — exceeds $300/night cap" },
     { id: "EXP-2838", date: "2026-05-21", merchant: "Starbucks",         amount:   42.80, cat: "me", who: "Corey Anderson",  status: "approved", policy: "ok",      cardLast4: "9032", memo: "Team coffee, Q2 review" },

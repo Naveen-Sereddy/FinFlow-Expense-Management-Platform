@@ -394,97 +394,25 @@ const OnboardingSuccess = () => (
 
 /* ---------- Audit ---------- */
 
-/* Audit actions aren't expense/card statuses, but they still read as a
-   status column — so they borrow the same seven-group semantic system
-   (ff-badge--success/warning/info/review/action/danger/neutral) instead of
-   inventing new colors or defaulting every action to one identical badge. */
-const AUDIT_ACTION_GROUP = {
-  "Approved": "success",
-  "Flagged": "review",
-  "Policy Check": "info",
-  "Submitted": "info",
-  "Edited Policy": "neutral",
-  "Issued Card": "neutral",
-  "Sign-in": "neutral",
+const scopedEvents = (data) => {
+  const visible = new Set(FF_STORE.selectors.expenses(data).map((item) => item.id));
+  return data.events.filter((event) => currentDemoRole() === 'finance' || visible.has(event.expenseId) || event.owner === data.me[currentDemoRole()].name);
 };
-
+const EventTable = ({events,data}) => events.length ? <TableRegion label="Recorded activity"><table className="ff-table"><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Record</th><th>Reason</th></tr></thead><tbody>{events.map((event) => {
+  const expense = data.expenses.find((item) => item.id === event.expenseId);
+  return <tr key={event.id}><td>{new Date(event.ts).toLocaleString()}</td><td>{event.actor}</td><td>{event.action}</td><td>{expense ? <ExpenseLink expense={expense}>{expense.id} · {expense.merchant}</ExpenseLink> : event.target}</td><td>{event.note || '—'}</td></tr>;
+})}</tbody></table></TableRegion> : <p>No recorded demo activity yet.</p>;
 const AuditLog = () => {
-  const d = FF_DATA;
-  const entries = d.auditEntries;
-  return (
-    <>
-      <PageHead eyebrow="Audit" title="Audit log" sub="Every action, every actor, immutable"
-        actions={<><button className="ff-btn"><Icon name="funnel" size={14}/> Filter</button><button className="ff-btn"><Icon name="download-simple" size={14}/> Export CSV</button></>}/>
-      <div className="ff-row" style={{gap:8, marginBottom:14, flexWrap:'wrap'}}>
-        <ChipBar items={[
-          {id:"all", label:"All"}, {id:"approve", label:"Approvals"}, {id:"policy", label:"Policy edits"}, {id:"card", label:"Card events"}, {id:"signin", label:"Sign-ins"}
-        ]} value="all" onChange={()=>{}}/>
-        <div className="ff-search" style={{width:240, marginLeft:'auto'}}><Icon name="magnifying-glass" size={14}/><input placeholder="Search by actor or target…"/></div>
-      </div>
-      {entries.length === 0 ? (
-        <EmptyState icon="scroll" title="No activity yet"
-          body="Every approval, policy edit, and sign-in in your workspace will show up here, immutably."/>
-      ) : (
-        <table className="ff-table">
-          <thead><tr><th>Timestamp (UTC-7)</th><th>Actor</th><th>Action</th><th>Target</th><th>IP / agent</th></tr></thead>
-          <tbody>
-            {entries.map((a, i) => (
-              <tr key={i}>
-                <td className="ff-tnum" style={{color:'var(--ff-fg-muted)', fontSize:12}}>{a.ts}</td>
-                <td><span className="ff-row" style={{gap:6}}>{a.actor !== "System" && a.actor !== "Okta SSO" && <Avatar initials={a.actor.split(' ').map(x=>x[0]).join('').slice(0,2)} name={a.actor}/>}{a.actor}</span></td>
-                <td><span className={`ff-badge ff-badge--${AUDIT_ACTION_GROUP[a.action] || "neutral"} ff-badge--no-dot`}>{a.action}</span></td>
-                <td>{a.target}</td>
-                <td className="ff-mono" style={{fontSize:11, color:'var(--ff-fg-muted)'}}>10.0.4.221 · Chrome 128</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </>
-  );
+  const [data] = useFinFlow();
+  const [query,setQuery] = React.useState('');
+  const events = scopedEvents(data).filter((event) => `${event.actor} ${event.target} ${event.action} ${event.note || ''}`.toLowerCase().includes(query.toLowerCase()));
+  return <><PageHead title="Audit log" sub="Recorded local operations; historical fixtures have no complete event history."/><Field id="audit-search" label="Search activity"><input className="ff-input" value={query} onChange={(event) => setQuery(event.target.value)}/></Field><EventTable data={data} events={events}/></>;
 };
-
-/* ---------- Notif Center ---------- */
 const NotificationsCenter = () => {
-  const d = FF_DATA;
-  return (
-    <>
-      <PageHead eyebrow="Notifications" title="Inbox" sub="Recent activity across your workspace"
-        actions={<><button className="ff-btn"><Icon name="check" size={14}/> Mark all read</button><button className="ff-btn ff-btn--ghost" aria-label="Notification settings"><Icon name="gear-six" size={14}/></button></>}/>
-      <div className="ff-grid" style={{gridTemplateColumns:'200px 1fr', gap:24}}>
-        <div className="ff-stack" style={{'--ff-stack-gap':'2px'}}>
-          {[
-            {id:"all", label:"All", icon:"tray", count:14},
-            {id:"approve", label:"Approvals", icon:"check-square", count:8},
-            {id:"policy", label:"Policy", icon:"warning", count:2},
-            {id:"payout", label:"Payouts", icon:"arrows-clockwise", count:3},
-            {id:"card", label:"Cards", icon:"credit-card", count:1}
-          ].map((t, i) => (
-            <a key={t.id} className="ff-nav-item" aria-current={i === 0 ? "page" : undefined} href="#">
-              <Icon name={t.icon} size={16}/>{t.label}<span className="ff-nav-item__count">{t.count}</span>
-            </a>
-          ))}
-        </div>
-        <Card padded={false}>
-          {d.notifications.map((n, i, arr) => (
-            <div key={i} style={{padding:'14px 20px', borderBottom: i < arr.length-1 ? '1px solid var(--ff-border)' : '0', display:'flex', gap:12, alignItems:'flex-start'}}>
-              <div style={{width:30, height:30, borderRadius:8, background:'var(--ff-card-2)', display:'grid', placeItems:'center', flexShrink:0, color: i % 4 === 0 ? 'var(--ff-pending)' : 'var(--ff-fg)'}}>
-                <Icon name={{approval:"check-square", policy:"warning", payout:"arrows-clockwise", card:"credit-card", report:"file-text"}[n.kind]} size={14}/>
-              </div>
-              <div style={{flex:1, minWidth:0}}>
-                <div style={{fontSize:13}}>{n.text}</div>
-                <div style={{fontSize:11, color:'var(--ff-fg-muted)', marginTop:2}}>{n.ts} ago</div>
-              </div>
-              {i < 3 && <span style={{width:6, height:6, background:'var(--ff-primary)', borderRadius:999, marginTop:8}}/>}
-            </div>
-          ))}
-        </Card>
-      </div>
-    </>
-  );
+  const [data] = useFinFlow();
+  return <><PageHead title="Notifications" sub="Activity in your current scope. No email or push notification is sent."/><EventTable events={scopedEvents(data)} data={data}/></>;
 };
 
-/* ---------- Help ---------- */
 const Help = () => (
   <>
     <PageHead eyebrow="Help" title="How can we help?" sub="Search docs or talk to support"/>
@@ -590,61 +518,24 @@ const ErrorState = () => (
   </>
 );
 
-const SuccessApproval = () => {
-  // EXP-2841 was just approved, so it leaves the open queue.
-  const remaining = Math.max(0, FF_DATA.expenses.filter(e => e.status === "pending" || e.status === "flagged").length - 1);
-  return (
-  <div style={{maxWidth:480, margin:'48px auto', textAlign:'center'}}>
-    <div style={{width:72, height:72, borderRadius:999, background:'var(--ff-approved-bg)', color:'var(--ff-approved)', margin:'0 auto', display:'grid', placeItems:'center'}}>
-      <Icon name="check-circle" size={36} weight="fill"/>
-    </div>
-    <h1 style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:42, lineHeight:1.1, letterSpacing:'-0.03em', marginTop:24}}>Approved.</h1>
-    <p style={{color:'var(--ff-fg-muted)', marginTop:8}}>EXP-2841 · United Airlines · $842.50 approved and routed to Finance for payment.</p>
-    <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
-      <button className="ff-btn" onClick={()=>ffGo('expense-detail')}>View expense</button>
-      <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('approvals')}>Next in queue ({remaining}) →</button>
-    </div>
-  </div>
-  );
+const DecisionResult = ({route = {}}) => {
+  const [data] = useFinFlow();
+  const operation = data.operations.find((item) => item.id === route.operationId && ['approved','rejected','needs-info'].includes(item.type));
+  const visible = FF_STORE.selectors.expenses(data);
+  if (!operation || operation.ids.some((id) => !visible.some((expense) => expense.id === id))) return <MissingRecord/>;
+  const expenses = visible.filter((expense) => operation.ids.includes(expense.id));
+  const next = visible.find((expense) => FF_STORE.selectors.canReview(expense,data));
+  const title = {approved:'Approval recorded',rejected:'Rejection recorded','needs-info':'Correction requested'}[operation.type];
+  return <><PageHead title={title} sub={`${expenses.length} record(s) · ${operation.actor}`}/><Card title="Operation result">{expenses.map((expense) => <p key={expense.id}><ExpenseLink expense={expense}/> · {expense.id} · {expense.who} · <Money value={expense.amount}/> · Current status: <StatusBadge status={expense.status}/></p>)}<p className="ff-muted">Approval is separate from payment. Personal expenses become eligible for reimbursement; card expenses await reconciliation.</p></Card><div className="ff-action-row"><button className="ff-btn" onClick={() => ffGo('approvals')}>Back to queue</button>{next && <button className="ff-btn ff-btn--primary" onClick={() => ffGo('approval-detail',{expenseId:next.id})}>Review next: {next.merchant}</button>}</div></>;
 };
-
-const RejectedState = () => {
-  const remaining = Math.max(0, FF_DATA.expenses.filter(e => e.status === "pending" || e.status === "flagged").length - 1);
-  return (
-  <div style={{maxWidth:480, margin:'48px auto', textAlign:'center'}}>
-    <div style={{width:72, height:72, borderRadius:999, background:'var(--ff-rejected-bg)', color:'var(--ff-rejected)', margin:'0 auto', display:'grid', placeItems:'center'}}>
-      <Icon name="x-circle" size={36} weight="fill"/>
-    </div>
-    <h1 style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:42, lineHeight:1.1, letterSpacing:'-0.03em', marginTop:24}}>Rejected.</h1>
-    <p style={{color:'var(--ff-fg-muted)', marginTop:8}}>The submitter has been notified, with a note to correct and resubmit if needed.</p>
-    <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
-      <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('approvals')}>Back to queue ({remaining}) →</button>
-    </div>
-  </div>
-  );
+const SuccessApproval = (props) => <DecisionResult {...props}/>;
+const RejectedState = (props) => <DecisionResult {...props}/>;
+const ConfirmReimbursement = ({route = {}}) => {
+  const [data] = useFinFlow();
+  const operation = data.operations.find((item) => item.id === route.operationId && item.type === 'payout-scheduled');
+  if (!operation || currentDemoRole() !== 'finance') return <MissingRecord/>;
+  const payouts = data.reimbursements.filter((item) => operation.ids.includes(item.id));
+  return <><PageHead title="Demo payout scheduled" sub="No money has been sent."/><Card title="Scheduled selection"><p>{payouts.length} reimbursements · <Money value={payouts.reduce((sum,item) => sum + item.amountCents,0)/100}/></p>{payouts.map((payout) => <p key={payout.id}>{payout.id} · {payout.who} · {payout.expenseIds.join(', ')} · <Money value={payout.amount}/> · {fmtDate(payout.date)} · <StatusBadge status={payout.status}/></p>)}</Card><button className="ff-btn ff-btn--primary" onClick={() => ffGo('reimburse')}>View reimbursements</button></>;
 };
-
-const ConfirmReimbursement = () => (
-  <div style={{maxWidth:520, margin:'48px auto', textAlign:'center'}}>
-    <div style={{width:72, height:72, borderRadius:999, background:'var(--ff-flagged-bg)', color:'var(--ff-flagged)', margin:'0 auto', display:'grid', placeItems:'center'}}>
-      <Icon name="calendar-check" size={36} weight="fill"/>
-    </div>
-    <h1 style={{fontFamily:'var(--ff-font-sans)', fontWeight:700, fontSize:42, lineHeight:1.1, letterSpacing:'-0.03em', marginTop:24}}>Payout scheduled.</h1>
-    <p style={{color:'var(--ff-fg-muted)', marginTop:8}}>3 reimbursements totaling <strong className="ff-tnum">$620.90</strong> will be sent to employees via ACH on <strong>May 30, 2026</strong>.</p>
-    <Card style={{marginTop:24, textAlign:'left'}}>
-      <table className="ff-table ff-table--compact">
-        <tbody>
-          <tr><td>Corey Anderson</td><td className="ff-num"><Money value={320.40}/></td></tr>
-          <tr><td>Jordan Lee</td><td className="ff-num"><Money value={82.00}/></td></tr>
-          <tr><td>Sam Richardson</td><td className="ff-num"><Money value={218.50}/></td></tr>
-        </tbody>
-      </table>
-    </Card>
-    <div className="ff-row" style={{justifyContent:'center', marginTop:20, gap:8}}>
-      <button className="ff-btn">Download ACH receipt</button>
-      <button className="ff-btn ff-btn--primary" onClick={()=>ffGo('dashboard')}>Back to dashboard</button>
-    </div>
-  </div>
-);
 
 Object.assign(window, { WelcomeWorkspace, CompanyDetails, ConnectSystems, InviteTeam, ExpensePolicy, OnboardingSuccess, AuditLog, NotificationsCenter, Help, LoadingDashboard, EmptyExpenses, ErrorState, SuccessApproval, RejectedState, ConfirmReimbursement });
