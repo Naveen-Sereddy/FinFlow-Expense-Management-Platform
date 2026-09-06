@@ -11,48 +11,42 @@
         "source": "ui_kits/finflow/index.html",
         "target": "src/assets/case/finflow/ui-dashboard.png",
         "viewport": { "width": 1440, "height": 900 },
-        "hash": "#screen=dashboard",
-        "localStorage": { "ff-role": "finance", "ff-theme": "light" },
+        "localStorage": { "ff-screen": "dashboard", "ff-role": "finance" },
         "deviceScaleFactor": 2
       },
       {
         "source": "ui_kits/finflow/index.html",
         "target": "src/assets/case/finflow/ui-manager.png",
         "viewport": { "width": 1440, "height": 900 },
-        "hash": "#screen=approvals",
-        "localStorage": { "ff-role": "manager", "ff-theme": "light" },
+        "localStorage": { "ff-screen": "approvals", "ff-role": "manager" },
         "deviceScaleFactor": 2
       },
       {
         "source": "ui_kits/finflow/index.html",
         "target": "src/assets/case/finflow/ui-employee.png",
         "viewport": { "width": 1440, "height": 900 },
-        "hash": "#screen=dashboard-emp",
-        "localStorage": { "ff-role": "employee", "ff-theme": "light" },
+        "localStorage": { "ff-screen": "dashboard-emp", "ff-role": "employee" },
         "deviceScaleFactor": 2
       },
       {
         "source": "ui_kits/finflow/index.html",
         "target": "src/assets/case/finflow/ui-audit.png",
         "viewport": { "width": 1440, "height": 900 },
-        "hash": "#screen=audit",
-        "localStorage": { "ff-role": "finance", "ff-theme": "light" },
+        "localStorage": { "ff-screen": "audit", "ff-role": "finance" },
         "deviceScaleFactor": 2
       },
       {
         "source": "ui_kits/finflow/index.html",
         "target": "src/assets/case/finflow/ui-new-expense.png",
         "viewport": { "width": 1440, "height": 900 },
-        "hash": "#screen=new-expense",
-        "localStorage": { "ff-role": "employee", "ff-theme": "light" },
+        "localStorage": { "ff-screen": "new-expense", "ff-role": "employee" },
         "deviceScaleFactor": 2
       },
       {
         "source": "ui_kits/finflow/index.html",
         "target": "src/assets/case/finflow/ui-payouts.png",
         "viewport": { "width": 1440, "height": 900 },
-        "hash": "#screen=reimburse",
-        "localStorage": { "ff-role": "finance", "ff-theme": "light" },
+        "localStorage": { "ff-screen": "payout-detail", "ff-role": "finance" },
         "deviceScaleFactor": 2
       }
     ],
@@ -62,10 +56,7 @@
         "source": "ui_kits/finflow",
         "target": "public/case-finflow/ui_kits/finflow",
         "exclude": [".DS_Store"]
-      },
-      { "kind": "copy", "source": "foundations/colors_and_type.css", "target": "public/case-finflow/foundations/colors_and_type.css" },
-      { "kind": "copy", "source": "foundations/components.css", "target": "public/case-finflow/foundations/components.css" },
-      { "kind": "copy", "source": "brand/BrandMark.jsx", "target": "public/case-finflow/brand/BrandMark.jsx" }
+      }
     ]
   }
 }
