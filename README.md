@@ -1,6 +1,12 @@
 # FinFlow
 
+[![Verify FinFlow](https://github.com/Naveen-Sereddy/FinFlow-Expense-Management-Platform/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/Naveen-Sereddy/FinFlow-Expense-Management-Platform/actions/workflows/verify.yml)
+
 B2B expense management platform shipped privately for an anonymized Series B SaaS client. Three roles touch the same expense at different points: the employee submitting it, the manager approving it, and the finance admin reconciling and reporting on it. 47 desktop screens, an 8-screen employee mobile flow, and a token-driven UI kit.
+
+**Project type:** Static product prototype based on anonymized client work.
+
+**Publication boundary:** EXTERNAL BLOCKER — CLIENT/OWNERSHIP/PUBLICATION PERMISSION REQUIRED. The client identity and engagement details are intentionally omitted.
 
 **Live case study:** [naveensereddy.com/case-finflow](https://naveensereddy.com/case-finflow)
 
@@ -64,6 +70,13 @@ The browser suite exercises record identity, invalid and edited inputs, draft re
 - `foundations/`, `brand/`: shared visual components and assets.
 - `tests/`, `scripts/`: behavioral/structural verification and development server.
 - `case-study/`, `preview/`, `screenshots/`: presentation and design references.
+
+## Documentation
+
+- [Implementation contract](docs/implementation-contract.md)
+- [Case-study artifacts](case-study/)
+- [Design-system foundations](foundations/)
+- [Portfolio synchronization metadata](portfolio.sync.json)
 
 ## Remaining scope
 
