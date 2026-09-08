@@ -6,7 +6,7 @@ B2B expense management platform shipped privately for an anonymized Series B Saa
 
 **Project type:** Static product prototype based on anonymized client work.
 
-**Publication boundary:** EXTERNAL BLOCKER — CLIENT/OWNERSHIP/PUBLICATION PERMISSION REQUIRED. The client identity and engagement details are intentionally omitted.
+**Publication status:** Published with client permission for portfolio use. The client identity and engagement details remain intentionally omitted.
 
 **Live case study:** [naveensereddy.com/case-finflow](https://naveensereddy.com/case-finflow)
 
